@@ -1,7 +1,7 @@
-Ext.define 'Siaco.view.Inventario', 
+Ext.define 'Siaco.view.Agenda', 
     extend: 'Ext.form.Panel'
-    xtype: 'inventarioView'
-    title: 'Inventario'
+    xtype: 'agendaView'
+    title: 'Agenda'
     bodyPadding: 10
 
     initComponent: -> 
@@ -32,23 +32,23 @@ Ext.define 'Siaco.view.Inventario',
 
     items: [
         {
-            xtype: 'combobox'
-            fieldLabel: 'Condominio'
-            name: 'condominioInventario'
-        }
-        {
-            xtype: 'combobox'
-            fieldLabel: 'Producto'
-            name: 'productoInventario'
+            xtype: 'textarea'
+            fieldLabel: 'Descripción'
+            name: 'descripcionAgenda'
         }
         {
             xtype: 'datefield'
-            fieldLabel: 'Fecha Ingreso'
-            name: 'fechaIngresoInventario'
+            fieldLabel: 'Fecha'
+            name: 'fechaAgenda'
+        }
+        {
+            xtype: 'timefield'
+            fieldLabel: 'Hora'
+            name: 'horaAgenda'
         }
         {
             xtype: 'textfield'
-            fieldLabel: 'Factura'
-            name: 'facturaInventario'
+            fieldLabel: 'Lugar'
+            name: 'lugarAgenda'
         }
     ]

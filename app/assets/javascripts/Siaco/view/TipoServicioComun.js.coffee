@@ -1,7 +1,7 @@
-Ext.define 'Siaco.view.Inventario', 
+Ext.define 'Siaco.view.TipoServicioComun', 
     extend: 'Ext.form.Panel'
-    xtype: 'inventarioView'
-    title: 'Inventario'
+    xtype: 'tiposerviciocomunView'
+    title: 'TipoServicioComun'
     bodyPadding: 10
 
     initComponent: -> 
@@ -34,21 +34,16 @@ Ext.define 'Siaco.view.Inventario',
         {
             xtype: 'combobox'
             fieldLabel: 'Condominio'
-            name: 'condominioInventario'
-        }
-        {
-            xtype: 'combobox'
-            fieldLabel: 'Producto'
-            name: 'productoInventario'
-        }
-        {
-            xtype: 'datefield'
-            fieldLabel: 'Fecha Ingreso'
-            name: 'fechaIngresoInventario'
+            name: 'condominioTipoServicioComun'
         }
         {
             xtype: 'textfield'
-            fieldLabel: 'Factura'
-            name: 'facturaInventario'
+            fieldLabel: 'Nombre'
+            name: 'nombreTipoServicioComun'
+        }
+        {
+            xtype: 'textarea'
+            fieldLabel: 'Descripción'
+            name: 'descripcionTipoServicioComun'
         }
     ]

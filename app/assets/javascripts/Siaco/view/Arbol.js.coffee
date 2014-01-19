@@ -1,7 +1,7 @@
 Ext.define 'Siaco.view.Arbol',
 	extend: 'Ext.tree.Panel'
 	store: Ext.create('Siaco.store.Arboles')
-	xtype: 'vistaarbol'
+	xtype: 'arbolView'
 
 	title: 'Menu'
 	useArrows: true
