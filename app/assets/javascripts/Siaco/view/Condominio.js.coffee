@@ -1,7 +1,7 @@
-Ext.define 'Siaco.view.Inventario', 
+Ext.define 'Siaco.view.Condominio', 
     extend: 'Ext.form.Panel'
-    xtype: 'inventarioView'
-    title: 'Inventario'
+    xtype: 'condominioView'
+    title: 'Condominio'
     bodyPadding: 10
 
     initComponent: -> 
@@ -32,23 +32,33 @@ Ext.define 'Siaco.view.Inventario',
 
     items: [
         {
-            xtype: 'combobox'
-            fieldLabel: 'Condominio'
-            name: 'condominioInventario'
-        }
-        {
-            xtype: 'combobox'
-            fieldLabel: 'Producto'
-            name: 'productoInventario'
-        }
-        {
-            xtype: 'datefield'
-            fieldLabel: 'Fecha Ingreso'
-            name: 'fechaIngresoInventario'
+            xtype: 'textfield'
+            fieldLabel: 'Rif Condominio'
+            name: 'rifCondominio'
         }
         {
             xtype: 'textfield'
-            fieldLabel: 'Factura'
-            name: 'facturaInventario'
+            fieldLabel: 'nombre Condominio'
+            name: 'nombreCondominio'
+        }
+        {
+            xtype: 'textarea'
+            fieldLabel: 'Direccion'
+            name: 'direccionCondominio'
+        }
+        {
+            xtype: 'textfield'
+            fieldLabel: 'telefono'
+            name: 'telefonoCondominio'
+        }
+        {
+            xtype: 'textfield'
+            fieldLabel: 'Celular'
+            name: 'celularCondominio'
+        }
+        {
+            xtype: 'textfield'
+            fieldLabel: 'Email'
+            name: 'Email'
         }
     ]

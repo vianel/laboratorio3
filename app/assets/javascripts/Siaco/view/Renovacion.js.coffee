@@ -1,7 +1,7 @@
-Ext.define 'Siaco.view.Inventario', 
+Ext.define 'Siaco.view.Renovacion', 
     extend: 'Ext.form.Panel'
-    xtype: 'inventarioView'
-    title: 'Inventario'
+    xtype: 'renovacionView'
+    title: 'Renovacion'
     bodyPadding: 10
 
     initComponent: -> 
@@ -33,22 +33,17 @@ Ext.define 'Siaco.view.Inventario',
     items: [
         {
             xtype: 'combobox'
-            fieldLabel: 'Condominio'
-            name: 'condominioInventario'
-        }
-        {
-            xtype: 'combobox'
-            fieldLabel: 'Producto'
-            name: 'productoInventario'
+            fieldLabel: 'Licencia'
+            name: 'licenciaRenovacion'
         }
         {
             xtype: 'datefield'
-            fieldLabel: 'Fecha Ingreso'
-            name: 'fechaIngresoInventario'
+            fieldLabel: 'Fecha Renovación'
+            name: 'fechaRenovacion'
         }
         {
             xtype: 'textfield'
-            fieldLabel: 'Factura'
-            name: 'facturaInventario'
+            fieldLabel: 'Costo'
+            name: 'costoRenovacion'
         }
     ]
