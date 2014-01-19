@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SIACO</title>
+  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+  <% if !devise_controller? %>
+  	<%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <% end %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+	<%= yield %>
+</body>
+</html>
