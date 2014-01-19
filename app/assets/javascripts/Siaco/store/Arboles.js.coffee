@@ -1,4 +1,5 @@
 Ext.define 'Siaco.store.Arboles',
+	extend: 'Ext.data.TreeStore'
 	proxy:
 		type: 'ajax'
 		method: 'GET'

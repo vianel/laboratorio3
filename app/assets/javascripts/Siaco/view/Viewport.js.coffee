@@ -1,6 +1,6 @@
 Ext.define 'Siaco.view.Viewport',
 	extend: 'Ext.container.Viewport'
-
+	alias: 'widget.mainViewport'
 	layout:'border'
 	defaults:
 		border: false
@@ -19,17 +19,10 @@ Ext.define 'Siaco.view.Viewport',
 			]
 		}
 		{
-			xtype: 'vistaarbol'
-			title: 'SIACO Menú'
-			collapsible: false
-			width: 250
-			minWidth: 100
-			region:'west'
-		}
-		{
 			id: 'contenedor'
 			collapsible: false
 			region: 'center'
+			layout: 'fit'
 		}
 		{
 			region: 'south'

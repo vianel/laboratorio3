@@ -4,7 +4,8 @@ Condominio::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   root 'condominio#index'
-
+  post 'sesiones/entrar' => 'sesiones#entrar'
+  resource :sesiones
   resources :arboles
 
   # Example of regular route:

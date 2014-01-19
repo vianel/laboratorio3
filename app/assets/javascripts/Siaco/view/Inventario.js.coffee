@@ -1,6 +1,6 @@
 Ext.define 'Siaco.view.Inventario', 
     extend: 'Ext.form.Panel'
-    alias: 'widget.inventarioview'
+    xtype: 'inventarioView'
     title: 'Inventario'
     bodyPadding: 10
 
