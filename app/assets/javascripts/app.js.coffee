@@ -21,6 +21,9 @@ Ext.application
         'Sancion'
         'TipoSancion'
         'Administrador'
+        'Pagoempleado'
+        'Sugerencia'
+        'Reservacion'
     ]
     controllers: ['Login']
     stores: ['Arboles']

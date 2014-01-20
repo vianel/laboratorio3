@@ -9,7 +9,10 @@ class ArbolesController < ApplicationController
 			{id: 5, text: 'Pagarconominio', vinculo: 'pagarcondominioview', leaf: true},
 			{id: 6, text: 'Requisicion', vinculo: 'requisicionview', leaf: true},
 			{id: 7, text: 'Sancion', vinculo: 'sancionview', leaf: true},
-			{id: 8, text: 'Administrador', vinculo: 'administradorview', leaf: true}					
+			{id: 8, text: 'Administrador', vinculo: 'administradorview', leaf: true},
+			{id: 9, text: 'Pagoempleado', vinculo: 'pagoempleadoview', leaf: true},
+			{id: 10, text: 'Sugerencia', vinculo: 'sugerenciaview', leaf: true},
+			{id: 10, text: 'Reservacion', vinculo: 'reservacionview', leaf: true}							
 		]
 	end
 end
