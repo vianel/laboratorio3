@@ -12,6 +12,18 @@ Ext.application
         'ServicioComun'
         'TipoServicioComun'
         'TipoEmpleado'
+        'Areacomun'
+        'Inmueble'
+        'Pagarcondominio'
+        'Requisicion'
+        'Producto'
+        'TipoProducto'
+        'Sancion'
+        'TipoSancion'
+        'Administrador'
+        'Pagoempleado'
+        'Sugerencia'
+        'Reservacion'
     ]
     controllers: ['Login']
     stores: ['Arboles']
