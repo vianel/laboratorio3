@@ -24,6 +24,8 @@ Ext.application
         'Pagoempleado'
         'Sugerencia'
         'Reservacion'
+        'Factura'
+        'ActualizarPropietario'
     ]
     controllers: ['Login']
     stores: ['Arboles']
