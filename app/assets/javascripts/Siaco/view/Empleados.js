@@ -1,6 +1,6 @@
 var tabs = null;
 var ventanatipoempleado=null;
-var foto_1 ="images/usuario.jpg"
+var foto_1 ="images/usuario.jpeg"
 var RadiosSexo = new Ext.form.RadioGroup({
 		fieldLabel: 'Sexo',
 			
@@ -192,4 +192,14 @@ Ext.define('Siaco.view.Empleados', {
 
 
 }); //FIN DEL ONREADY
-
+function vernuevotipoempleado(){
+	Ext.create('Ext.window.Window',{
+		    		items: [
+		    			{
+		    				xtype: 'tipoempleadoview'
+		    			}
+		    		],
+		    		autoScroll: true,
+		    		maxHeight: 600
+		    	}).show()
+}

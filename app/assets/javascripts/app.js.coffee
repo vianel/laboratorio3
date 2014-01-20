@@ -1,6 +1,18 @@
 Ext.application
     name: 'Siaco'
-    views: ['Inventario', 'Arbol','Empleados', 'Condominio','Licencia','Renovacion','ComprobantePagoLicencia','Agenda','ServicioComun','TipoServicioComun']
+    views: [
+        'Inventario'
+        'Arbol'
+        'Empleados'
+        'Condominio'
+        'Licencia'
+        'Renovacion'
+        'ComprobantePagoLicencia'
+        'Agenda'
+        'ServicioComun'
+        'TipoServicioComun'
+        'TipoEmpleado'
+    ]
     controllers: ['Login']
     stores: ['Arboles']
     appFolder: 'assets/Siaco'
