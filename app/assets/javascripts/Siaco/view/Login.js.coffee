@@ -50,6 +50,8 @@ Ext.define 'Siaco.view.Login',
 			id: 'clave'
 			inputType: 'password'
 			allowBlank: false
+
+			
 		}
 	]
 
