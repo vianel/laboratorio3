@@ -1,10 +1,11 @@
-var tabs = null;
-var arregloareacomun = ['Caney de fiestas','Piscina'];
-Ext.onReady(function() {
-	
-	Ext.QuickTips.init();
-		Ext.define('App.MiPanel', {
-		extend: 'Ext.form.Panel',
+(function() {
+Ext.define('Siaco.view.Reservacion', {
+		extend: 'App.MiPanel',
+		xtype: 'reservacionview',
+		alias: 'widget.mipanelreservaciones',
+		id: 'mipanelreservaciones',
+		bodyPadding: 5,
+		width: 450,
 		
 		initComponent : function() {
 			this.dockedItems = [{
@@ -20,7 +21,16 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+					var inmuebleid, form, areacomunid,fechareservacion,fechainicio,fechafinalizacion;
+	                form = this.up('form');
+	                areacomunid = this.up('form').down('#areacomun').getValue();
+	                inmuebleid = this.up('form').down('#inmueble').getValue();
+	                fechareservacion = this.up('form').down('#fechareservacion').getValue();
+					fechainicio = this.up('form').down('#fechainicio').getValue();
+					fechafinalizacion = this.up('form').down('#fechafinalizacion').getValue();
+
+	                return form.fireEvent('reservacion', areacomunid, inmuebleid,fechainicio,fechafinalizacion,fechareservacion);
+
 				}
 				},{
 				text: 'Eliminar',
@@ -30,20 +40,10 @@ Ext.onReady(function() {
 				}
 				}]
 			}];
-			this.callParent();
-		}
-	});
-Ext.define('Siaco.view.Reservacion', {
-		extend: 'App.MiPanel',
-		xtype: 'reservacionview',
-		alias: 'widget.mipanelreservaciones',
-		id: 'mipanelreservaciones',
-		bodyPadding: 5,
-		width: 450,
+			 return this.callParent();
+		},
 		
-		initComponent: function () {
-			
-			this.items = [
+		items: [
 			{
 				fieldLabel: 'Inmueble',
 				xtype: 'combobox',
@@ -75,10 +75,10 @@ Ext.define('Siaco.view.Reservacion', {
 				id: 'fechafinalizacion'
 			}
 			
-			];
-			this.callParent();
-			Ext.getCmp('inmueble').focus();
-		}
-	});
+			],
+			    grabar: function() {
+      				return this.trigger('reservacion');
+    				}
+  });
 
-}); //FIN DEL ONREADY
+}).call(this); //FIN DEL ONREADY
