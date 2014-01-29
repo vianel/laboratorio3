@@ -21,7 +21,7 @@ Ext.define('Siaco.view.Reservacion', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					var inmuebleid, form, areacomunid,fechareservacion,fechainicio,fechafinalizacion;
+				var inmuebleid, form, areacomunid,fechareservacion,fechainicio,fechafinalizacion;
 	                form = this.up('form');
 	                areacomunid = this.up('form').down('#areacomun').getValue();
 	                inmuebleid = this.up('form').down('#inmueble').getValue();
@@ -76,9 +76,9 @@ Ext.define('Siaco.view.Reservacion', {
 			}
 			
 			],
-			    grabar: function() {
+			   grabar: function() {
       				return this.trigger('reservacion');
-    				}
+    			}	
   });
 
 }).call(this); //FIN DEL ONREADY

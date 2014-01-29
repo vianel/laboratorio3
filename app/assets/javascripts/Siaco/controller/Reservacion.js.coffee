@@ -2,14 +2,14 @@ Ext.define "Siaco.controller.Reservacion",
 	extend: "Ext.app.Controller"
 	refs: [
 		{
-			ref: 'reservacionView'
-			selector: 'reservacionView'
+			ref: 'reservacionview'
+			selector: 'reservacionview'
 		}
 	]
-
+###
 	init: ->
 		@control
-			'ReservacionView':
+			'reservacionview':
 				reservacion: @onReservacion
 
 	onReservacion: (inmuebleid, areacomunid,fechareservacion,fechainicio,fechafinalizacion) ->
@@ -23,7 +23,9 @@ Ext.define "Siaco.controller.Reservacion",
 				fechainicio: fechainicio
 				fechafinalizacion: fechafinalizacion
 			success: (resultado, request) =>
+			  Ext.Msg.alert("Error", "Servidor no conectado")
 				datos = Ext.JSON.decode(resultado.responseText)
 				
 			failure: ->
 				Ext.Msg.alert("Error", "Servidor no conectado")
+###

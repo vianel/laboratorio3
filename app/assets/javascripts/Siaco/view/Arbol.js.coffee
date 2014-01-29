@@ -13,11 +13,6 @@ Ext.define 'Siaco.view.Arbol',
 					node.collapse()
 				else
 					node.expand()
-				
-			    
-
-			 	
-
 			else
 				Ext.create('Ext.window.Window',
 		    		items: [
