@@ -11,8 +11,7 @@ Ext.define 'Siaco.view.Login',
 			buttons: [
 				{
 					text: 'Olvido su contraseña'
-					handler: ->
-				 		location.href=""
+
 				}
 				{
 					text: 'Limpiar'

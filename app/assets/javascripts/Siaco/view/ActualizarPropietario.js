@@ -60,7 +60,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		extend: 'App.MiPanel',
 		xtype: 'actualizarpropietarioview',		
 		alias: 'widget.mipanelpropietarios',
-		title: 'Login',
+		title: 'Panel Propietario',
 		id: 'mipanelpropietarios',
 		bodyPadding: 5,
 		width: 450,

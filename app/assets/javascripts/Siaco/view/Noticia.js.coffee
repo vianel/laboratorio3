@@ -1,11 +1,10 @@
 foto_1 = "images/usuario.jpeg"
-
-Ext.define 'Siaco.view.ComprobantePagoLicencia', 
+Ext.define 'Siaco.view.Noticia', 
     extend: 'Ext.form.Panel'
-    xtype: 'comprobantepagolicenciaView'
-    title: 'ComprobantePagoLicencia'
+    xtype: 'noticiaView'
+    title: 'Noticia'
     bodyPadding: 10
-    height: 640
+
     initComponent: -> 
         @dockedItems = [{
             dock: 'bottom',
@@ -34,48 +33,19 @@ Ext.define 'Siaco.view.ComprobantePagoLicencia',
 
     items: [
         {
-            xtype: 'combobox'
-            fieldLabel: 'Licencia'
-            name: 'licenciaComprobacionPagoLicencia'
+            xtype: 'textfield'
+            fieldLabel: 'Asunto'
+            name: 'AsuntoNoticia'
+        }
+        {
+            xtype: 'textarea'
+            fieldLabel: 'Descripcion Noticia'
+            name: 'DescripcionNoticia'
         }
         {
             xtype: 'textfield'
-            fieldLabel: 'Renovación'
-            name: 'renovacionComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Banco'
-            name: 'bancoComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'CI/RIF Depositante'
-            name: 'cirifDepositanteComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Nombre Depositante'
-            name: 'nombreDepositanteComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Nro Deposito'
-            name: 'nroDepositoComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'datefield'
-            fieldLabel: 'Fecha Deposito'
-            name: 'fechaDepositoComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Foto Comprobante'
-            name: 'fotoComprobacionPagoLicencia'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Imagen'
+            fieldLabel: 'Foto'
+            name: 'fotoNoticia'
         }
         {
             xtype: 'textfield'

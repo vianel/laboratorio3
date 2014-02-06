@@ -1,25 +1,16 @@
 Ext.application
     name: 'Siaco'
     views: [
-        'Inventario'
         'Arbol'
         'Empleados'
         'Condominio'
-        'Licencia'
-        'Renovacion'
-        'ComprobantePagoLicencia'
-        'Agenda'
         'ServicioComun'
         'TipoServicioComun'
         'TipoEmpleado'
         'Areacomun'
         'Inmueble'
         'Pagarcondominio'
-        'Requisicion'
-        'Producto'
-        'TipoProducto'
         'Sancion'
-        'TipoSancion'
         'Administrador'
         'Pagoempleado'
         'Sugerencia'
@@ -27,6 +18,8 @@ Ext.application
         'Factura'
         'ActualizarPropietario'
         'Noticia'
+        'VistaCuriosa'
+        'Vision'
     ]
     controllers: ['Login']
     stores: ['Arboles']
@@ -36,8 +29,9 @@ Ext.application
     launch: ->
     	Ext.create('Ext.window.Window',
     		items: [
-    			{
-    				xtype: 'loginView'
-    			}
+                {
+                #Aqui mande a aparecer la vista curiosa 
+                    xtype: 'vistacuriosaview'
+                }
     		]
     	).show().center()

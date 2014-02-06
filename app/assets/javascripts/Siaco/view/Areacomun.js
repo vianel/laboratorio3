@@ -63,7 +63,6 @@ Ext.define('Siaco.view.Areacomun', {
 			
 			];
 			this.callParent();
-			Ext.getCmp('condominio').focus();
 		}
 	});
 }); //FIN DEL ONREADY
