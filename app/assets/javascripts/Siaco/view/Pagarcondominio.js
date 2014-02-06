@@ -93,6 +93,7 @@ var archivopdf=null;
     xtype: 'pagarcondominioview',
     alias: 'widget.mipanelpagocondominio',
     id: 'mipanelpagocondominio',
+    title: 'Pagar condominio',
     bodyPadding: 5,
     width: 450,
     

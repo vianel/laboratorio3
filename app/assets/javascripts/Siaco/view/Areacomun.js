@@ -37,6 +37,7 @@ Ext.define('Siaco.view.Areacomun', {
 		xtype: 'areacomunview',
 		alias: 'widget.mipanelareascomunes',
 		id: 'mipanelareascomunes',
+		title: 'Panel Area comun',
 		bodyPadding: 5,
 		width: 450,
 		
@@ -44,11 +45,6 @@ Ext.define('Siaco.view.Areacomun', {
 			
 			this.items = [
 			{
-				fieldLabel: 'Condominio',
-				xtype: 'combobox',
-				name: 'condominio',
-				id: 'condominio'
-			},{
 				fieldLabel: 'Nombre',
 				xtype: 'textfield',
 				name: 'nombre',

@@ -61,35 +61,6 @@ Ext.define 'Siaco.view.ServicioComun',
             fieldLabel: 'Costo'
             name: 'costoServicioComun'
         }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Foto Servicio'
-            name: 'fotoServicioComun'
-        }
-        {
-            xtype: 'textfield'
-            fieldLabel: 'Imagen'
-        }
-        {
-            xtype: 'textfield'
-            id: 'imagen'
-            emptyText: foto_1
-            disabled: true
-        }
-        {
-            xtype: 'image'
-            id: 'imagen0'
-            border: ''
-            frame: true
-            src: foto_1
-        }
-        {
-            id: 'imagen1'
-            border: ''
-                 #atributo accept en algunos navegadores funciona 
-                 #para firefox no accept="image/gif image/jpeg"
-            html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />'
-        }
     ]
 
 

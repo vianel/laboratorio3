@@ -63,6 +63,7 @@ Ext.define('Siaco.view.Empleados', {
 		xtype: 'empleadosview',
 		alias: 'widget.mipanelempleados',
 		id: 'mipanelempleados',
+		title: 'Panel Empleados',
 		bodyPadding: 5,
 		width: 450,
 		

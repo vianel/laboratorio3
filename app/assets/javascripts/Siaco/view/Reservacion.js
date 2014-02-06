@@ -1,11 +1,31 @@
-(function() {
-Ext.define('Siaco.view.Reservacion', {
-		extend: 'App.MiPanel',
-		xtype: 'reservacionview',
-		alias: 'widget.mipanelreservaciones',
-		id: 'mipanelreservaciones',
-		bodyPadding: 5,
-		width: 450,
+var tabs = null;
+var arregloareacomun = ['Caney de fiestas','Piscina'];
+Ext.onReady(function() {
+	
+
+	Ext.QuickTips.init();
+
+Ext.define('areacomun', {
+    extend: 'Ext.data.Model',
+    fields: [ {name:'NOMBRE',   type: 'string'}
+     ]
+});
+
+var storeareacomun = Ext.create('Ext.data.Store', {
+  model : 'areacomun',
+   autoLoad : true,
+       proxy: {
+         type: 'ajax',
+         url: '/areacomun/buscar/',
+         reader: {
+             type: 'json',
+             root: 'datos'
+         }
+     },
+ 
+});
+		Ext.define('App.MiPanel', {
+		extend: 'Ext.form.Panel',
 		
 		initComponent : function() {
 			this.dockedItems = [{
@@ -21,16 +41,7 @@ Ext.define('Siaco.view.Reservacion', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-				var inmuebleid, form, areacomunid,fechareservacion,fechainicio,fechafinalizacion;
-	                form = this.up('form');
-	                areacomunid = this.up('form').down('#areacomun').getValue();
-	                inmuebleid = this.up('form').down('#inmueble').getValue();
-	                fechareservacion = this.up('form').down('#fechareservacion').getValue();
-					fechainicio = this.up('form').down('#fechainicio').getValue();
-					fechafinalizacion = this.up('form').down('#fechafinalizacion').getValue();
-
-	                return form.fireEvent('reservacion', areacomunid, inmuebleid,fechainicio,fechafinalizacion,fechareservacion);
-
+					Ext.Msg.alert('Pronto','En construccion');
 				}
 				},{
 				text: 'Eliminar',
@@ -40,21 +51,26 @@ Ext.define('Siaco.view.Reservacion', {
 				}
 				}]
 			}];
-			 return this.callParent();
-		},
+			this.callParent();
+		}
+	});
+Ext.define('Siaco.view.Reservacion', {
+		extend: 'App.MiPanel',
+		xtype: 'reservacionview',
+		alias: 'widget.mipanelreservaciones',
+		id: 'mipanelreservaciones',
+		bodyPadding: 5,
+		width: 450,
 		
-		items: [
+		initComponent: function () {
+			
+			this.items = [
 			{
-				fieldLabel: 'Inmueble',
-				xtype: 'combobox',
-				name: 'inmueble',
-				id: 'inmueble'
-			},{
 				fieldLabel: 'Area Comun',
 				xtype: 'combobox',
 				name: 'areacomun',
 				id: 'areacomun',
-				store: arregloareacomun
+				store: storeareacomun
 			},{
 				fieldLabel: 'Fecha de Reservacion',
 				xtype: 'datefield',
@@ -68,17 +84,22 @@ Ext.define('Siaco.view.Reservacion', {
 				name: 'fechainicio',
 				id: 'fechainicio'
 			},{
-				fieldLabel: 'Fecha de Finalizacion',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'fechafinalizacion',
-				id: 'fechafinalizacion'
+				fieldLabel: 'hora de Inicio',
+				xtype: 'timefield',
+				name: 'horainicio',
+				minValue: '6:00 AM',
+        		maxValue: '8:00 PM',
+				id: 'horainicio'
+			},{
+				fieldLabel: 'hora de fin',
+				xtype: 'timefield',
+				name: 'horafin',
+				id: 'horafin'
 			}
 			
-			],
-			   grabar: function() {
-      				return this.trigger('reservacion');
-    			}	
-  });
+			];
+			this.callParent();
+		}
+	});
 
-}).call(this); //FIN DEL ONREADY
+}); //FIN DEL ONREADY

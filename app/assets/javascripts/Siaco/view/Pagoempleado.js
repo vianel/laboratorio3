@@ -159,6 +159,7 @@ Ext.define('Siaco.view.Pagoempleado', {
     xtype: 'pagoempleadoview',
     alias: 'widget.mipanelpagoempleados',
     id: 'mipanelpagoempleados',
+    title: 'Pago Empleado',
     bodyPadding: 5,
     width: 450,
     

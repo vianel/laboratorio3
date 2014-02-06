@@ -37,6 +37,7 @@ Ext.define('Siaco.view.Novedad', {
 		xtype: 'novedadview',
 		alias: 'widget.mipanelnovedades',
 		id: 'mipanelnovedades',
+		title: 'Panel Novedades',
 		bodyPadding: 5,
 		width: 450,
 		

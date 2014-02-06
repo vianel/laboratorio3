@@ -38,6 +38,7 @@ Ext.define('Siaco.view.Sancion', {
 		xtype: 'sancionview',
 		alias: 'widget.mipanelsanciones',
 		id: 'mipanelsanciones',
+		title: 'Sancionar',
 		bodyPadding: 5,
 		width: 450,
 		
@@ -50,20 +51,6 @@ Ext.define('Siaco.view.Sancion', {
 				name: 'inmueble',
 				id: 'inmueble'
 			},{
-				fieldLabel: 'Tipo Sancion',
-				xtype: 'combobox',
-				name: 'tiposancion',
-				id: 'tiposancion'
-			},{
-		         text: '...',
-		         xtype: 'button',
-		         id: 'catalogotiposancion',
-		         x: 260,
-		         y: -27,
-		        handler:function() {
-					vernuevotiposancion();
-					}
-			},{
 				fieldLabel: 'Descripcion',
 				xtype: 'textarea',
 				name: 'descripcion',
@@ -74,10 +61,10 @@ Ext.define('Siaco.view.Sancion', {
 				name: 'fecharealizacion',
 				id: 'fecharealizacion'
 			},{
-				fieldLabel: 'Condicion',
+				fieldLabel: 'Monto',
 				xtype: 'textfield',
-				name: 'condicion',
-				id: 'condicion'
+				name: 'monto',
+				id: 'monto'
 			}
 			
 			];
@@ -89,14 +76,3 @@ Ext.define('Siaco.view.Sancion', {
 
 }); //FIN DEL ONREADY
 
-function vernuevotiposancion(){
-	Ext.create('Ext.window.Window',{
-		    		items: [
-		    			{
-		    				xtype: 'tiposancionview'
-		    			}
-		    		],
-		    		autoScroll: true,
-		    		maxHeight: 600
-		    	}).show()
-}

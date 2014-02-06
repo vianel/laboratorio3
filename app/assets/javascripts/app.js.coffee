@@ -26,6 +26,7 @@ Ext.application
         'Reservacion'
         'Factura'
         'ActualizarPropietario'
+        'Noticia'
     ]
     controllers: ['Login']
     stores: ['Arboles']

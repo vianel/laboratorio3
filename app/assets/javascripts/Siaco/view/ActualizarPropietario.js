@@ -60,6 +60,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		extend: 'App.MiPanel',
 		xtype: 'actualizarpropietarioview',		
 		alias: 'widget.mipanelpropietarios',
+		title: 'Login',
 		id: 'mipanelpropietarios',
 		bodyPadding: 5,
 		width: 450,
@@ -83,37 +84,42 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				name: 'apellido',
 				id: 'apellido'
 			},{
-				fieldLabel: 'Direccion',
-				xtype: 'textarea',
-				name: 'direccion',
-				id: 'direccion'
-			},{
-				fieldLabel: 'Usuario',
+				fieldLabel: 'Telefono',
 				xtype: 'textfield',
-				name: 'usuario',
-				id: 'usuario'
+				name: 'telefono',
+				id: 'telefono'
 			},{
-				fieldLabel: 'Cargo en la junta',
-				xtype: 'combobox',
-				name: 'cargojunta',
-				id: 'cargojunta'
-			},{
+				fieldLabel: 'Correo',
+				xtype: 'textfield',
+				name: 'correo',
+				id: 'correo'
+			},RadiosSexo,{
 				fieldLabel: 'Fecha de Nacimiento',
 				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'fechanacimiento',
 				id: 'fechanacimiento',
-			},RadiosSexo,{
-				fieldLabel: 'Telefono',
-				xtype: 'textfield',
-				name: 'telefono',
-				id: 'telefono'
 			},EstadoCivil,{
-				fieldLabel: 'Correo',
+				fieldLabel: 'Direccion Alternativa',
+				xtype: 'textarea',
+				name: 'direccion',
+				id: 'direccion'
+			},{
+				fieldLabel: 'Login',
 				xtype: 'textfield',
-				name: 'correo',
-				id: 'correo'
+				name: 'login',
+				id: 'login'
+			},{
+				fieldLabel: 'Contraseña',
+				xtype: 'textfield',
+				name: 'contrasenna',
+				id: 'contrasenna'
+			},{
+				fieldLabel: 'Cargo en la junta',
+				xtype: 'combobox',
+				name: 'cargojunta',
+				id: 'cargojunta'
 			},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',

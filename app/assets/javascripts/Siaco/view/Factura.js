@@ -37,6 +37,7 @@ Ext.define('Siaco.view.Factura', {
 		xtype: 'facturaview',
 		alias: 'widget.mipanelfacturas',
 		id: 'mipanelfacturas',
+		title: 'Panel Factura',
 		bodyPadding: 5,
 		width: 450,
 		

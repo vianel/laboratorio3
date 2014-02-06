@@ -113,6 +113,7 @@ Ext.onReady(function() {
 		extend: 'App.MiPanel',
 		xtype: 'administradorview',
 		alias: 'widget.mipanelpersonales',
+		title: 'Panel Administrador',
 		id: 'mipanelpersonales',
 		bodyPadding: 5,
 		width: 450,

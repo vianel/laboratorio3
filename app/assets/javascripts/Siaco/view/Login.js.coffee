@@ -10,7 +10,7 @@ Ext.define 'Siaco.view.Login',
 			dock: 'bottom'
 			buttons: [
 				{
-					text: 'Ir a Pagina Principal'
+					text: 'Olvido su contraseña'
 					handler: ->
 				 		location.href=""
 				}
