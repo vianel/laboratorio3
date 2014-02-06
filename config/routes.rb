@@ -7,6 +7,7 @@ Condominio::Application.routes.draw do
     post 'sesiones/entrar' => 'sesiones#entrar'
     resource :sesiones
     resources :arboles
+    resources :propietarios
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
