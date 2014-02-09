@@ -43,7 +43,7 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+					var cedula = Ext.getCmp('cedula').getvalue();
 				}
 				},{
 				text: 'Eliminar',
