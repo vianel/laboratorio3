@@ -45,6 +45,42 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
+					var form = this.up('form').getForm();
+					if (form.isValid())
+					{
+					var loadingMask = new Ext.LoadMask(Ext.getBody(), {msg: "Guardando"});
+					loadingMask.show();
+
+					form.submit({
+						params: {
+							ajax: 'true',
+							funcion:'grabar',
+
+					 nombre: Ext.getCmp('nombre').getValue(),
+					 apellido: Ext.getCmp('apellido').getValue(),
+					 telefono: Ext.getCmp('telefono').getValue(),					
+					 correo: Ext.getCmp('correo').getValue(),
+					 sexo: Ext.getCmp('sexo').getValue(),
+					 fechanacimiento: Ext.getCmp('fechanacimiento').getValue(),
+					 estadocivil: Ext.getCmp('estadocivil').getValue(),
+					 direccion: Ext.getCmp('direccion').getValue(),
+					 login: Ext.getCmp('login').getValue(),
+					// contrasenna: Ext.getCmp('contrasenna').getValue(),
+					 cargojunta: Ext.getCmp('cargojunta').getValue(),
+					 foto: Ext.getCmp('imagen').getValue()
+
+
+						},
+						url: 'propietarios/grabar',
+						method: 'POST',
+						success: function(form, action){
+							loadingMask.hide();
+							Ext.Msg.alert('Exitoso','Guardado satisfactoriamente')
+
+						}
+					})
+					}
+					/*
 					var cedula = Ext.getCmp('cedula').getValue();
 					var nombre = Ext.getCmp('nombre').getValue();
 					var apellido = Ext.getCmp('apellido').getValue();
@@ -59,7 +95,32 @@ Ext.onReady(function() {
 					var cargojunta = Ext.getCmp('cargojunta').getValue();
 					var foto = Ext.getCmp('imagen').getValue();
 					var usuarioid = Ext.getCmp('login').getValue();
-					Ext.getCmp('mipanelpropietarios').fireEvent('insertar', cedula ,nombre,apellido,telefono,correo,sexo,fechanacimiento,estadocivil,direccion,login,cargojunta,foto,usuarioid)
+					//Ext.getCmp('mipanelpropietarios').fireEvent('insertar', cedula ,nombre,apellido,telefono,correo,sexo,fechanacimiento,estadocivil,direccion,login,cargojunta,foto,usuarioid)
+					
+					propietario = Ext.create('Siaco.model.Propietario')
+        
+			        propietario.set('CEDULA', cedula)
+			        propietario.set('NOMBRE', nombre)
+			        propietario.set('APELLIDO', apellido)
+			        propietario.set('TELEFONO', telefono)
+			        propietario.set('EMAIL', correo)
+			        propietario.set('SEXO', sexo)
+			        propietario.set('FECHA_NACIMIENTO', fechanacimiento)
+			        propietario.set('ESTADO_CIVIL', estadocivil)
+			        propietario.set('DIRECCION_ALTERNATIVA', direccion)
+			        propietario.set('LOGIN', login)
+			        propietario.set('CONTRASENNA', contrasenna)
+			        propietario.set('CARGO_JUNTA_ONDOMINIO_ID', cargojunta)
+			        propietario.set('FOTO', foto)
+			        propietario.set('CONDOMINIO_ID', '1')
+			        propietario.set('USUARIOS_ID', usuarioid)
+        
+        
+        storeP = Ext.getStore('propietariosStore')
+        storeP.add(propietario)
+        storeP.sync()
+        Ext.Msg.alert('Exitoso','Guardado satisfactoriamente')*/
+
 									}
 				},{
 				text: 'Eliminar',

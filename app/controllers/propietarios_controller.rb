@@ -41,4 +41,21 @@ class PropietariosController < ApplicationController
     		:TELEFONO, :CELULAR, :EMAIL, :SEXO, :FECHA_NACIMIENTO, :ESTADO_CIVIL, :CEDULA,
     		:FOTO, :CONDOMINIO_ID, :USUARIOS_ID, :CARGO_JUNTA_ONDOMINIO_ID)
     end
+
+  def grabar
+
+
+    @datos = []
+    @datos[0] = params[:nombre]
+    @datos[1] = params[:apellido]
+    @datos[2] = params[:telefono]
+    @datos[3] = params[:correo]
+    @datos[4] = params[:sexo]
+    @datos[5] = params[:fechanacimiento]
+    @datos[6] = params[:login]
+    @datos[7] = params[:cargojunta]
+    @propietario = Propietario.new
+    valor = @propietario.grabar(@datos)
+    render :text => $tirajson
+  end
 end
