@@ -15,3 +15,8 @@ Ext.define "Siaco.model.Propietario",
         {name: 'USUARIOS_ID',   type: 'int'}
         {name: 'CARGO_JUNTA_ONDOMINIO_ID',   type: 'int'}
     ]
+
+
+
+
+ 

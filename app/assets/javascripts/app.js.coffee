@@ -21,8 +21,9 @@ Ext.application
         'VistaCuriosa'
         'Vision'
     ]
-    controllers: ['Login']
-    stores: ['Arboles']
+    controllers: ['Login', 'Propietario']
+    stores: ['Arboles', 'Propietarios']
+    model: ['Propietario']
     appFolder: 'assets/Siaco'
     autoCreateViewport: true
 

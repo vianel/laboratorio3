@@ -2,6 +2,7 @@ var tabs = null;
 var foto_1 ="images/usuario.jpeg"
 var RadiosSexo = new Ext.form.RadioGroup({
 		fieldLabel: 'Sexo',
+		id: 'sexo',
 			
 		columns: 2,
 				items:
@@ -12,6 +13,7 @@ var RadiosSexo = new Ext.form.RadioGroup({
 });
 var EstadoCivil = new Ext.form.RadioGroup({
 		fieldLabel: 'Estado Civil',
+		id: 'estadocivil',
 			
 		columns: 2,
 				items:
@@ -43,8 +45,22 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					var cedula = Ext.getCmp('cedula').getvalue();
-				}
+					var cedula = Ext.getCmp('cedula').getValue();
+					var nombre = Ext.getCmp('nombre').getValue();
+					var apellido = Ext.getCmp('apellido').getValue();
+					var telefono = Ext.getCmp('telefono').getValue();					
+					var correo = Ext.getCmp('correo').getValue();
+					var sexo = Ext.getCmp('sexo').getValue();
+					var fechanacimiento = Ext.getCmp('fechanacimiento').getValue();
+					var estadocivil = Ext.getCmp('estadocivil').getValue();
+					var direccion = Ext.getCmp('direccion').getValue();
+					var login = Ext.getCmp('login').getValue();
+					var contrasenna = Ext.getCmp('contrasenna').getValue();
+					var cargojunta = Ext.getCmp('cargojunta').getValue();
+					var foto = Ext.getCmp('imagen').getValue();
+					var usuarioid = Ext.getCmp('login').getValue();
+					Ext.getCmp('mipanelpropietarios').fireEvent('insertar', cedula ,nombre,apellido,telefono,correo,sexo,fechanacimiento,estadocivil,direccion,login,cargojunta,foto,usuarioid)
+									}
 				},{
 				text: 'Eliminar',
 				iconCls:'eliminar',
