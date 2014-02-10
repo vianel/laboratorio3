@@ -1,5 +1,5 @@
 class Empleado < ActiveRecord::Base
-	self.table_name = "EMPLPEADOS"
+	self.table_name = "EMPLEADOS"
 
 
 def catalogo()
