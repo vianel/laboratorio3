@@ -1,0 +1,2 @@
+module AreascomunesHelper
+end

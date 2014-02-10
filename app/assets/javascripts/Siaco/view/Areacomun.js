@@ -19,7 +19,30 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+
+            Ext.Ajax.request({
+             url: 'areascomunes/grabar',
+			 method: 'GET',
+             //Enviando los parametros a la pagina servidora
+             params: {
+              ajax: 'true',
+              funcion: 'grabar',
+              nombre: Ext.getCmp('nombre').getValue(), //obtiene el valor a traves del id del campo
+              descripcion: Ext.getCmp('descripcion').getValue(),
+              costo: Ext.getCmp('costo').getValue(),
+             },
+             //Retorno exitoso de la pagina servidora a traves del formato JSON
+             success: function( resultado, request ) {
+              datos=Ext.JSON.decode(resultado.responseText);
+              Ext.Msg.alert('exito', datos.msg);
+             },
+             //No hay retorno de la pagina servidora
+             failure: function() {
+              Ext.Msg.alert("Error", "Servidor no conectado!");
+             }
+            });
+            
+					//Ext.Msg.alert('Pronto','En construccion');
 				}
 				},{
 				text: 'Eliminar',
