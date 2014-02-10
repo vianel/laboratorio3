@@ -27,6 +27,7 @@ Ext.onReady(function() {
              params: {
               ajax: 'true',
               funcion: 'grabar',
+              autoLoad: true,
               nombre: Ext.getCmp('nombre').getValue(), //obtiene el valor a traves del id del campo
               descripcion: Ext.getCmp('descripcion').getValue(),
               costo: Ext.getCmp('costo').getValue(),

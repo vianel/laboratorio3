@@ -4,25 +4,10 @@ Ext.onReady(function() {
   
   Ext.QuickTips.init();
 //Definicion del Modelo
- Ext.define('Empleados', {
-    extend: 'Ext.data.Model',
-    fields: [ 'Nombre', 'Cedula', 'Tipo' ]
-});
+
 
 //Definicion del Data Store
-var empleadosStore = Ext.create('Ext.data.Store', {
-    model: 'Empleados',
-    data: [
-        { Nombre: 'Juan', Cedula: '123', Tipo: 'Conserje' },
-        { Nombre: 'Marcos', Cedula: '234', Tipo: 'vigilante' },
-        { Nombre: 'Samuel', Cedula: '345',  Tipo: 'vigilante' },
-        { Nombre: 'Jorge', Cedula: '567',  Tipo: 'vigilante' },
-  { Nombre: 'Maria', Cedula: '567',  Tipo: 'vigilante' },
-  { Nombre: 'Sabrina', Cedula: '567',  Tipo: 'vigilante' },
-  { Nombre: 'Cristiano', Cedula: '567',  Tipo: 'vigilante' },
-  { Nombre: 'Demba ba', Cedula: '567',  Tipo: 'vigilante' }
-    ]
-});
+
 
 //Definicion de la clase UsuariosGrid
 Ext.define('App.EmpleadosGrid', {
@@ -36,8 +21,9 @@ Ext.define('App.EmpleadosGrid', {
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
             {text: "Nombre", width: 120, dataIndex: 'Nombre', sortable: true},
-            {text: "Cedula", flex: 1, dataIndex: 'Cedula', sortable: true},
-            {text: "Tipo", width: 100, dataIndex: 'Tipo', sortable: true}
+            {text: "Apellido", width: 100, dataIndex: 'Apellido', sortable: true},
+            {text: "Cedula", flex: 1, dataIndex: 'Cedula', sortable: true}
+           
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
@@ -81,7 +67,9 @@ Ext.define('App.EmpleadosGrid', {
     ]
   } ];
         // Origen de los datos, de un data store
-        this.store = empleadosStore;
+        storeP = Ext.getStore('empleadosStore')
+       // storeP.add(Empleado)
+        this.store = storeP;
         this.forceFit = true;
   this.scroll = false;
   this.viewConfig = { style: {overflow: 'auto', overflowX: 'hidden' } };
