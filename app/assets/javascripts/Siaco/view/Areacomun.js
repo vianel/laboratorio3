@@ -2,7 +2,7 @@ var tabs = null;
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
-		Ext.define('App.MiPanel', {
+		Ext.define('Siaco.view.MiPanel', {
 		extend: 'Ext.form.Panel',
 		
 		initComponent : function() {
@@ -27,7 +27,7 @@ Ext.onReady(function() {
              params: {
               ajax: 'true',
               funcion: 'grabar',
-              autoLoad: true,
+
               nombre: Ext.getCmp('nombre').getValue(), //obtiene el valor a traves del id del campo
               descripcion: Ext.getCmp('descripcion').getValue(),
               costo: Ext.getCmp('costo').getValue(),
@@ -57,7 +57,7 @@ Ext.onReady(function() {
 		}
 	});
 Ext.define('Siaco.view.Areacomun', {
-		extend: 'App.MiPanel',
+		extend: 'Siaco.view.MiPanel',
 		xtype: 'areacomunview',
 		alias: 'widget.mipanelareascomunes',
 		id: 'mipanelareascomunes',

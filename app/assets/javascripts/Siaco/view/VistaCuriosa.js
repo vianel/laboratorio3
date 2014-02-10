@@ -1,6 +1,7 @@
 Ext.onReady (function (){
 Ext.QuickTips.init();
 Ext.define('Siaco.view.VistaCuriosa', {
+	id: 'VistaCuriosas',
     extend: 'Ext.container.Container',
     xtype: 'vistacuriosaview',
    // x:-290 , y:-190,

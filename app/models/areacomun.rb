@@ -20,4 +20,27 @@ self.table_name = "AREAS_COMUNES"
     #end 
    return valor
   end
+
+  def buscar()
+   @objareacomun = AREAS_COMUNES.all
+   @son = AREAS_COMUNES.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objareacomun.each do |areas_comunes|
+     if @i<@son
+      tirajson = tirajson +   ' { "NOMBRE": "'        + areas_comunes.NOMBRE +
+                              '", "DESCRIPCION": "'      + areas_comunes.DESCRIPCION + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "NOMBRE": "'        + areas_comunes.NOMBRE +
+                              '", "DESCRIPCION": "'      + areas_comunes.DESCRIPCION + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 end

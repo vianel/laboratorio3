@@ -1,5 +1,6 @@
 var tabs = null;
 var ventana = null;
+var storeP = null;
 Ext.onReady(function() {
   
   Ext.QuickTips.init();
@@ -10,7 +11,7 @@ Ext.onReady(function() {
 
 
 //Definicion de la clase UsuariosGrid
-Ext.define('App.EmpleadosGrid', {
+Ext.define('Siaco.view.EmpleadosGrid', {
     extend: 'Ext.grid.Panel',
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.empleadosgrid',
@@ -67,8 +68,10 @@ Ext.define('App.EmpleadosGrid', {
     ]
   } ];
         // Origen de los datos, de un data store
-        storeP = Ext.getStore('empleadosStore')
+
+        storeP = Ext.getStore('empleadosStore');
        // storeP.add(Empleado)
+    //   storeP.sync();
         this.store = storeP;
         this.forceFit = true;
   this.scroll = false;

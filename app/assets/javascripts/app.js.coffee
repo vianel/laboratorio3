@@ -22,8 +22,8 @@ Ext.application
         'Vision'
     ]
     controllers: ['Login', 'Propietario']
-    stores: ['Arboles', 'Propietarios']
-    model: ['Propietario']
+    stores: ['Arboles', 'Propietarios','Empleados']
+    model: ['Propietario','Empleado']
     appFolder: 'assets/Siaco'
     autoCreateViewport: true
 

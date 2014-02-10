@@ -16,4 +16,10 @@ class AreascomunesController < ApplicationController
     render :text => $tirajson
 
   end
+
+  def buscar
+   @areasacomunes = Areacomun.new
+   $tirajson=@areasacomunes.buscar()
+   render :text => $tirajson  
+  end
 end

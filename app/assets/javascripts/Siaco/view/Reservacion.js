@@ -16,7 +16,7 @@ var storeareacomun = Ext.create('Ext.data.Store', {
    autoLoad : true,
        proxy: {
          type: 'ajax',
-         url: '/areacomun/buscar/',
+         url: '/areascomunes/buscar',
          reader: {
              type: 'json',
              root: 'datos'

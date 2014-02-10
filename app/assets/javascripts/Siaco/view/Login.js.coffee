@@ -29,6 +29,7 @@ Ext.define 'Siaco.view.Login',
 				 	usuario = @up('form').down('#usuario').getValue()
 				 	clave = @up('form').down('#clave').getValue()
 				 	form.fireEvent('login', usuario, clave)
+				 	Ext.getCmp('VistaCuriosas').hide()
 				}
 			]
 		}]
