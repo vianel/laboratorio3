@@ -1,5 +1,5 @@
 class Areacomun < ActiveRecord::Base
-self.table_name = "AREASCOMUNES"
+self.table_name = "AREAS_COMUNES"
    def grabar(datos)
    valor = 0
   #  @objareacomun = Areacomun.find(:first, :conditions => "usuario='#{usuario}' and clave='#{clave}'" )
@@ -22,8 +22,8 @@ self.table_name = "AREASCOMUNES"
   end
 
   def buscar()
-   @objareacomun = Areas_comunes.all
-   @son = Areas_comunes.count
+   @objareacomun = AREAS_COMUNES.all
+   @son = AREAS_COMUNES.count
    if @son > 0 
     @i=1
     tirajson = '{ "datos": [ '
