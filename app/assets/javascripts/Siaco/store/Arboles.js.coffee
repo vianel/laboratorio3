@@ -8,6 +8,8 @@ Ext.define 'Siaco.store.Arboles',
 		text: 'Menu'
 		id: 'root_node'
 		expanded: true
+		
+		
 	folderSort: false
 	sorters:
 		property: 'id',
