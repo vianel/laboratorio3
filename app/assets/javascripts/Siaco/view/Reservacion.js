@@ -1,30 +1,15 @@
 var tabs = null;
-var arregloareacomun = ['Caney de fiestas','Piscina'];
+//var arregloareacomun = Ext.create('Siaco.store.Areascomunes');
 Ext.onReady(function() {
 	
 
 	Ext.QuickTips.init();
 
-Ext.define('areacomun', {
-    extend: 'Ext.data.Model',
-    fields: [ {name:'NOMBRE',   type: 'string'}
-     ]
-});
 
-var storeareacomun = Ext.create('Ext.data.Store', {
-  model : 'areacomun',
-   autoLoad : true,
-       proxy: {
-         type: 'ajax',
-         url: '/areascomunes/buscar',
-         reader: {
-             type: 'json',
-             root: 'datos'
-         }
-     },
- 
-});
-		Ext.define('App.MiPanel', {
+
+//var storeareacomun = Ext.getStore('areascomunesStore');
+//	storeareacomun.sync();
+		Ext.define('Siaco.view.MiPanel', {
 		extend: 'Ext.form.Panel',
 		
 		initComponent : function() {
@@ -41,7 +26,7 @@ var storeareacomun = Ext.create('Ext.data.Store', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+					Ext.Msg.alert('Pronto',storeareacomun[0]);
 				}
 				},{
 				text: 'Eliminar',
@@ -55,7 +40,7 @@ var storeareacomun = Ext.create('Ext.data.Store', {
 		}
 	});
 Ext.define('Siaco.view.Reservacion', {
-		extend: 'App.MiPanel',
+		extend: 'Siaco.view.MiPanel',
 		xtype: 'reservacionview',
 		alias: 'widget.mipanelreservaciones',
 		id: 'mipanelreservaciones',
@@ -70,7 +55,8 @@ Ext.define('Siaco.view.Reservacion', {
 				xtype: 'combobox',
 				name: 'areacomun',
 				id: 'areacomun',
-				store: storeareacomun
+				store: Ext.create('Siaco.store.Areascomunes'),
+				displayField: 'nombre'
 			},{
 				fieldLabel: 'Fecha de Reservacion',
 				xtype: 'datefield',

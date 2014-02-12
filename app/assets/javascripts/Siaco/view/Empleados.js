@@ -86,72 +86,33 @@ Ext.define('Siaco.view.Empleados', {
 				name: 'apellido',
 				id: 'apellido'
 			},{
-				fieldLabel: 'Direccion',
+				fieldLabel: 'Direccion Alternativa',
 				xtype: 'textarea',
 				name: 'direccion',
 				id: 'direccion'
 			},{
+				fieldLabel: 'Telefono',
+				xtype: 'textfield',
+				name: 'telefono',
+				id: 'telefono'
+			},{
+				fieldLabel: 'Celular',
+				xtype: 'textfield',
+				name: 'celular',
+				id: 'celular'
+			},{
+				fieldLabel: 'Correo',
+				xtype: 'textfield',
+				name: 'correo',
+				id: 'correo'
+			},RadiosSexo,{
 				fieldLabel: 'Fecha de Nacimiento',
 				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'fechanacimiento',
 				id: 'fechanacimiento',
-			},
-			RadiosSexo,{
-				fieldLabel: 'Telefono',
-				xtype: 'textfield',
-				name: 'telefono',
-				id: 'telefono'
 			},{
-				fieldLabel: 'Correo',
-				xtype: 'textfield',
-				name: 'correo',
-				id: 'correo'
-			},
-			EstadoCivil,{
-				fieldLabel: 'Numero de Hijos',
-				xtype: 'textfield',
-				name: 'nrohijos',
-				id: 'nrohijos'
-			},{
-				fieldLabel: 'Fecha de ingreso',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'fechaingreso',
-				id: 'fechaingreso',
-			},{
-				fieldLabel: 'Inicio jornada',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'iniciojornada',
-				id: 'iniciojornada',
-			},{
-				fieldLabel: 'Fin jornada',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'finjornada',
-				id: 'finjornada',
-			},{
-				fieldLabel:'Tipo Empleado',
-				xtype: 'combobox',
-				name: 'tipoempleado',
-				id: 'tipoempleado',
-				store: arreglotipoempleados
-			},  {
-		         text: '...',
-		         xtype: 'button',
-		         id: 'catalogo',
-		         iconCls: 'buscar',
-		         x: 260,
-		         y: -27,
-		        handler:function() {
-					vernuevotipoempleado();
-				}
-        		},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',
 		          x: 5,
@@ -183,7 +144,60 @@ Ext.define('Siaco.view.Empleados', {
 		         //atributo accept en algunos navegadores funciona 
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
-		        }
+		        },
+			EstadoCivil,{
+				fieldLabel: 'Usuario',
+				xtype: 'textfield',
+				name: 'usuario',
+				id: 'usuario'
+			},{
+				fieldLabel:'Tipo Empleado',
+				xtype: 'combobox',
+				name: 'tipoempleado',
+				id: 'tipoempleado',
+				store: arreglotipoempleados
+			},  {
+		         text: '...',
+		         xtype: 'button',
+		         id: 'catalogo',
+		         iconCls: 'buscar',
+		         x: 260,
+		         y: -27,
+		        handler:function() {
+					vernuevotipoempleado();
+				}
+        		},{
+				fieldLabel: 'Numero de Hijos',
+				xtype: 'textfield',
+				name: 'nrohijos',
+				id: 'nrohijos'
+			},{
+				fieldLabel: 'Cargo',
+				xtype: 'textfield',
+				name: 'cargo',
+				id: 'cargo'
+			},{
+				fieldLabel: 'Fecha de ingreso',
+				//xtype: 'datepicker',
+				xtype: 'datefield',
+				format: 'd-m-y',
+				name: 'fechaingreso',
+				id: 'fechaingreso',
+			},{
+				fieldLabel: 'Inicio jornada',
+				//xtype: 'datepicker',
+				xtype: 'datefield',
+				format: 'd-m-y',
+				name: 'iniciojornada',
+				id: 'iniciojornada',
+			},{
+				fieldLabel: 'Fin jornada',
+				//xtype: 'datepicker',
+				xtype: 'datefield',
+				format: 'd-m-y',
+				name: 'finjornada',
+				id: 'finjornada',
+			}
 			
 			];
 			this.callParent();
