@@ -1,29 +1,30 @@
 class Areacomun < ActiveRecord::Base
-self.table_name = "AREAS_COMUNES"
+self.table_name = "areas_comunes"
    def grabar(datos)
+     @objareacomun = Areacomun.new
+   
    valor = 0
   #  @objareacomun = Areacomun.find(:first, :conditions => "usuario='#{usuario}' and clave='#{clave}'" )
    # if @objareacomun!=nil
-      @objareacomun.ID = datos[0].to_s
-      @objareacomun.CONDOMINIO_ID = datos[1].to_s
-      @objareacomun.NOMBRE = datos[2].to_s
-      @objareacomun.DESCRIPCION = datos[3].to_s
-      @objareacomun.COSTO = datos[4].to_s
-      @objareacomun.STATUS = datos[5].to_s
+   #   @objareacomun.CONDOMINIO_ID = datos[0].to_i
+      @objareacomun.nombre = datos[0].to_s
+      @objareacomun.descripcion = datos[1].to_s
+      @objareacomun.costo = datos[2].to_s
+      @objareacomun.status = datos[3].to_s
       
       @objareacomun.save
       $tirajson = '{ "success": "true", "msg": "Datos guardados satisfactoriamente!" }'
       valor = 1
     #else
-      $tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
-      valor = 0
+      #$tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
+      #valor = 0
     #end 
    return valor
   end
 
   def buscar()
-   @objareacomun = AREAS_COMUNES.all
-   @son = AREAS_COMUNES.count
+   @objareacomun = areas_comunes.all
+   @son = areas_comunes.count
    if @son > 0 
     @i=1
     tirajson = '{ "datos": [ '

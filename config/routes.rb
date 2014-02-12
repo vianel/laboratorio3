@@ -1,4 +1,5 @@
 Condominio::Application.routes.draw do
+  get "facturas/index"
   get "empleados/index"
   get "areascomunes/index"
   # The priority is based upon order of creation: first created -> highest priority.
@@ -10,7 +11,7 @@ Condominio::Application.routes.draw do
     resource :sesiones
     resources :arboles
     resources :propietarios
-    resources :areascomunes
+    #resources :areascomunes
     
     get ':controller(/:action(/:id))(.:format)'
     match "/areascomunes/grabar" => "areascomunes#grabar", via: [:get, :post]
