@@ -33,4 +33,16 @@ class FacturasController < ApplicationController
    $tirajson=@facturas.catalogo()
    render :text => $tirajson  
   end
+  def modificar
+     @datos = []
+    @datos[0] = params[:id]
+    @datos[1] = '1'
+    @datos[2] = params[:subtotal]
+    @datos[3] = params[:iva]
+    @datos[4] = 'A'
+    @factura = Factura.new
+    valor = @factura.modificar(@datos)
+    #$tirajson = '{"success": "true", "msg":"Prueba"}'
+    render :text => $tirajson
+  end
 end

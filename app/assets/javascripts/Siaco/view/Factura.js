@@ -62,9 +62,9 @@ Ext.define('Siaco.view.FacturasGrid', {
     //   this.store = Ext.getStore('facturasStore')
       //  this.forceFit = true;
 
-      //  storeF = Ext.getStore('facturasStore')
+       storeF = Ext.getStore('facturasStore')
       //  storeF.add(factura)
-     //   storeF.sync()
+       storeF.sync()
      //   this.store = storeF
         this.listeners = {
                           itemclick : function() {
@@ -131,7 +131,13 @@ Ext.define('miventanacatalogofacturas', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					guardar();
+					if (Ext.getCmp('id').getValue().length== 0)
+					{
+						guardar();
+					}else
+					{
+						modificar();
+					}
 				}
 				},{
 				text: 'Eliminar',
@@ -160,8 +166,8 @@ Ext.define('Siaco.view.Factura', {
 				fieldLabel:'id',
 				xtype: 'textfield',
 				name: 'id',
-				id: 'id'
-				//disabled: true
+				id: 'id',
+				disabled: true
 			},{
 	             text: 'buscar',
 	             xtype: 'button',
@@ -191,7 +197,31 @@ Ext.define('Siaco.view.Factura', {
 		}
 	});
 }); //FIN DEL ONREADY
-
+	function modificar()
+	{
+		 		Ext.Ajax.request({
+	     url: 'facturas/modificar',
+		 method: 'GET',
+	     //Enviando los parametros a la pagina servidora
+	     params: {
+	      ajax: 'true',
+	      funcion: 'modificar',
+	      id: Ext.getCmp('id').getValue(),
+	      subtotal: Ext.getCmp('subtotal').getValue(), //obtiene el valor a traves del id del campo
+	      iva: Ext.getCmp('iva').getValue(),
+	     },
+	     //Retorno exitoso de la pagina servidora a traves del formato JSON
+	     success: function( resultado, request ) {
+	      datos=Ext.JSON.decode(resultado.responseText);
+	      Ext.Msg.alert('Exito', datos.msg);
+	      Ext.getCmp('mipanelfacturas').getForm().reset();
+	     },
+	     //No hay retorno de la pagina servidora
+	     failure: function() {
+	      Ext.Msg.alert("Error", "Servidor no conectado!");
+	     }
+	    });
+	}
    function buscar() {
            Ext.Ajax.request({
              url: 'facturas/buscar',

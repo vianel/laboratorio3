@@ -5,7 +5,7 @@ class Factura < ActiveRecord::Base
    
    valor = 0
   #  @objfactura = Areacomun.find(:first, :conditions => "usuario='#{usuario}' and clave='#{clave}'" )
-   # if @objfactura!=nil
+    if @objfactura!=nil
    #   @objfactura.CONDOMINIO_ID = datos[0].to_i
       @objfactura.condominio_id = datos[0].to_i
       @objfactura.sub_total = datos[1].to_f
@@ -18,10 +18,24 @@ class Factura < ActiveRecord::Base
     #else
       #$tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
       #valor = 0
-    #end 
+    end 
    return valor
   end
+  def modificar(datos)
+  	@objfactura = Factura.find(:first, :conditions => "id='#{datos[0]}'" ) 
 
+   valor = 0
+
+      @objfactura.condominio_id = datos[1].to_i
+      @objfactura.sub_total = datos[2].to_f
+      @objfactura.iva = datos[3].to_f
+      @objfactura.status = datos[4].to_s
+       # @post.update(params[:post].permit(:title, :text))
+      @objfactura.save
+      $tirajson = '{ "success": "true", "msg": "Datos modificados satisfactoriamente!" }'
+      valor = 1
+
+  end
 
     def buscar(id)
    valor = 0
