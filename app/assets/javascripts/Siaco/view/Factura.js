@@ -1,7 +1,119 @@
 var tabs = null;
+var ventanacatalogofacturas = null;
+var storeF = null;
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
+
+//Definicion del grid
+
+Ext.define('Siaco.view.FacturasGrid', {
+    extend: 'Ext.grid.Panel',
+    store: Ext.create('Siaco.store.Facturas'),
+    //Definicion del alias que puede usado en un xtype
+    alias: 'widget.facturasgrid',
+
+    //Sobre escribimos este metodo de Ext.grid.Panel
+    initComponent : function() {
+        //Definicion de las columnas del grid
+        this.columns = [
+            {xtype: 'rownumberer', sortable: false},
+            {text: "id", dataIndex: 'id', sortable: true},
+            {text: "subtotal",  dataIndex: 'subtotal', sortable: true},
+            {text: "iva", dataIndex: 'iva', sortable: true},
+            {text: "status",  dataIndex: 'status', sortable: true},
+    
+        ];
+        this.dockedItems = [ {
+    xtype: 'toolbar',
+    dock: 'bottom',
+    items: [
+
+     { xtype: 'button',
+                    text: 'Aceptar',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       if (data!=null) {
+                    	 Seleccionarfactura();
+                       }
+                       else {
+                        alert("No ha seleccionado un item.");
+                       }
+                      }
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: 'Salir',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       ventanacatalogofacturas.close();
+                      }
+                    }
+                }
+    ]
+  } ];
+        // Origen de los datos, de un data store
+        //this.store = facturasStore;
+    //   this.store = Ext.getStore('facturasStore')
+      //  this.forceFit = true;
+
+      //  storeF = Ext.getStore('facturasStore')
+      //  storeF.add(factura)
+     //   storeF.sync()
+     //   this.store = storeF
+        this.listeners = {
+                          itemclick : function() {
+                           data = this.getSelectionModel().selected.items[0].data;
+                          },
+                          specialkey: function(field, e){
+                            if (e.getKey() == e.ENTER) {
+                            	data = this.getSelectionModel().selected.items[0].data;
+                            	if (data!=null) {
+                               	 SeleccionarTransportista();
+                                }
+                            }
+                          }
+                         };
+        //Llamamos a la super clase a iniciacion del componente
+        this.callParent();
+    }
+});
+
+Ext.define('miventanacatalogofacturas', {
+    extend: 'Ext.window.Window',
+
+                layout      : 'absolute',
+                width       : 420,
+                height      : 200,
+                closeAction :'hide',
+                plain       : true,
+                closable    : true,
+                colapsable  : true,
+                resizable   : false,
+                maximizable : true,
+                minimizable : true,
+                modal       : true,
+                title       : 'Catalogo de Facturas',
+                buttonAlign : 'center',
+                constrain   : true,
+                autoScroll  : true,
+                //viewConfig: { style: {overflow: 'auto', overflowX: 'hidden' } },
+                items:[
+                 { xtype:'facturasgrid',
+                  // width: 1190,
+                  // heigth: 480,
+                   x:5,
+                   y:5
+                 }
+                ]
+
+
+});
 		Ext.define('Siaco.view.MiPanel', {
 		extend: 'Ext.form.Panel',
 		
@@ -58,7 +170,8 @@ Ext.define('Siaco.view.Factura', {
 	             x: 260,
 	             y: -27,
 	            handler:function() {
-	          		buscar();
+	          		//buscar(); USAR PARA BUSCAR USANDO LA CAJA DE TEXTO
+	          		catalogofacturas();
 	          		}
       		},{
 				fieldLabel: 'Sub-total',
@@ -170,3 +283,28 @@ Ext.define('Siaco.view.Factura', {
 	     }
 	    });
    }
+
+   function Seleccionarfactura() {
+	 Ext.getCmp('id').setValue(data.id);
+     Ext.getCmp('subtotal').setValue(data.subtotal);
+      Ext.getCmp('iva').setValue(data.iva);
+     Ext.getCmp('id').focus();
+     ventanacatalogofacturas.close();	
+}
+function catalogofacturas() {
+/*  transportistasStore.load();	
+  if (transportistasStore.getTotalCount() <= 0 ) {
+	  Ext.Msg.alert("Error", "Tabla de Datos de Transportistas esta vacia!");
+  }
+  else {
+  */ 
+   //Instanciamos la ventana
+   if (ventanacatalogofacturas==null) {
+    ventanacatalogofacturas = Ext.create('miventanacatalogofacturas');
+   }
+   //ventanacatalogofacturas.setPosition(posx,posy);
+   ventanacatalogofacturas.show();
+   
+  //}
+
+}

@@ -27,4 +27,10 @@ class FacturasController < ApplicationController
    valor = @facturas.eliminar(id)
    render :text => $tirajson
   end
+
+   def catalogo
+   @facturas = Factura.new
+   $tirajson=@facturas.catalogo()
+   render :text => $tirajson  
+  end
 end

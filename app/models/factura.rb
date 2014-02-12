@@ -52,4 +52,32 @@ class Factura < ActiveRecord::Base
     end 
    return valor
   end
+
+
+    def catalogo()
+   @objfactura = Factura.all
+   @son = Factura.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objfactura.each do |facturas|
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + facturas.id.to_s +
+                              '", "subtotal": "'        + facturas.sub_total.to_s+ 
+                              '", "iva": "'   + facturas.iva.to_s +
+                         	  '", "status": "'      + facturas.status + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + facturas.id.to_s +
+                              '", "subtotal": "'        + facturas.sub_total.to_s + 
+                              '", "iva": "'   + facturas.iva.to_s+
+                           	  '", "status": "'      + facturas.status + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 end
