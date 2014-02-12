@@ -54,6 +54,16 @@ Ext.define('Siaco.view.Areacomun', {
 				name: 'nombre',
 				id: 'nombre'
 			},{
+             text: 'buscar',
+             xtype: 'button',
+             id: 'buscar',
+               iconCls: 'buscar',
+             x: 260,
+             y: -27,
+            handler:function() {
+          		buscarareacomun();
+          		}
+      		},{
 				fieldLabel: 'Descripcion',
 				xtype: 'textarea',
 				name: 'descripcion',
@@ -147,3 +157,37 @@ function guardarareacomun()
 
 
 }
+
+   function buscarareacomun() {
+           Ext.Ajax.request({
+             url: 'areascomunes/buscarpornombre',
+			 method: 'GET',
+             //Enviando los parametros a la pagina servidora
+             params: {
+              ajax: 'true',
+              funcion: 'buscar',
+              nombre: Ext.getCmp('nombre').getValue()
+             },
+             //Retorno exitoso de la pagina servnombreora a traves del formato JSON
+             success: function( resultado, request ) {
+              datos=Ext.JSON.decode(resultado.responseText);
+              if (datos.exito=='true') {
+               Ext.getCmp('nombre').setValue(datos.nombre);
+               Ext.getCmp('descripcion').setValue(datos.descripcion);
+               Ext.getCmp('imagen0').setSrc(datos.imagen1);
+               Ext.getCmp('capacidad').setValue(datos.capacidad);
+               Ext.getCmp('costo').setValue(datos.costo);
+               Ext.getCmp('brazalete').setValue(datos.brazalete);
+
+              }
+              else {
+               Ext.Msg.alert("Error", datos.msg);
+              }
+             },
+             //No hay retorno de la pagina servnombreora
+             failure: function() {
+              Ext.Msg.alert("Error", "Servidor no conectado");
+             }
+            });    
+    
+   }

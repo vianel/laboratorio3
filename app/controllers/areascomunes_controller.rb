@@ -19,7 +19,16 @@ class AreascomunesController < ApplicationController
   end
   end
 
-  def buscar
+ 
+
+   def buscarpornombre
+   @areascomunes = Areacomun.new
+   nombre = params[:nombre]
+   valor = @areascomunes.buscarpornombre(nombre)
+   render :text => $tirajson
+  end
+
+   def buscar
    @areasacomunes = Areacomun.new
    $tirajson=@areasacomunes.buscar()
    render :text => $tirajson  

@@ -19,7 +19,7 @@ self.table_name = "areas_comunes"
         else
          @objareacomun.foto = tiraname1
         end
-      mivariable = upload[0,23].to_s
+        mivariable = upload[0,23].to_s
         if mivariable.include? "jpeg"
         @objareacomun.foto  = Base64.decode64(upload[23, upload.length+1])
         else
@@ -63,5 +63,24 @@ self.table_name = "areas_comunes"
     tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
    end
    return tirajson 
+  end
+
+  def buscarpornombre(nombre)
+   valor = 0
+    @objareacomun = Areacomun.find(:first, :conditions => "nombre='#{nombre}'" ) 
+    if @objareacomun!=nil
+       $tirajson = '{"success": "true", 
+                    "exito": "true"  ,"nombre": "'        +@objareacomun.nombre+
+                                   '", "descripcion": "'  +@objareacomun.descripcion+
+                                  '", "imagen1": "'      +Base64.strict_encode64(@objareacomun.foto)+
+                                  '", "capacidad": "'       +@objareacomun.capacidad.to_s +
+                                   '", "costo": "'       +@objareacomun.costo.to_s+ 
+                                 '", "brazalete": "'     +@objareacomun.precio_de_brazalete.to_s+'"  }'
+       valor = 1
+    else
+      $tirajson = '{ "success": "true", "exito": "false", "msg": "nombre no existe!" }'
+      valor = 0
+    end 
+    return valor
   end
 end
