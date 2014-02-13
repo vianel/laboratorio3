@@ -6,4 +6,6 @@ class EmpleadosController < ApplicationController
    $tirajson=@empleados.catalogo()
    render :text => $tirajson  
   end
+
+  
 end

@@ -1,4 +1,5 @@
 Condominio::Application.routes.draw do
+  get "clienterestful/index"
   get "facturas/index"
   get "empleados/index"
   get "areascomunes/index"
@@ -6,8 +7,8 @@ Condominio::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-    root 'condominio#index'
-    post 'sesiones/entrar' => 'sesiones#entrar'
+   root 'condominio#index'
+   post 'sesiones/entrar' => 'sesiones#entrar'
     resource :sesiones
     resources :arboles
     resources :propietarios
