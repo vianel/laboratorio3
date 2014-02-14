@@ -7,6 +7,7 @@ Ext.application
         'ServicioComun'
         'TipoServicioComun'
         'TipoEmpleado'
+        'Tiposancion'
         'Areacomun'
         'Inmueble'
         'Pagarcondominio'
@@ -21,9 +22,9 @@ Ext.application
         'VistaCuriosa'
         'Vision'
     ]
-    controllers: ['Login', 'Propietario']
-    stores: ['Arboles', 'Propietarios','Empleados','Facturas','Areascomunes']
-    model: ['Propietario','Empleado','Factura','Areacomun']
+    controllers: ['Login']
+    stores: ['Arboles','Facturas','Areascomunes','Propietarios']
+    model: ['Empleado','Factura','Areacomun','Propietario']
     appFolder: 'assets/Siaco'
     autoCreateViewport: true
 

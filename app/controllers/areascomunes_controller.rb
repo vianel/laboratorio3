@@ -33,4 +33,5 @@ class AreascomunesController < ApplicationController
    $tirajson=@areasacomunes.buscar()
    render :text => $tirajson  
   end
+
 end

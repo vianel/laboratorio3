@@ -4,8 +4,8 @@ Ext.define 'Siaco.store.Propietarios',
     model: 'Siaco.model.Propietario'
     proxy:
         type: 'ajax'
-        url: '/propietarios'
+        url: 'propietarios/catalogo'
         reader:
             type: 'json'
-            root: 'propietarios'
+            root: 'datos'
     autoLoad: true

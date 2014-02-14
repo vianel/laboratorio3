@@ -74,7 +74,7 @@ Ext.define('Siaco.view.FacturasGrid', {
                             if (e.getKey() == e.ENTER) {
                             	data = this.getSelectionModel().selected.items[0].data;
                             	if (data!=null) {
-                               	 SeleccionarTransportista();
+                               	 Seleccionarfactura();
                                 }
                             }
                           }

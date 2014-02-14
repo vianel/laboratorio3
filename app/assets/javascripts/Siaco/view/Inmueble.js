@@ -1,45 +1,29 @@
 var tabs = null;
-var ventana33 = null;
+var ventanacatalogopropietarios = null;
+var storeP = null;
 var arregloareacomun = ['Caney de fiestas','Piscina'];
 Ext.onReady(function() {
   
   Ext.QuickTips.init();
 
-//Definicion del Modelo
- Ext.define('Propietarios', {
-    extend: 'Ext.data.Model',
-    fields: [ {name:'NOMBRE',   type: 'string'},
-              {name:'APELLIDO', type: 'string'} 
-     ]
-});
 
-//Definicion del Data Store
-var propietariosStore = Ext.create('Ext.data.Store', {
-    model: 'Propietarios',
-    autoload: true,
-    proxy: {
-                    type: 'ajax',
-              url : '/inmueble/catalogo',
-              reader: {
-                  type: 'json',
-                  root: 'datos'
-              }
-    }
-});
 
-//Definicion de la clase UsuariosGrid
-Ext.define('App.PropietariosGrid', {
+
+Ext.define('Siaco.view.PropietariosGrid', {
     extend: 'Ext.grid.Panel',
+    store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.propietariosgrid',
+    
 
     //Sobre escribimos este metodo de Ext.grid.Panel
     initComponent : function() {
         //Definicion de las columnas del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
-            {text: "NOMBRE", flex: 1, dataIndex: 'NOMBRE', sortable: true},
-            {text: "APELLIDO", width: 100, dataIndex: 'APELLIDO', sortable: true}
+            {text: "cedula", flex: 1, dataIndex: 'cedula', sortable: true},
+            {text: "nombre", flex: 1, dataIndex: 'nombre', sortable: true},
+            {text: "apellido", width: 100, dataIndex: 'apellido', sortable: true},
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
@@ -53,14 +37,8 @@ Ext.define('App.PropietariosGrid', {
                     listeners: {
                       click : function() {
                        if (data!=null) {
-                        var usuario = data.usuario;
-                        var clave = data.clave;
-                        var nivel = data.nivel;
-                        Ext.MessageBox.show({
-                         title: 'Mensaje',
-                         width:400,
-                         buttons: Ext.MessageBox.OK
-                        });
+                        Seleccionarpropietario();
+                     
                        }
                        else {
                         alert("No ha seleccionado un item."); 
@@ -75,31 +53,35 @@ Ext.define('App.PropietariosGrid', {
                     heigth: 50,
                     listeners: {
                       click : function() {
-                       ventana33.close();
+                       ventanacatalogopropietarios.close();
                       }
                     }
                 }     
     ]
   } ];
-        // Origen de los datos, de un data store
-        this.store = propietariosStore;
-        this.forceFit = true;
-  this.scroll = false;
-  this.viewConfig = { style: {overflow: 'auto', overflowX: 'hidden' } };
+
+  
   //this.verticalScroller = {xtype: 'paginggridscroller'};
-        this.listeners = {
+            this.listeners = {
                           itemclick : function() {
                            data = this.getSelectionModel().selected.items[0].data;
-                           alert(data.usuario);
+                          },
+                          specialkey: function(field, e){
+                            if (e.getKey() == e.ENTER) {
+                              data = this.getSelectionModel().selected.items[0].data;
+                              if (data!=null) {
+                                 Seleccionarpropietario();
+                                }
+                            }
                           }
-                         };
+                         };;
         //Llamamos a la super clase a iniciacion del componente
-        App.PropietariosGrid.superclass.initComponent.call(this);
+        this.callParent();
     }
 });
 
 //Definicion de la ventana contendora del grid
-Ext.define('miVentana33', {
+Ext.define('miventanacatalogopropietarios', {
     extend: 'Ext.window.Window',
 
                 layout: 'fit',
@@ -187,7 +169,7 @@ Ext.define('Siaco.view.Inmueble', {
              x: 260,
              y: -27,
             handler:function() {
-          verpropietarios();
+          catalogoperopietarios();
           }
       },{
         fieldLabel: 'Alicuota',
@@ -243,14 +225,7 @@ var dialogo = Ext.create('Ext.window.Window', {
      });
   
 }); //FIN DEL ONREADY
-function verpropietarios(){
-    if (ventana33==null) {
-    ventana33 = Ext.create('miVentana33');
-   }
-   //ventana.setPosition(posx,posy);
-   ventana33.show();
-   
-}
+
 
 function enviar(id_cedrif) {  
 Ext.Ajax.request({  
@@ -313,3 +288,27 @@ function guardarinmueble()
        }
       });
    }
+
+function Seleccionarpropietario() {
+   Ext.getCmp('cedulapropietario').setValue(data.cedula);
+
+     ventanacatalogopropietarios.close(); 
+}
+
+function catalogoperopietarios() {
+/*  transportistasStore.load(); 
+  if (transportistasStore.getTotalCount() <= 0 ) {
+    Ext.Msg.alert("Error", "Tabla de Datos de Transportistas esta vacia!");
+  }
+  else {
+  */ 
+   //Instanciamos la ventana
+   if (ventanacatalogopropietarios==null) {
+    ventanacatalogopropietarios = Ext.create('miventanacatalogopropietarios');
+   }
+   //ventanacatalogopropietarios.setPosition(posx,posy);
+   ventanacatalogopropietarios.show();
+   
+  //}
+
+}

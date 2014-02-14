@@ -1,0 +1,2 @@
+module TiposancionesHelper
+end

@@ -3,6 +3,9 @@ var fotoarbol ="images/arbol.png";
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
+
+
+
 		Ext.define('Siaco.view.MiPanel', {
 		extend: 'Ext.form.Panel',
 		

@@ -5,6 +5,24 @@ Ext.onReady(function() {
 
 	Ext.QuickTips.init();
 
+//Definicion del Modelo
+Ext.define('Areacomun', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'nombre', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'areascomunes/buscar'
+           }
+});
+
+//Definicion del Data Store
+var areacomunStore = Ext.create('Ext.data.Store', {
+    model: 'Areacomun',
+    autoLoad: true,
+});
 
 
 //var storeareacomun = Ext.getStore('areascomunesStore');
@@ -51,12 +69,23 @@ Ext.define('Siaco.view.Reservacion', {
 			
 			this.items = [
 			{
-				fieldLabel: 'Area Comun',
-				xtype: 'combobox',
-				name: 'areacomun',
-				id: 'areacomun',
-				store: Ext.create('Siaco.store.Areascomunes'),
-				displayField: 'nombre'
+			    xtype:'combobox',
+                id : 'areacomun',
+                fieldLabel: 'Area Comun',
+                store: areacomunStore,
+                valueField: 'id',
+                displayField: 'nombre',   
+                queryMode: 'remote',
+                typeAhead: true,
+                emptyText:'Seleccionar',
+                triggerAction: 'all',
+                selecOnFocus: true,
+                listeners: {
+                 scope: this,
+                'select': function(combo, rec) {
+                      alert(rec[0].get(combo.displayField)); 
+                 }
+             }
 			},{
 				fieldLabel: 'Fecha de Reservacion',
 				xtype: 'datefield',

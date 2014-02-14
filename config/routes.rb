@@ -1,9 +1,12 @@
 Condominio::Application.routes.draw do
+  get "tiposanciones/index"
+  get "sanciones/index"
   get "inmuebles/index"
   get "clienterestful/index"
   get "facturas/index"
   get "empleados/index"
   get "areascomunes/index"
+  get "propietarios/index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
@@ -12,12 +15,12 @@ Condominio::Application.routes.draw do
    post 'sesiones/entrar' => 'sesiones#entrar'
     resource :sesiones
     resources :arboles
-    resources :propietarios
+    #resources :propietarios
     #resources :areascomunes
     
     get ':controller(/:action(/:id))(.:format)'
     match "/areascomunes/grabar" => "areascomunes#grabar", via: [:get, :post]
-
+    
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 

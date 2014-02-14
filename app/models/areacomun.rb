@@ -45,24 +45,31 @@ self.table_name = "areas_comunes"
   end
 
   def buscar()
-   @objareacomun = Areacomun.all
+ 
+       @objareacomun = Areacomun.all
    @son = Areacomun.count
    if @son > 0 
     @i=1
-    tirajson = ' [ '
+    tirajson = '{  '
     @objareacomun.each do |areas_comunes|
      if @i<@son
-      tirajson = tirajson +   '   "'        + areas_comunes.nombre + '", '                              
+      tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
+                             '", "nombre": "'      + areas_comunes.nombre + '"}, '                              
      else
-      tirajson = tirajson +   '   "'        + areas_comunes.nombre + '" '    
+      tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
+                              '", "nombre": "'      + areas_comunes.nombre + '"} '    
      end
      @i=@i+1
     end
-    tirajson = tirajson + ' ] '
+    tirajson = tirajson + ' }'
    else
     tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
    end
    return tirajson 
+  
+
+
+
   end
 
   def buscarpornombre(nombre)

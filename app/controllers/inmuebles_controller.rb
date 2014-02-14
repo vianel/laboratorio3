@@ -12,7 +12,7 @@ class InmueblesController < ApplicationController
     #@datos[0] = 1
     @datos[0] = '1'
     @datos[1] = @idpropietario
-    @datos[2] = '1'
+    @datos[2] = $usuario.id
     @datos[3] = params[:alicuota]
     @datos[4] = params[:nroapartamento]
     @datos[5] = params[:edosolvencia]
@@ -21,6 +21,13 @@ class InmueblesController < ApplicationController
     valor = @inmueble.grabar(@datos)
     #$tirajson = '{"success": "true", "msg":"Prueba"}'
     render :text => $tirajson
+
+  end
+
+  def buscar
+      @inmuebles = Inmueble.new
+   $tirajson=@inmuebles.buscarid()
+   render :text => $tirajson  
 
   end
 end

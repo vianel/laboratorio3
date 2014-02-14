@@ -1,8 +1,47 @@
 var tabs = null;
 var ventana = null;
+var edosolvenciastore = ['Solvente','Moroso'];
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
+
+//MODELO
+Ext.define('Inmueble', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'inmuebles/buscar'
+           }
+});
+
+
+//Definicion del Data Store
+var InmuebleStore = Ext.create('Ext.data.Store', {
+    model: 'Inmueble',
+    autoLoad: true,
+});
+Ext.define('tiposancion', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'nombre', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'tiposanciones/buscar'
+           }
+});
+
+//Definicion del Data Store
+var tiposancionStore = Ext.create('Ext.data.Store', {
+    model: 'tiposancion',
+    autoLoad: true,
+});
+
+
 		Ext.define('App.MiPanel', {
 		extend: 'Ext.form.Panel',
 		
@@ -46,11 +85,39 @@ Ext.define('Siaco.view.Sancion', {
 			
 			this.items = [
 			{
-				fieldLabel: 'Inmueble',
-				xtype: 'combobox',
-				name: 'inmueble',
-				id: 'inmueble'
+				xtype:'combobox',
+                id : 'inmueble',
+                fieldLabel: 'inmueble',
+                store: InmuebleStore,
+                valueField: 'id',
+                displayField: 'id',   
+                queryMode: 'remote',
+                typeAhead: true,
+                emptyText:'Seleccionar',
+                triggerAction: 'all',
+                selecOnFocus: true
 			},{
+				xtype:'combobox',
+                id : 'tiposancion',
+                fieldLabel: 'Tipo Sancion',
+                store: tiposancionStore,
+                valueField: 'id',
+                displayField: 'nombre',   
+                queryMode: 'remote',
+                typeAhead: true,
+                emptyText:'Seleccionar',
+                triggerAction: 'all',
+                selecOnFocus: true
+			},{
+	             text: '...',
+	             xtype: 'button',
+	             id: 'nuevotiposancion',
+	             x: 260,
+	             y: -27,
+		        handler:function() {
+					nuevotiposancion();
+				}
+      		},{
 				fieldLabel: 'Descripcion',
 				xtype: 'textarea',
 				name: 'descripcion',
@@ -65,6 +132,17 @@ Ext.define('Siaco.view.Sancion', {
 				xtype: 'textfield',
 				name: 'monto',
 				id: 'monto'
+			},{
+				fieldLabel: 'Condicion',
+				xtype: 'textfield',
+				name: 'condicion',
+				id: 'condicion'
+			},{
+				fieldLabel: 'Estado de Solvencia',
+				xtype: 'combobox',
+				store: edosolvenciastore,
+				name: 'edosolvencia',
+				id: 'edosolvencia'
 			}
 			
 			];
@@ -76,3 +154,15 @@ Ext.define('Siaco.view.Sancion', {
 
 }); //FIN DEL ONREADY
 
+function nuevotiposancion(){
+	 //Instanciamos la ventana
+   	Ext.create('Ext.window.Window',{
+		    		items: [
+		    			{
+		    				xtype: 'tiposancionView'
+		    			}
+		    		],
+		    		autoScroll: true,
+		    		maxHeight: 600
+		    	}).show()
+}
