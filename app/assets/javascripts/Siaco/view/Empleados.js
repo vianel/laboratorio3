@@ -81,7 +81,7 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					dialogo.show();
+			
 				}
 				},{
 				text: 'Eliminar',
@@ -117,8 +117,8 @@ Ext.define('Siaco.view.Empleados', {
 			{
 				fieldLabel: 'Cedula',
 				xtype: 'textfield',
-				name: 'cedula',
-				id: 'cedula'
+				name: 'cedulaempleado',
+				id: 'cedulaempleado'
 			},{
 				fieldLabel: 'Nombre',
 				xtype: 'textfield',
@@ -245,40 +245,11 @@ Ext.define('Siaco.view.Empleados', {
 			
 			];
 			this.callParent();
-			Ext.getCmp('cedula').focus();
+			Ext.getCmp('cedulaempleado').focus();
 		}
 	});
 
- var dialogo = Ext.create('Ext.window.Window', {  
-      title: "Buscar Cedula",  
-      id: 'panelServicio1',  
-      width: 255,  
-      height: 90,  
-      layout: 'absolute',  
-      items: [{  
-        xtype: 'label',  
-        text: 'Cedula',  
-        x: 10,  
-        y: 13  
-          },{  
-        xtype: 'textfield',  
-        id: 'id_cedrif',  
-        value: '',  
-        x: 70,  
-        y: 10  
-          },{  
-        xtype: 'button',  
-        text: 'Buscar',  
-        x: 100,  
-        y: 40,  
-        listeners: {  
-          click: function () {  
-            enviar(Ext.getCmp('id_cedrif').value);  
-          }  
-        }  
-          }]  
-     });  
-     //dialogo.show(); 
+
 
 
 }); //FIN DEL ONREADY
@@ -291,7 +262,7 @@ function vernuevotipoempleado(){
 		    		],
 		    		autoScroll: true,
 		    		maxHeight: 600
-		    	}).show()
+		    	}).show();
 }
 
  function enviar(id_cedrif) {

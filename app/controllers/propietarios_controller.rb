@@ -77,4 +77,6 @@ class PropietariosController < ApplicationController
 	  puts("nombre: "+@nombre)
 	  puts("estadoCivil: "+@estadoCivil)
       end
+
+
 end

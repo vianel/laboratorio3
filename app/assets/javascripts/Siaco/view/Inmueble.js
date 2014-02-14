@@ -125,7 +125,7 @@ Ext.define('miVentana33', {
 
 
             });
-    Ext.define('App.MiPanel', {
+    Ext.define('Siaco.view.botonerainmueble', {
     extend: 'Ext.form.Panel',
     
     initComponent : function() {
@@ -142,7 +142,14 @@ Ext.define('miVentana33', {
         text: 'Grabar',
         iconCls:'grabar',
         handler:function() {
-          Ext.Msg.alert('Pronto','En construccion');
+      
+            guardarinmueble();
+    
+        }
+        },{
+        text: 'Validar',
+        handler:function() {
+          dialogo.show();
         }
         },{
         text: 'Eliminar',
@@ -152,11 +159,11 @@ Ext.define('miVentana33', {
         }
         }]
       }];
-      App.MiPanel.superclass.initComponent.call(this);
+      this.callParent()
     }
   });
 Ext.define('Siaco.view.Inmueble', {
-    extend: 'App.MiPanel',
+    extend: 'Siaco.view.botonerainmueble',
     xtype: 'inmuebleview',
     alias: 'widget.mipanelinmuebles',
     id: 'mipanelinmuebles',
@@ -183,22 +190,57 @@ Ext.define('Siaco.view.Inmueble', {
           verpropietarios();
           }
       },{
-        fieldLabel: 'Nombre Propietario',
+        fieldLabel: 'Alicuota',
         xtype: 'textfield',
-        readOnly: 'true',
-        name: 'nombrepropietario',
-        id: 'nombrepropietario',
+        name: 'alicuota',
+        id: 'alicuota'
       },{
-        fieldLabel: 'Estacionamiento',
+        fieldLabel: 'Numero de apartamento',
         xtype: 'textfield',
-        name: 'estacionamiento',
-        id: 'estacionamiento'
+        name: 'nroapartamento',
+        id: 'nroapartamento'
+      },{
+        fieldLabel: 'Estado de solvencia',
+        xtype: 'textfield',
+        name: 'edosolvencia',
+        id: 'edosolvencia'
       }
       ];
       this.callParent();
       Ext.getCmp('cedulapropietario').focus();
     }
   });
+
+
+var dialogo = Ext.create('Ext.window.Window', {  
+      title: "Buscar Cedula",  
+      id: 'panelServicio1',  
+      width: 255,  
+      height: 90,  
+      layout: 'absolute',  
+      items: [{  
+        xtype: 'label',  
+        text: 'Cedula',  
+        x: 10,  
+        y: 13  
+          },{  
+        xtype: 'textfield',  
+        id: 'id_cedrif',  
+        value: '',  
+        x: 70,  
+        y: 10  
+          },{  
+        xtype: 'button',  
+        text: 'Buscar',  
+        x: 100,  
+        y: 40,  
+        listeners: {  
+          click: function () {  
+            enviar(Ext.getCmp('id_cedrif').getValue());  
+          }  
+        }  
+          }]  
+     });
   
 }); //FIN DEL ONREADY
 function verpropietarios(){
@@ -209,3 +251,65 @@ function verpropietarios(){
    ventana33.show();
    
 }
+
+function enviar(id_cedrif) {  
+Ext.Ajax.request({  
+    //Llamar la direcion del servicio  
+    url : 'http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1',  
+    //parametro de entrada  
+    params : {  
+      cedRifPersona: id_cedrif  
+    },  
+    success : function(resultado, request) {  
+        //La tira JSON donde retorna los valores  
+        datos = Ext.JSON.decode(resultado.responseText);  
+          
+        var mensaje;  
+        if (datos.exito == true) {  
+            mensaje = "La cedula pertenece a " + datos.nombre +" " + datos.apellido +", direccion " + datos.direccion +"";  
+        } else {  
+            mensaje = "La cedula no existe";  
+        }  
+          
+        Ext.MessageBox.show({  
+            title : 'Respuesta',  
+            msg : mensaje,  
+            width : 400,  
+            buttons : Ext.MessageBox.OK  
+        });  
+    },  
+    failure : function(error) {  
+        Ext.Msg.alert("Error", "Servidor no conectado");  
+    }  
+});  
+  
+     };
+
+function guardarinmueble()
+   {
+      Ext.Ajax.request({
+       url: 'inmuebles/grabarinmueble',
+     method: 'GET',
+       //Enviando los parametros a la pagina servidora
+       params: {
+        ajax: 'true',
+        funcion: 'grabarinmueble',
+
+        cedula: Ext.getCmp('cedulapropietario').getValue(), //obtiene el valor a traves del id del campo
+        alicuota: Ext.getCmp('alicuota').getValue(),
+        nroapartamento: Ext.getCmp('nroapartamento').getValue(),
+        edosolvencia: Ext.getCmp('edosolvencia').getValue(),
+      
+       },
+       //Retorno exitoso de la pagina servidora a traves del formato JSON
+       success: function( resultado, request ) {
+        datos=Ext.JSON.decode(resultado.responseText);
+        Ext.Msg.alert('Exito', datos.msg);
+        Ext.getCmp('mipanelinmuebles').getForm().reset();
+       },
+       //No hay retorno de la pagina servidora
+       failure: function() {
+        Ext.Msg.alert("Error", "Servidor no conectado!");
+       }
+      });
+   }

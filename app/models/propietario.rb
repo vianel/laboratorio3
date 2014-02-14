@@ -1,10 +1,11 @@
 class Propietario <  ActiveRecord::Base
-	self.table_name = "PROPIETARIOS"
+	self.table_name = "propietarios"
 	validates :CEDULA, presence: true
 	validates :FOTO, presence: true
 	validates :USUARIOS_ID, presence: true
 	#validates :STATUS, presence: true
 	before_save :default_values
+	has_many :inmuebles
 	def default_values
 		self.STATUS ||= 'A' # self.STATUS = self.STATUS || 'A'
 	end
@@ -24,6 +25,14 @@ class Propietario <  ActiveRecord::Base
 	@objpropietario.save()
 
 	end
+   def buscar(cedula)
 
+    @objpropietario = Propietario.find(:first, :conditions => "cedula='#{cedula}'" ) 
+    if @objpropietario!=nil
+
+     	valor = @objpropietario.id
+    end 
+    return valor
+  end
 
 end

@@ -1,4 +1,5 @@
 Condominio::Application.routes.draw do
+  get "inmuebles/index"
   get "clienterestful/index"
   get "facturas/index"
   get "empleados/index"
