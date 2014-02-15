@@ -30,4 +30,56 @@ class Sancion < ActiveRecord::Base
     end 
    return valor
   end
+
+
+   def eliminar(id)
+   valor = 0
+    @objsancion = Sancion.find(:first, :conditions => "id='#{id}'" )
+    if @objsancion!=nil
+      $tirajson = '{ "success": "true", "exito": "true", "msg": "Codigo Eliminado!" }'
+      @objsancion.destroy
+      valor = 1
+    else
+      $tirajson = '{ "success": "true", "exito": "false", "msg": "Codigo no existe!" }'
+      valor = 0
+    end 
+   return valor
+  end
+
+
+  def catalogo()
+   @objsancion = Sancion.all
+
+   @son = Sancion.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objsancion.each do |sanciones|
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + sanciones.id.to_s +
+                              '", "inmueble_id": "'        + sanciones.inmueble_id.to_s+ 
+                              '", "tipo_id": "'   + sanciones.tiposancion.nombre.to_s +
+                              '", "descripcion": "'   + sanciones.descripcion.to_s +
+                              '", "fecha_realizacion": "'   + sanciones.fecha_realizacion.to_s +
+                              '", "condicion": "'   + sanciones.condicion.to_s +
+                              '", "estado_solvencia": "'   + sanciones.estado_solvencia.to_s +
+                         	  '", "status": "'      + sanciones.status + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + sanciones.id.to_s +
+                              '", "inmueble_id": "'        + sanciones.inmueble_id.to_s + 
+                              '", "tipo_id": "'   + sanciones.tiposancion.nombre.to_s+
+                              '", "descripcion": "'   + sanciones.descripcion.to_s +
+                              '", "fecha_realizacion": "'   + sanciones.fecha_realizacion.to_s +
+                              '", "condicion": "'   + sanciones.condicion.to_s +
+                              '", "estado_solvencia": "'   + sanciones.estado_solvencia.to_s +
+                           	  '", "status": "'      + sanciones.status + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 end

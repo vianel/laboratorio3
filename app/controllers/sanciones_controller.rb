@@ -17,4 +17,17 @@ class SancionesController < ApplicationController
     render :text => $tirajson
 
   end
+
+     def catalogo
+   @sanciones = Sancion.new
+   $tirajson=@sanciones.catalogo()
+   render :text => $tirajson  
+  end
+
+  def eliminar
+   @sanciones = Sancion.new
+   id = params[:id]
+   valor = @sanciones.eliminar(id)
+   render :text => $tirajson
+  end
 end
