@@ -1,6 +1,7 @@
 class Tiposancion < ActiveRecord::Base
 		self.table_name = "tipo_sanciones"
 			before_save :default_values
+      has_many :sancion
 
 	def default_values
 		self.status ||= 'A' # self.STATUS = self.STATUS || 'A'
@@ -34,11 +35,11 @@ class Tiposancion < ActiveRecord::Base
 
    valor = 0
 
-      @objtiposancion.condominio_id = datos[0].to_i
-      @objtiposancion.nombre = datos[1].to_s
-      @objtiposancion.descripcion = datos[2].to_s
-      @objtiposancion.monto = datos[3].to_f
-      @objtiposancion.penalizacion = datos[4].to_s
+      @objtiposancion.condominio_id = datos[1].to_i
+      @objtiposancion.nombre = datos[2].to_s
+      @objtiposancion.descripcion = datos[3].to_s
+      @objtiposancion.monto = datos[4].to_f
+      @objtiposancion.penalizacion = datos[5].to_s
        # @post.update(params[:post].permit(:title, :text))
       @objtiposancion.save
       $tirajson = '{ "success": "true", "msg": "Datos modificados satisfactoriamente!" }'

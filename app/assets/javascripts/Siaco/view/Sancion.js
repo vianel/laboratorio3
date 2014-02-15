@@ -59,7 +59,9 @@ var tiposancionStore = Ext.create('Ext.data.Store', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+			
+							  guardarsancion();
+
 				}
 				},{
 				text: 'Eliminar',
@@ -128,11 +130,6 @@ Ext.define('Siaco.view.Sancion', {
 				name: 'fecharealizacion',
 				id: 'fecharealizacion'
 			},{
-				fieldLabel: 'Monto',
-				xtype: 'textfield',
-				name: 'monto',
-				id: 'monto'
-			},{
 				fieldLabel: 'Condicion',
 				xtype: 'textfield',
 				name: 'condicion',
@@ -166,3 +163,28 @@ function nuevotiposancion(){
 		    		maxHeight: 600
 		    	}).show()
 }
+function guardarsancion() {
+  Ext.Ajax.request({
+    url: "sanciones/grabarsancion",
+    method: "GET",
+    params: {
+      ajax: "true",
+      funcion: "grabarsancion",
+      inmueble_id: Ext.getCmp("inmueble").getValue(),
+      tiposancion_id: Ext.getCmp("tiposancion").getValue(),
+      descripcion: Ext.getCmp("descripcion").getValue(),
+      fecharealizacion: Ext.getCmp("fecharealizacion").getValue(),
+      condicion: Ext.getCmp("condicion").getValue(),
+      edosolvencia: Ext.getCmp("edosolvencia").getValue()
+    },
+    success: function(resultado, request) {
+      var datos;
+      datos = Ext.JSON.decode(resultado.responseText);
+      Ext.Msg.alert("Exito", datos.msg);
+      Ext.getCmp("mipanelsanciones").getForm().reset();
+    },
+    failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado!");
+    }
+  });
+};
