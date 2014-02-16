@@ -2,7 +2,7 @@ class FacturasController < ApplicationController
   def index
   end
   def grabar
-
+    @condominio = Modelocondominio.find(:first :conditions =>)
     @datos = []
     #@datos[0] = 1
     @datos[0] = '1'
