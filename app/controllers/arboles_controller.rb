@@ -11,7 +11,7 @@ class ArbolesController < ApplicationController
 			resultado << {rol_id: arbol.rol_id, text: arbol.texto, vinculo: arbol.vinculo,leaf: true}
 		
 		end
-		resultado <<{rol_id: 1, text:$condominio.nombre, vinculo: 'elvinculoview', leaf: true}
+		resultado <<{rol_id: $usuario.rol_id, text:$condominio.nombre, vinculo: 'elvinculoview', leaf: true}
 		render json: resultado
 	end
 end
