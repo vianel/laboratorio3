@@ -3,14 +3,15 @@ class ArbolesController < ApplicationController
 		puts $usuario.id
 		resultado = []
 
-		Arbol.where(rol_id: $usuario.id).each do |arbol|
+		Arbol.where(rol_id: $usuario.rol_id).each do |arbol|
 	#		if arbol.interfaz.STATUS == "M"
 	#		resultado << {text: arbol.interfaz.DESCRIPCION,childNode: true}
 	#		end
 
-			resultado << {rol_id: arbol.id, text: arbol.texto, vinculo: arbol.vinculo,leaf: true}
+			resultado << {rol_id: arbol.rol_id, text: arbol.texto, vinculo: arbol.vinculo,leaf: true}
 		
 		end
+		resultado <<{rol_id: 1, text:$condominio.nombre, vinculo: 'elvinculoview', leaf: true}
 		render json: resultado
 	end
 end

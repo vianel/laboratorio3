@@ -1,7 +1,7 @@
 class AreascomunesController < ApplicationController
   def index
   end
-  def grabar
+
 
 
   def grabar
@@ -16,8 +16,10 @@ class AreascomunesController < ApplicationController
    @areascomunes = Areacomun.new
    valor = @areascomunes.grabar(@datos,params[:ufile])
    render :text => $tirajson
+
+   
   end
-  end
+  
 
  
 

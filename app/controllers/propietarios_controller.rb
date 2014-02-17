@@ -13,15 +13,19 @@ class PropietariosController < ApplicationController
     @datos = []
     @datos[0] = params[:nombre]
     @datos[1] = params[:apellido]
-    @datos[2] = params[:telefono]
-    @datos[3] = params[:correo]
-    @datos[4] = params[:sexo]
-    @datos[5] = params[:fechanacimiento]
-    @datos[6] = params[:login]
-    @datos[7] = params[:cargojunta]
+    @datos[2] = params[:cedula]
+    @datos[3] = params[:fechanacimiento]
+    @datos[4] = params[:direccion]
+    @datos[5] = params[:telefono]
+    @datos[6] = params[:celular]
+    @datos[7] = params[:imagen1]
+    @datos[8] = params[:sexo]
+    @datos[9] = params[:estadocivil]
     @propietario = Propietario.new
-    valor = @propietario.grabar(@datos)
+    valor = @propietario.grabar(@datos,params[:ufile])
     render :text => $tirajson
+  
+
   end
   	def obtenerPersona
 	  curl = CURL.new

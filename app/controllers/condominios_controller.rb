@@ -19,4 +19,11 @@ class CondominiosController < ApplicationController
     render :text => $tirajson
 
   end
+
+def buscar
+      @condominios = Modelocondominio.new
+   $tirajson=@condominios.buscar()
+   render :text => $tirajson  
+
+  end
 end

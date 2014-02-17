@@ -17,6 +17,7 @@ Ext.application
         'Sugerencia'
         'Reservacion'
         'Factura'
+        'Usuario'
         'ActualizarPropietario'
         'Noticia'
         'VistaCuriosa'

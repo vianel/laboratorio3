@@ -6,24 +6,98 @@ Ext.onReady(function() {
   
   Ext.QuickTips.init();
 
+//MODELO PARA ELCOMBOBOX DE USUARIOS
+Ext.define('Usuario', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'rol_id', type: 'string'},
+            {name: 'login', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'usuarios/buscar'
+           }
+});
 
 
+//Definicion del Data Store
+var UsuarioStore = Ext.create('Ext.data.Store', {
+    model: 'Usuario',
+    autoLoad: true,
+});
+//MODELO PARA EL CATALOGO DE PROPIETARIOS
+Ext.define("Propietario", {
+  extend: 'Ext.data.Model',
+  fields: [
+    {
+      name: 'id',
+      type: 'string'
+    }, {
+      name: 'nombre',
+      type: 'string'
+    }, {
+      name: 'apellido',
+      type: 'string'
+    }, {
+      name: 'cedula',
+      type: 'string'
+    }, {
+      name: 'fecha_nacimiento',
+      type: 'date'
+    }, {
+      name: 'direccion_alternativa',
+      type: 'string'
+    }, {
+      name: 'telefono',
+      type: 'string'
+    }, {
+      name: 'celular',
+      type: 'string'
+    }, {
+      name: 'foto',
+      type: 'string'
+    }, {
+      name: 'estado_civil',
+      type: 'string'
+    }, {
+      name: 'status',
+      type: 'string'
+    }
+  ]
+});
+
+//STORE DE PROPIETARIOS PARA EL CATALOGO
+propietariosStore = Ext.create('Ext.data.Store', {
+  model: 'Propietario',
+  proxy: {
+    type: 'ajax',
+    url: 'propietarios/catalogo',
+    reader: {
+      type: 'json',
+      root: 'datos'
+    }
+  },
+  autoLoad: true
+});
 
 Ext.define('Siaco.view.PropietariosGrid', {
     extend: 'Ext.grid.Panel',
-    store: Ext.create('Siaco.store.Propietarios'),
+  //  store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.propietariosgrid',
     
 
     //Sobre escribimos este metodo de Ext.grid.Panel
     initComponent : function() {
-        //Definicion de las columnas del grid
+        //Definicion de las columnas  del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
-            {text: "cedula", flex: 1, dataIndex: 'cedula', sortable: true},
+            {text: "id", flex: 1, dataIndex: 'id', sortable: true},
             {text: "nombre", flex: 1, dataIndex: 'nombre', sortable: true},
             {text: "apellido", width: 100, dataIndex: 'apellido', sortable: true},
+            {text: "cedula", flex: 1, dataIndex: 'cedula', sortable: true},
+            
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
@@ -62,6 +136,8 @@ Ext.define('Siaco.view.PropietariosGrid', {
 
   
   //this.verticalScroller = {xtype: 'paginggridscroller'};
+                 this.store = propietariosStore;
+        this.forceFit = true;
             this.listeners = {
                           itemclick : function() {
                            data = this.getSelectionModel().selected.items[0].data;
@@ -172,6 +248,32 @@ Ext.define('Siaco.view.Inmueble', {
           catalogoperopietarios();
           }
       },{
+        xtype:'combobox',
+        id : 'usuariousuar',
+        fieldLabel: 'usuario',
+        store: UsuarioStore,
+        valueField: 'id',
+        displayField: 'login',   
+        queryMode: 'remote',
+        typeAhead: true,
+        emptyText:'Seleccionar',
+        triggerAction: 'all',
+        selecOnFocus: true
+      },{
+               text: '...',
+               xtype: 'button',
+               id: 'nuevousuario',
+               x: 260,
+               y: -27,
+            handler:function() {
+          nuevousuario();
+        }
+          },{
+        fieldLabel: 'Codigo inmueble',
+        xtype: 'textfield',
+        name: 'codigoinmueble',
+        id: 'codigoinmueble'
+      },{
         fieldLabel: 'Alicuota',
         xtype: 'textfield',
         name: 'alicuota',
@@ -186,6 +288,11 @@ Ext.define('Siaco.view.Inmueble', {
         xtype: 'textfield',
         name: 'edosolvencia',
         id: 'edosolvencia'
+      },{
+        fieldLabel: 'Saldo a favor',
+        xtype: 'textfield',
+        name: 'saldoinmueble',
+        id: 'saldoinmueble'
       }
       ];
       this.callParent();
@@ -271,8 +378,11 @@ function guardarinmueble()
         funcion: 'grabarinmueble',
 
         cedula: Ext.getCmp('cedulapropietario').getValue(), //obtiene el valor a traves del id del campo
-        alicuota: Ext.getCmp('alicuota').getValue(),
+        usuario: Ext.getCmp('usuariousuar').getValue(),
+        codigoinmueble: Ext.getCmp('codigoinmueble').getValue(),
         nroapartamento: Ext.getCmp('nroapartamento').getValue(),
+        alicuota: Ext.getCmp('alicuota').getValue(),
+        saldoinmueble: Ext.getCmp('saldoinmueble').getValue(),
         edosolvencia: Ext.getCmp('edosolvencia').getValue(),
       
        },
@@ -311,4 +421,17 @@ function catalogoperopietarios() {
    
   //}
 
+}
+
+function nuevousuario(){
+   //Instanciamos la ventana
+    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'usuarioView'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
 }

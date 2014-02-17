@@ -45,40 +45,9 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					var form = this.up('form').getForm();
-					if (form.isValid())
-					{
-					var loadingMask = new Ext.LoadMask(Ext.getBody(), {msg: "Guardando"});
-					loadingMask.show();
+					guardarpropietario();
 
-					form.submit({
-						params: {
-							ajax: 'true',
-							funcion:'grabar',
-
-					 nombre: Ext.getCmp('nombre').getValue(),
-					 apellido: Ext.getCmp('apellido').getValue(),
-					 telefono: Ext.getCmp('telefono').getValue(),					
-					 correo: Ext.getCmp('correo').getValue(),
-					 sexo: Ext.getCmp('sexo').getValue(),
-					 fechanacimiento: Ext.getCmp('fechanacimiento').getValue(),
-					 estadocivil: Ext.getCmp('estadocivil').getValue(),
-					 direccion: Ext.getCmp('direccion').getValue(),
-					 login: Ext.getCmp('login').getValue(),
-					// contrasenna: Ext.getCmp('contrasenna').getValue(),
-					 cargojunta: Ext.getCmp('cargojunta').getValue(),
-					 foto: Ext.getCmp('imagen').getValue()
-
-
-						},
-						url: 'propietarios/grabar',
-						method: 'POST',
-						success: function(form, action){
-							loadingMask.hide();
-							Ext.Msg.alert('Exitoso','Guardado satisfactoriamente')
-
-						}
-					})
+					
 					}
 					/*
 					var cedula = Ext.getCmp('cedula').getValue();
@@ -121,7 +90,7 @@ Ext.onReady(function() {
         storeP.sync()
         Ext.Msg.alert('Exitoso','Guardado satisfactoriamente')*/
 
-									}
+				
 				},{
 				text: 'Eliminar',
 				iconCls:'eliminar',
@@ -166,13 +135,12 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				name: 'telefono',
 				id: 'telefono'
 			},{
-				fieldLabel: 'Correo',
+				fieldLabel: 'Celular',
 				xtype: 'textfield',
-				name: 'correo',
-				id: 'correo'
-			},RadiosSexo,{
+				name: 'celular',
+				id: 'celular'
+			},{
 				fieldLabel: 'Fecha de Nacimiento',
-				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'fechanacimiento',
@@ -182,21 +150,6 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				xtype: 'textarea',
 				name: 'direccion',
 				id: 'direccion'
-			},{
-				fieldLabel: 'Login',
-				xtype: 'textfield',
-				name: 'login',
-				id: 'login'
-			},{
-				fieldLabel: 'Contraseña',
-				xtype: 'textfield',
-				name: 'contrasenna',
-				id: 'contrasenna'
-			},{
-				fieldLabel: 'Cargo en la junta',
-				xtype: 'combobox',
-				name: 'cargojunta',
-				id: 'cargojunta'
 			},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',
@@ -237,3 +190,43 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		}
 	});
 }); //FIN DEL ONREADY
+
+
+
+function guardarpropietario()
+{
+
+
+		Ext.Ajax.request({
+     url: 'propietarios/grabar',
+	 method: 'POST',
+     //Enviando los parametros a la pagina servidora
+     params: {
+      ajax: 'true',
+      funcion: 'grabar',
+
+	 nombre: Ext.getCmp('nombre').getValue(),
+	 apellido: Ext.getCmp('apellido').getValue(),
+	 cedula: Ext.getCmp('cedula').getValue(),
+	 fechanacimiento: Ext.getCmp('fechanacimiento').getValue(),
+	 direccion: Ext.getCmp('direccion').getValue(),
+	 telefono: Ext.getCmp('telefono').getValue(),	
+	 celular: Ext.getCmp('celular').getValue(),				
+     imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
+	 ufile: document.getElementById('imagen0').src,
+	 estadocivil: Ext.getCmp('estadocivil').getValue(),
+
+     },
+     //Retorno exitoso de la pagina servidora a traves del formato JSON
+     success: function( resultado, request ) {
+      datos=Ext.JSON.decode(resultado.responseText);
+      Ext.Msg.alert('Exito', datos.msg);
+      Ext.getCmp('mipanelpropietarios').getForm().reset();
+     },
+     //No hay retorno de la pagina servidora
+     failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado!");
+     }
+    });
+}
+

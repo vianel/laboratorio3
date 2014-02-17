@@ -29,4 +29,41 @@ class Modelocondominio < ActiveRecord::Base
     end 
    return valor
   end
+
+  def buscar
+  
+     @objcondominio = Modelocondominio.all
+   @son = Modelocondominio.count
+   if @son > 0 
+    @i=1
+    tirajson = ' [ '
+    @objcondominio.each do |condominios|
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + condominios.id.to_s +
+                              '", "codigocondominio": "'        + condominios.codigo_condominio.to_s+ 
+                              '", "nombre": "'   + condominios.nombre.to_s +
+                              '", "direccion": "'   + condominios.direccion.to_s +
+                              '", "rif": "'   + condominios.rif.to_s +
+                              '", "telefono": "'   + condominios.telefono.to_s +
+                            '", "email": "'      + condominios.email.to_s + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + condominios.id.to_s +
+                              '", "codigocondominio": "'        + condominios.codigo_condominio.to_s + 
+                              '", "nombre": "'   + condominios.nombre.to_s+
+                              '", "direccion": "'   + condominios.direccion.to_s +
+                              '", "rif": "'   + condominios.rif.to_s +
+                              '", "telefono": "'   + condominios.telefono.to_s +
+                              '", "email": "'      + condominios.email.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ]'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+
+
+
+  end
 end

@@ -26,6 +26,7 @@ Ext.define "Siaco.controller.Login",
 			success: (resultado, request) =>
 				datos = Ext.JSON.decode(resultado.responseText)
 				if datos.exito
+					
 					arbolView = Ext.create 'widget.arbolView',
 						title: 'SIACO Menú'
 						collapsible: false

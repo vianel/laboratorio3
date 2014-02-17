@@ -53,6 +53,7 @@ Ext.define 'Siaco.view.Login',
 
 			
 		}
+
 	]
 
 	enviar: ->

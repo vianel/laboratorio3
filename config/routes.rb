@@ -1,4 +1,6 @@
 Condominio::Application.routes.draw do
+  get "administradores/index"
+  get "usuarios/index"
   get "tiposanciones/index"
   get "sanciones/index"
   get "inmuebles/index"
@@ -11,7 +13,7 @@ Condominio::Application.routes.draw do
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-   root 'condominio#index'
+   root 'condominios#index'
    post 'sesiones/entrar' => 'sesiones#entrar'
     resource :sesiones
     resources :arboles
@@ -20,6 +22,8 @@ Condominio::Application.routes.draw do
     
     get ':controller(/:action(/:id))(.:format)'
     match "/areascomunes/grabar" => "areascomunes#grabar", via: [:get, :post]
+    match "/administradores/grabaradmin" => "administradores#grabaradmin", via: [:get, :post]
+    
     
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

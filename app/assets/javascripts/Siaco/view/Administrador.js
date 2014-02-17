@@ -1,18 +1,10 @@
 var tabs = null;
 var typeExtension="image";
  var foto_1 = "images/usuario.jpeg";
- var RadiosSexo = new Ext.form.RadioGroup({
-		fieldLabel: 'Sexo',
-			
-		columns: 2,
-				items:
-				[
-				{boxLabel:'Masculino', name:'sexo'},
-				{boxLabel:'Femenino', name:'sexo'}
-				]
-});
+
 var EstadoCivil = new Ext.form.RadioGroup({
 		fieldLabel: 'Estado Civil',
+		id:'edocivil',
 			
 		columns: 2,
 				items:
@@ -24,42 +16,7 @@ var EstadoCivil = new Ext.form.RadioGroup({
 				
 				]
 });
-//Funcion para validar la extension
-   function checkFileExtension(elem) {
-        var filePath = elem;
 
-        if(filePath.indexOf('.') == -1)
-            return false;
-                  
-        var validExtensions = new Array();
-        var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
-    
-        if (typeExtension=="image") {
-         validExtensions[0] = 'jpg';
-         validExtensions[1] = 'jpeg';
-         validExtensions[3] = 'png';
-         validExtensions[4] = 'gif'; 
-        }
-        else {
-         validExtensions[0] = 'pdf';
-        }   
-
-        for(var i = 0; i < validExtensions.length; i++) {
-            if(ext == validExtensions[i])
-                return true;
-        }
-
-        Ext.Msg.alert('Advertencia', 'La extension .'+ext+' del archivo ' + filePath + ' no es permitida!');
-        if (typeExtension=="image") {
-         document.getElementsByName('ufile[]')[0].value='';
-         Ext.getCmp('imagen0').setSrc('images/transporte.jpg'); 
-        }
-        else {
-         document.getElementsByName('ufile1[]')[0].value='';
-         Ext.getCmp('imagen0').setSrc('helloworld.pdf');	
-        } 
-        return false;
-    }
     
      //Usando html5
    function previewImage(input) {
@@ -79,7 +36,30 @@ var EstadoCivil = new Ext.form.RadioGroup({
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
-	Ext.define('App.MiPanel', {
+
+
+//MODELO
+Ext.define('Condominio', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'codigo', type: 'string'}, 
+            {name: 'nombre', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'condominios/buscar'
+           }
+});
+
+
+//Definicion del Data Store
+var condominioStore = Ext.create('Ext.data.Store', {
+    model: 'Condominio',
+    autoLoad: true,
+});
+
+	Ext.define('Siaco.view.MiPanelAdministrador', {
 		extend: 'Ext.form.Panel',
 		
 		initComponent : function() {
@@ -89,14 +69,23 @@ Ext.onReady(function() {
 					text: 'Limpiar',
 					iconCls:'limpiar',
 					handler: function() {
-						Ext.getCmp('mipanelpersonales').getForm().reset();
+						Ext.getCmp('mipaneladministrador').getForm().reset();
+						
 					}
 					
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+
+					guardaradmin();
+				}
+				},{
+				text: 'Grabarusuario',
+				iconCls:'grabar',
+				handler:function() {
+					guardarusuario();
+
 				}
 				},{
 				text: 'Eliminar',
@@ -110,11 +99,11 @@ Ext.onReady(function() {
 		}
 	});
 	Ext.define('Siaco.view.Administrador', {
-		extend: 'App.MiPanel',
+		extend: 'Siaco.view.MiPanelAdministrador',
 		xtype: 'administradorview',
-		alias: 'widget.mipanelpersonales',
+		alias: 'widget.mipaneladministrador',
 		title: 'Panel Administrador',
-		id: 'mipanelpersonales',
+		id: 'mipaneladministrador',
 		bodyPadding: 5,
 		width: 450,
 		
@@ -122,77 +111,63 @@ Ext.onReady(function() {
 			
 			this.items = [
 			{
-				fieldLabel: 'Nombre',
+				fieldLabel: 'Usuario',
 				xtype: 'textfield',
-				name: 'nombre',
-				id: 'nombre'
+				name: 'usuario',
+				id: 'usuarioadmin'
 			},{
 				fieldLabel: 'Contraseña',
 				xtype: 'textfield',
 				name: 'contrasenna',
-				id: 'contrasenna'
+				id: 'contrasennaadmin'
 			},{
-				fieldLabel: 'Correo',
-				xtype: 'textfield',
-				name: 'correo',
-				id: 'correo'
-			},{
-				fieldLabel: 'Cedula',
-				xtype: 'textfield',
-				name: 'cedula',
-				id: 'cedula'
+				xtype:'combobox',
+                id : 'condominioadmin',
+                fieldLabel: 'Condominio',
+                store: condominioStore,
+                valueField: 'id',
+                displayField: 'nombre',   
+                queryMode: 'remote',
+                typeAhead: true,
+                emptyText:'Seleccionar',
+                triggerAction: 'all',
+                selecOnFocus: true
 			},{
 				fieldLabel: 'Nombre',
 				xtype: 'textfield',
 				name: 'nombre',
-				id: 'nombre'
+				id: 'nombreadmin'
 			},{
 				fieldLabel: 'Apellido',
 				xtype: 'textfield',
 				name: 'apellido',
-				id: 'apellido'
-			},EstadoCivil,{
-				fieldLabel: 'Direccion',
-				xtype: 'textarea',
-				name: 'direccion',
-				id: 'direccion'
+				id: 'apellidoadmin'
 			},{
-				fieldLabel: 'Sueldo',
+				fieldLabel: 'Cedula',
 				xtype: 'textfield',
-				name: 'sueldo',
-				id: 'sueldo'
-			},{
-				fieldLabel: 'Observacion',
-				xtype: 'textarea',
-				name: 'observacion',
-				id: 'observacion'
+				name: 'cedula',
+				id: 'cedulaadmin'
 			},{
 				fieldLabel: 'Fecha de Nacimiento',
-				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'fechanacimiento',
-				id: 'fechanacimiento',
+				id: 'fechanacimientoadmin',
 			},{
-				fieldLabel: 'Fecha de Ingreso',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'fechaingreso',
-				id: 'fechaingreso',
+				fieldLabel: 'Direccion Alternativa',
+				xtype: 'textarea',
+				name: 'direccion',
+				id: 'direccionadmin'
 			},{
-				fieldLabel: 'Fecha de Culminacion',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'fechaculminacion',
-				id: 'fechaculminacion',
-			},
-			RadiosSexo,{
 				fieldLabel: 'Telefono',
 				xtype: 'textfield',
 				name: 'telefono',
-				id: 'telefono'
+				id: 'telefonoadmin'
+			},{
+				fieldLabel: 'Celular',
+				xtype: 'textfield',
+				name: 'celular',
+				id: 'celularadmin'
 			},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',
@@ -225,12 +200,88 @@ Ext.onReady(function() {
 		         //atributo accept en algunos navegadores funciona 
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
-		        }
+		        },EstadoCivil,{
+				fieldLabel: 'Sueldo',
+				xtype: 'textfield',
+				name: 'sueldo',
+				id: 'sueldoadmin'
+			},{
+				fieldLabel: 'Fecha de contrato',
+				//xtype: 'datepicker',
+				xtype: 'datefield',
+				format: 'd-m-y',
+				name: 'fechacontrato',
+				id: 'fechacontratoadmin',
+			}
 			];
 			this.callParent();
-			Ext.getCmp('nombre').focus();
+			Ext.getCmp('nombreadmin').focus();
 		}
 	});
 	
 	
 }); //FIN DEL ONREADY
+
+
+function guardaradmin() {
+	Ext.Ajax.request({
+	     url: 'administradores/grabaradmin',
+	     method: 'POST',
+	     //Enviando los parametros a la pagina servidora
+	     params: {
+	      ajax: 'true',
+	      funcion: 'grabaradmin',
+
+	      usuario: Ext.getCmp('usuarioadmin').getValue(), //obtiene el valor a traves del id del campo
+	      condominio: Ext.getCmp('condominioadmin').getValue(),
+	      nombre: Ext.getCmp('nombreadmin').getValue(),
+	      apellido: Ext.getCmp('apellidoadmin').getValue(),
+	      cedula: Ext.getCmp('cedulaadmin').getValue(),
+	      fechanacimiento: Ext.getCmp('fechanacimientoadmin').getValue(),
+	      direccion: Ext.getCmp('direccionadmin').getValue(),
+	      telefono: Ext.getCmp('telefonoadmin').getValue(),
+	      celular: Ext.getCmp('celularadmin').getValue(),
+	      imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
+		  ufile: document.getElementById('imagen0').src,
+	      edocivil: Ext.getCmp('edocivil').getValue(),
+	      sueldo: Ext.getCmp('sueldoadmin').getValue(),
+	      fechacontrato: Ext.getCmp('fechacontratoadmin').getValue(),
+	     },
+	     //Retorno exitoso de la pagina servidora a traves del formato JSON
+	     success: function( resultado, request ) {
+	      datos=Ext.JSON.decode(resultado.responseText);
+	      Ext.Msg.alert('Exito', datos.msg);
+	      Ext.getCmp('mipaneladministrador').getForm().reset();
+	       document.getElementsByName('ufile[]')[0].value='';
+			Ext.getCmp('imagen0').setSrc(foto_1);
+	     },
+	     //No hay retorno de la pagina servidora
+	     failure: function() {
+	      Ext.Msg.alert("Error", "Servidor no conectado!");
+	     }
+	    });
+};
+
+function guardarusuario() {
+  Ext.Ajax.request({
+    url: "usuarios/grabarusuario",
+    method: "GET",
+    params: {
+      ajax: "true",
+      funcion: "grabarusuario",
+      login: Ext.getCmp("usuarioadmin").getValue(),
+      password: Ext.getCmp("contrasennaadmin").getValue(),
+      rol: "Administrador",
+
+    },
+    success: function(resultado, request) {
+      var datos;
+      datos = Ext.JSON.decode(resultado.responseText);
+      Ext.Msg.alert("Exito", datos.msg);
+
+    },
+    failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado!");
+    }
+  });
+};

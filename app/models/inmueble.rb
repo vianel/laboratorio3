@@ -1,6 +1,7 @@
 class Inmueble < ActiveRecord::Base
 	self.table_name = "inmuebles"
 	belongs_to :propietario, nil, foreign_key: :propietario_id
+  belongs_to :modelocondominio
 
 
    def grabar(datos)
@@ -13,11 +14,12 @@ class Inmueble < ActiveRecord::Base
       @objinmueble.condominio_id = datos[0].to_i
       @objinmueble.propietario_id = datos[1].to_i
       @objinmueble.usuario_id = datos[2].to_i
-      @objinmueble.alicuota = datos[3].to_f
-      @objinmueble.numero_apartamento = datos[4].to_s
-      @objinmueble.estado_solvencia = datos[5].to_s
-      @objinmueble.status = datos[6].to_s
-      
+      @objinmueble.codigo_inmueble = datos[3].to_i
+      @objinmueble.numero= datos[4].to_s
+      @objinmueble.alicuota = datos[5].to_f
+      @objinmueble.saldo_a_favor = datos[6].to_f
+      @objinmueble.solvencia = datos[7].to_i
+      @objinmueble.status = 'A'
       @objinmueble.save
       $tirajson = '{ "success": "true", "msg": "Datos guardados satisfactoriamente!" }'
       valor = 1
@@ -28,7 +30,7 @@ class Inmueble < ActiveRecord::Base
    return valor
   end
 
-  def buscarid
+  def buscar
   
      @objinmueble = Inmueble.all
    @son = Inmueble.count
