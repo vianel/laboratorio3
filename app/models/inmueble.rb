@@ -2,6 +2,7 @@ class Inmueble < ActiveRecord::Base
 	self.table_name = "inmuebles"
 	belongs_to :propietario, nil, foreign_key: :propietario_id
   belongs_to :modelocondominio
+  has_many :ingreso
 
 
    def grabar(datos)

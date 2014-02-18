@@ -22,6 +22,8 @@ Ext.application
         'Noticia'
         'VistaCuriosa'
         'Vision'
+        'Tabpanelingresoreservacion'
+        'Ingreso'
     ]
     controllers: ['Login']
     stores: ['Arboles','Facturas','Areascomunes','Propietarios','Sanciones']

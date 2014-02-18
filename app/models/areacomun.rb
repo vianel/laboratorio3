@@ -7,12 +7,13 @@ self.table_name = "areas_comunes"
   #  @objareacomun = Areacomun.find(:first, :conditions => "usuario='#{usuario}' and clave='#{clave}'" )
    # if @objareacomun!=nil
    #   @objareacomun.CONDOMINIO_ID = datos[0].to_i
-      @objareacomun.nombre = datos[0].to_s
-      @objareacomun.descripcion = datos[1].to_s
-    
+      @objareacomun.condominio_id = $condominio.id
+      @objareacomun.codigo = datos[0].to_s
+      @objareacomun.nombre = datos[1].to_s
+      @objareacomun.descripcion = datos[2].to_s
 
     #GUARDANDO LA IMAGEN
-        tiraname1 = datos[2].to_s
+        tiraname1 = datos[3].to_s
         if tiraname1.include? "C%3A%5Cfakepath%5C"
          tiraname1 = tiraname1[18, tiraname1.length+1]
          @objareacomun.foto = tiraname1
@@ -27,11 +28,12 @@ self.table_name = "areas_comunes"
         end
        
     
-      @objareacomun.capacidad = datos[3].to_i
-      @objareacomun.costo = datos[4].to_f
-      @objareacomun.precio_de_brazalete = datos[5].to_f
-      @objareacomun.status = datos[6].to_s
-
+      @objareacomun.capacidad_maxima = datos[4].to_i
+      @objareacomun.costo = datos[5].to_f
+      @objareacomun.costo_invitado = datos[6].to_f
+      @objareacomun.hora_inicio = datos[7]
+      @objareacomun.hora_fin = datos[8]
+      @objareacomun.status = datos[9].to_s
 
 
       @objareacomun.save
@@ -50,18 +52,22 @@ self.table_name = "areas_comunes"
    @son = Areacomun.count
    if @son > 0 
     @i=1
-    tirajson = '{  '
+    tirajson = '[  '
     @objareacomun.each do |areas_comunes|
      if @i<@son
       tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
-                             '", "nombre": "'      + areas_comunes.nombre + '"}, '                              
+                              '", "condominio_id": "'        + areas_comunes.condominio_id.to_s+ 
+                              '", "codigo": "'   + areas_comunes.codigo.to_s +
+                            '", "nombre": "'      + areas_comunes.nombre.to_s + '"}, '                              
      else
       tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
-                              '", "nombre": "'      + areas_comunes.nombre + '"} '    
+                              '", "condominio_id": "'        + areas_comunes.condominio_id.to_s + 
+                              '", "codigo": "'   + areas_comunes.codigo.to_s+
+                              '", "nombre": "'      + areas_comunes.nombre.to_s + '"} '     
      end
      @i=@i+1
     end
-    tirajson = tirajson + ' }'
+    tirajson = tirajson + ' ]'
    else
     tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
    end
@@ -72,17 +78,19 @@ self.table_name = "areas_comunes"
 
   end
 
-  def buscarpornombre(nombre)
+  def buscarporcodigo(codigo)
    valor = 0
-    @objareacomun = Areacomun.find(:first, :conditions => "nombre='#{nombre}'" ) 
+    @objareacomun = Areacomun.find(:first, :conditions => "codigo='#{codigo}'" ) 
     if @objareacomun!=nil
        $tirajson = '{"success": "true", 
                     "exito": "true"  ,"nombre": "'        +@objareacomun.nombre+
                                    '", "descripcion": "'  +@objareacomun.descripcion+
                                   '", "imagen1": "'      +Base64.strict_encode64(@objareacomun.foto)+
-                                  '", "capacidad": "'       +@objareacomun.capacidad.to_s +
-                                   '", "costo": "'       +@objareacomun.costo.to_s+ 
-                                 '", "brazalete": "'     +@objareacomun.precio_de_brazalete.to_s+'"  }'
+                                  '", "capacidad": "'       +@objareacomun.capacidad_maxima.to_s +
+                                   '", "costo": "'       +@objareacomun.costo.to_s+
+                                   '", "costoinvitado": "'       +@objareacomun.costo_invitado.to_s+
+                                   '", "horainicio": "'       +@objareacomun.hora_inicio.to_s+ 
+                                 '", "horafin": "'     +@objareacomun.hora_fin.to_s+'"  }'
        valor = 1
     else
       $tirajson = '{ "success": "true", "exito": "false", "msg": "nombre no existe!" }'

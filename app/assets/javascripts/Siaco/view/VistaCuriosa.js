@@ -6,7 +6,6 @@ Ext.define('Siaco.view.VistaCuriosa', {
     xtype: 'vistacuriosaview',
    // x:-290 , y:-190,
   	height:480,
-  	
     width: 900,
     layout: {
         type: 'absolute'

@@ -1,0 +1,2 @@
+module ConceptosingresosHelper
+end

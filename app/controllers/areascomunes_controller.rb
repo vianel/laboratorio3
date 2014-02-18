@@ -6,13 +6,16 @@ class AreascomunesController < ApplicationController
 
   def grabar
    @datos = []
-   @datos[0] = params[:nombre]
-   @datos[1] = params[:descripcion]
-   @datos[2] = params[:imagen1]
-   @datos[3] = params[:capacidad]
-   @datos[4] = params[:costo]
-   @datos[5] = params[:brazalete]
-   @datos[6] = 'A'
+   @datos[0] = params[:codigo]
+   @datos[1] = params[:nombre]
+   @datos[2] = params[:descripcion]
+   @datos[3] = params[:imagen1]
+   @datos[4] = params[:capacidad]
+   @datos[5] = params[:costo]
+   @datos[6] = params[:costoinvitado]
+   @datos[7] = params[:horainicio]
+   @datos[8] = params[:horafin]
+   @datos[9] = 'A'
    @areascomunes = Areacomun.new
    valor = @areascomunes.grabar(@datos,params[:ufile])
    render :text => $tirajson
@@ -23,10 +26,10 @@ class AreascomunesController < ApplicationController
 
  
 
-   def buscarpornombre
+   def buscarporcodigo
    @areascomunes = Areacomun.new
-   nombre = params[:nombre]
-   valor = @areascomunes.buscarpornombre(nombre)
+   codigo = params[:codigo]
+   valor = @areascomunes.buscarporcodigo(codigo)
    render :text => $tirajson
   end
 

@@ -52,10 +52,10 @@ Ext.define('Siaco.view.Areacomun', {
 			
 			this.items = [
 			{
-				fieldLabel: 'Nombre',
+				fieldLabel: 'Codigo',
 				xtype: 'textfield',
-				name: 'nombre',
-				id: 'nombre'
+				name: 'codigo',
+				id: 'codigo'
 			},{
              text: 'buscar',
              xtype: 'button',
@@ -67,6 +67,11 @@ Ext.define('Siaco.view.Areacomun', {
           		buscarareacomun();
           		}
       		},{
+				fieldLabel: 'Nombre',
+				xtype: 'textfield',
+				name: 'nombre',
+				id: 'nombre'
+			},{
 				fieldLabel: 'Descripcion',
 				xtype: 'textarea',
 				name: 'descripcion',
@@ -104,7 +109,7 @@ Ext.define('Siaco.view.Areacomun', {
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
 		        },{
-				fieldLabel: 'Capacidad',
+				fieldLabel: 'Capacidad Maxima',
 				xtype: 'textfield',
 				name: 'capacidad',
 				id: 'capacidad'
@@ -114,10 +119,22 @@ Ext.define('Siaco.view.Areacomun', {
 				name: 'costo',
 				id: 'costo'
 			},{
-				fieldLabel: 'Precio Brazalete',
+				fieldLabel: 'Costo Invitado',
 				xtype: 'textfield',
-				name: 'brazalete',
-				id: 'brazalete'
+				name: 'costoinvitado',
+				id: 'costoinvitado'
+			},{
+				fieldLabel: 'hora de Inicio',
+				xtype: 'timefield',
+				name: 'horainicioareacomun',
+				minValue: '6:00 AM',
+        		maxValue: '8:00 PM',
+				id: 'horainicioareacomun'
+			},{
+				fieldLabel: 'hora de fin',
+				xtype: 'timefield',
+				name: 'horafinareacomun',
+				id: 'horafinareacomun'
 			}
 			
 			];
@@ -136,13 +153,18 @@ function guardarareacomun()
 	      ajax: 'true',
 	      funcion: 'grabar',
 
+	      codigo: Ext.getCmp('codigo').getValue(),
 	      nombre: Ext.getCmp('nombre').getValue(), //obtiene el valor a traves del id del campo
 	      descripcion: Ext.getCmp('descripcion').getValue(),
 	      imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
 		  ufile: document.getElementById('imagen0').src,
 	      capacidad: Ext.getCmp('capacidad').getValue(),
 	      costo: Ext.getCmp('costo').getValue(),
-	      brazalete: Ext.getCmp('brazalete').getValue(),
+	      costoinvitado: Ext.getCmp('costoinvitado').getValue(),
+		  horainicio: Ext.getCmp('horainicioareacomun').getValue(),
+	      horafin: Ext.getCmp('horafinareacomun').getValue(),
+	     	     
+
 	     },
 	     //Retorno exitoso de la pagina servidora a traves del formato JSON
 	     success: function( resultado, request ) {
@@ -163,25 +185,27 @@ function guardarareacomun()
 
    function buscarareacomun() {
            Ext.Ajax.request({
-             url: 'areascomunes/buscarpornombre',
+             url: 'areascomunes/buscarporcodigo',
 			 method: 'GET',
              //Enviando los parametros a la pagina servidora
              params: {
               ajax: 'true',
               funcion: 'buscar',
-              nombre: Ext.getCmp('nombre').getValue()
+              codigo: Ext.getCmp('codigo').getValue()
              },
              //Retorno exitoso de la pagina servnombreora a traves del formato JSON
              success: function( resultado, request ) {
               datos=Ext.JSON.decode(resultado.responseText);
               if (datos.exito=='true') {
+               	
                Ext.getCmp('nombre').setValue(datos.nombre);
                Ext.getCmp('descripcion').setValue(datos.descripcion);
                Ext.getCmp('imagen0').setSrc(datos.imagen1);
                Ext.getCmp('capacidad').setValue(datos.capacidad);
                Ext.getCmp('costo').setValue(datos.costo);
-               Ext.getCmp('brazalete').setValue(datos.brazalete);
-
+               Ext.getCmp('costoinvitado').setValue(datos.costoinvitado);
+               Ext.getCmp('horainicioareacomun').setValue(datos.horainicio);
+               Ext.getCmp('horafinareacomun').setValue(datos.horafin);
               }
               else {
                Ext.Msg.alert("Error", datos.msg);

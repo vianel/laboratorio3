@@ -4,6 +4,7 @@ class SesionesController < ApplicationController
 		$usuario = Usuario.find_by(LOGIN: params[:login], PASSWORD: params[:password])
 		buscarcondominio
 		render json: { exito: !$usuario.nil?}
+		
 
 	end
 
@@ -13,13 +14,16 @@ class SesionesController < ApplicationController
 		$condominio = Modelocondominio.find_by(id: @administrador.condominio_id)
 		end
 		if $usuario.rol_id == 2
-		@inmueble = Inmueble.find_by(usuario_id: $usuario.id)
-		$condominio = Modelocondominio.find_by(id: @inmueble.condominio_id)
+		$inmueble = Inmueble.find_by(usuario_id: $usuario.id)
+		$condominio = Modelocondominio.find_by(id: $inmueble.condominio_id)
+		puts $inmueble.numero
 		end
 		if $usuario.rol_id == 3
 		
 		end
 		puts $condominio.nombre
+		
+		#render :text => $condominio.nombre
 
 	end
 end
