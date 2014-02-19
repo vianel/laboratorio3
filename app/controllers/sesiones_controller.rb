@@ -1,9 +1,9 @@
 class SesionesController < ApplicationController
 	def entrar
 
-		$usuario = Usuario.find_by(LOGIN: params[:login], PASSWORD: params[:password])
+		$usuario = Usuario.find_by(login: params[:login], password: params[:password])
 		buscarcondominio
-		render json: { exito: !$usuario.nil?}
+		render json: { exito: !$usuario.nil? }
 		
 
 	end
@@ -12,14 +12,11 @@ class SesionesController < ApplicationController
 		if $usuario.rol_id == 1
 		@administrador = Administrador.find_by(usuario_id: $usuario.id)
 		$condominio = Modelocondominio.find_by(id: @administrador.condominio_id)
-		end
-		if $usuario.rol_id == 2
+		elsif $usuario.rol_id == 2
 		$inmueble = Inmueble.find_by(usuario_id: $usuario.id)
 		$condominio = Modelocondominio.find_by(id: $inmueble.condominio_id)
 		puts $inmueble.numero
-		end
-		if $usuario.rol_id == 3
-		
+		elsif $usuario.rol_id == 3	
 		end
 		puts $condominio.nombre
 		

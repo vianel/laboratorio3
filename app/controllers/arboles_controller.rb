@@ -1,6 +1,6 @@
 class ArbolesController < ApplicationController
 	def index
-		puts $usuario.id
+		#puts $usuario.id
 		resultado = []
 
 		Arbol.where(rol_id: $usuario.rol_id).each do |arbol|

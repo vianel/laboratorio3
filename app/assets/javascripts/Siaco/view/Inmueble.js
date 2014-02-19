@@ -42,7 +42,7 @@ Ext.define("Propietario", {
     }, {
       name: 'cedula',
       type: 'string'
-    }, {
+    }/*, {
       name: 'fecha_nacimiento',
       type: 'date'
     }, {
@@ -63,7 +63,7 @@ Ext.define("Propietario", {
     }, {
       name: 'status',
       type: 'string'
-    }
+    }*/
   ]
 });
 

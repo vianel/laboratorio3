@@ -135,12 +135,6 @@ Ext.define('Siaco.view.Reservacion', {
                 emptyText:'Seleccionar',
                 triggerAction: 'all',
                 selecOnFocus: true,
-                listeners: {
-                 scope: this,
-                'select': function(combo, rec) {
-                      alert(rec[0].get(combo.displayField)); 
-                 }
-             }
 			},{
 				fieldLabel: 'Codigode Reservacion',
 				xtype: 'textfield',
@@ -170,16 +164,19 @@ Ext.define('Siaco.view.Reservacion', {
 				name: 'nroinvitados',
 				id: 'nroinvitados'
 			},{
+				fieldLabel: 'Observaciones',
+				xtype: 'textfield',
+				name: 'observaciones',
+				id: 'observaciones'
+			},{
 		         fieldLabel: 'Lista de Invitados',
 		         xtype: 'textfield',
-		         x: 5,
-		         y: 490,
-		         width: 400
+	             width: 400
 		        },{
 		         xtype: 'textfield',
 		         id: 'planilla',
-		         x: 110,
-		         y: 490,
+		   //      x: 110,
+		   //      y: 490,
 		         disabled: true,
 		         emptyText: archivopdf,
 		         width: 295
@@ -187,8 +184,8 @@ Ext.define('Siaco.view.Reservacion', {
 				{
 		         id: 'planilla0',
 		         xtype: 'component',
-		         x: 110,
-		         y: 520,
+		    //     x: 110,
+		  //       y: 520,
 		         height: 158,
 		         width: 350,
 		         autoEl: {
@@ -209,18 +206,14 @@ Ext.define('Siaco.view.Reservacion', {
         },
 		{
          id: 'planilla1',
-         x: 110,
-         y: 690,
+        // x: 110,
+      //   y: 690,
          border: '',
          //atributo accept en algunos navegadores funciona 
          //para firefox no
          html: '<input type="file"  size="100" name="ufile1[]" id="afile1" onchange="previewPdf(this)" />',
-        },{
-				fieldLabel: 'Observaciones',
-				xtype: 'textfield',
-				name: 'observaciones',
-				id: 'observaciones'
-			}
+              
+        }
 			
 			];
 			this.callParent();

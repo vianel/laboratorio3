@@ -13,6 +13,7 @@ class ReservacionesController < ApplicationController
    @datos[8] = 'A'
    @reservaciones = Reservacion.new
    valor = @reservaciones.grabar(@datos,params[:ufile1])
+   
    render :text => $tirajson
   end
 

@@ -19,4 +19,6 @@ class IngresosController < ApplicationController
     render :text => $tirajson
 
   end
+
+  
 end

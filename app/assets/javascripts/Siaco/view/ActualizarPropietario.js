@@ -161,7 +161,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		         id: 'imagen',
 		         x: 110,
 		         y: 210,
-		         emptyText: foto_1,
+		         emptyText: fotoarbol,
 		         disabled: true,
 		       //  width: 295
 		        },{
@@ -173,7 +173,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		          frame: true,
 		          height: 110,
 		        //  width: 130,
-		          src: foto_1,
+		          src: fotoarbol,
 		        },{
 		         id: 'imagen1',
 		         border: '',

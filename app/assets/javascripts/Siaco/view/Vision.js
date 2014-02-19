@@ -3,10 +3,12 @@ Ext.QuickTips.init();
 Ext.define('Siaco.view.Vision', {
     extend: 'Ext.container.Container',
     xtype: 'visionView',
+    id: 'visionView',
+    alias: 'widget.visionView',
    // x:-200 , y:-130,
   	height:380,
   	
-    width: 550,
+    //width: 550,
     layout: {
         type: 'absolute'
     },

@@ -1,4 +1,6 @@
 Condominio::Application.routes.draw do
+  get "tipopublicaciones/index"
+  get "carteleras/index"
   get "ingresos/index"
   get "conceptosingresos/index"
   get "administradores/index"
