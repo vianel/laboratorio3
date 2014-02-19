@@ -7,7 +7,8 @@ Ext.define('Siaco.view.Panelderecho', {
     alias: 'widget.panelderechoView',
    // x:-200 , y:-130,
   //	height:380,
-  	
+  
+    
     //width: 550,
     layout: {
         type: 'fit'
@@ -15,7 +16,7 @@ Ext.define('Siaco.view.Panelderecho', {
 
     initComponent: function() {
         var me = this;
-
+        buscarcondominio();
         Ext.applyIf(me, {
             items: [
                   {
@@ -28,7 +29,25 @@ Ext.define('Siaco.view.Panelderecho', {
                             xtype: 'label',
                             height: 110,
                             width: 300,
-                            text: 'Villa roca'
+                            text: 'Condominio: '
+                    
+                        },{
+                            xtype: 'label',
+                            height: 110,
+                            width: 300,
+                            id: 'condominio'
+                    
+                        },                        {
+                            xtype: 'label',
+                            height: 110,
+                            width: 300,
+                            text: 'Inmueble: '
+                    
+                        },{
+                            xtype: 'label',
+                            height: 110,
+                            width: 300,
+                            id: 'inmueble'
                     
                         }
                     ]
@@ -40,4 +59,34 @@ Ext.define('Siaco.view.Panelderecho', {
 
 });
 
-   });
+   });//fin del on ready
+
+function buscarcondominio()
+{
+     Ext.Ajax.request({
+ url: 'sesiones/buscarcondominio',
+ method: 'GET',
+ //Enviando los parametros a la pagina servidora
+ params: {
+  ajax: 'true',
+  funcion: 'buscarcondominio',
+  //id: Ext.getCmp('id').getValue()
+ },
+ //Retorno exitoso de la pagina servidora a traves del formato JSON
+ success: function( resultado, request ) {
+  datos=Ext.JSON.decode(resultado.responseText);
+  if (datos.exito=='true') {
+   Ext.getCmp('condominio').setText(datos.nombre);
+   Ext.getCmp('inmueble').setText(datos.inmueble);
+
+  }
+  else {
+   Ext.Msg.alert("Error", datos.msg);
+  }
+ },
+ //No hay retorno de la pagina servidora
+ failure: function() {
+  Ext.Msg.alert("Error", "Servidor no conectado");
+ }
+});  
+}
