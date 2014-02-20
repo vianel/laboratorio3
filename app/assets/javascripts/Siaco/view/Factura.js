@@ -225,7 +225,7 @@ Ext.define('Siaco.view.Factura', {
    function buscar() {
            Ext.Ajax.request({
              url: 'facturas/buscar',
-			 method: 'GET',
+			       method: 'GET',
              //Enviando los parametros a la pagina servidora
              params: {
               ajax: 'true',

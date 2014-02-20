@@ -56,6 +56,98 @@ var archivopdf=null;
  Ext.onReady(function() {
   
   Ext.QuickTips.init();
+
+//MODELO PARA EL CATALOGO BANCOS
+Ext.define("Banco", {
+  extend: 'Ext.data.Model',
+  fields: [
+    {
+      name: 'id', 
+      type: 'string'
+    },{
+      name: 'nombre',
+      type: 'string'
+    }
+
+  ]
+});
+
+//STORE LISTA DE BANCOS
+bancosStore = Ext.create('Ext.data.Store', {
+  model: 'Banco',
+  proxy: {
+    type: 'ajax',
+    url: 'http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=2',
+    reader: {
+      type: 'json',
+      root: 'datosBancos',
+
+    }
+  },
+  autoLoad: true
+});
+
+Ext.define('Siaco.view.Bancosgrid', {
+    extend: 'Ext.grid.Panel',
+  //  store: Ext.create('Siaco.store.Propietarios'),
+    //Definicion del alias que puede usado en un xtype
+    alias: 'widget.bancosgrid',
+    xtype: 'bancosgrid',
+    
+
+    //Sobre escribimos este metodo de Ext.grid.Panel
+    initComponent : function() {
+        //Definicion de las columnas  del grid
+        this.columns = [
+            {xtype: 'rownumberer', width: 40, sortable: false},
+            {text: "ID", flex: 1, dataIndex: 'id', sortable: true},
+            {text: "Nombre", flex: 1, dataIndex: 'nombre', sortable: true},    
+        ];
+        this.dockedItems = [ {
+    xtype: 'toolbar',
+    dock: 'bottom',
+    items: [
+    
+     { xtype: 'button',
+                    text: 'Aceptar',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       if (data!=null) {
+                        Seleccionarpropietario();
+                     
+                       }
+                       else {
+                        alert("No ha seleccionado un item."); 
+                       }
+                      }
+                    }
+                },    
+    ]
+  } ];
+
+  
+  //this.verticalScroller = {xtype: 'paginggridscroller'};
+                 this.store = bancosStore;
+        this.forceFit = true;
+            this.listeners = {
+                          itemclick : function() {
+                           data = this.getSelectionModel().selected.items[0].data;
+                          },
+                          specialkey: function(field, e){
+                            if (e.getKey() == e.ENTER) {
+                              data = this.getSelectionModel().selected.items[0].data;
+                              if (data!=null) {
+                                 Seleccionarpropietario();
+                                }
+                            }
+                          }
+                         };;
+        //Llamamos a la super clase a iniciacion del componente
+        this.callParent();
+    }
+});
  Ext.define('App.MiPanel', {
     extend: 'Ext.form.Panel',
     
@@ -111,10 +203,9 @@ var archivopdf=null;
         name: 'fechadeldeposito',
         id: 'fechadeldeposito'
       },{
-        fieldLabel: 'Monto',
-        xtype: 'textfield',
-        name: 'monto',
-        id: 'monto'
+
+        xtype: 'bancosgrid',
+        heigth: 100
       }
       ];
       this.callParent();

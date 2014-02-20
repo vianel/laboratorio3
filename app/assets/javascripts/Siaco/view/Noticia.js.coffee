@@ -3,6 +3,7 @@ Ext.define 'Siaco.view.Noticia',
     extend: 'Ext.form.Panel'
     xtype: 'noticiaView'
     title: 'Noticia'
+    alias: 'widget.noticiaView'
     bodyPadding: 10
 
     initComponent: -> 

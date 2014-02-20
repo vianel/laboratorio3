@@ -38,12 +38,19 @@ Ext.define "Siaco.controller.Login",
 							tipo: 1
 							padre_id: 1
 					panelderechoView = Ext.create 'widget.panelderechoView',
-						title: 'Noticias'
 						region: 'east'
 						widt: 100
+					btnsalir = Ext.create "Ext.Button",
+						text:'SALIR'
+						iconCls:'eliminar'
+						region: 'south'
+						handler: ->
+    					  window.location.reload()
 					@getMainViewport().add(arbolView)
-					@getLoginView().up().hide()
 					@getMainViewport().add(panelderechoView)
+					@getMainViewport().add(btnsalir)
+					@getLoginView().up().hide()
+					
 				else
 				 Ext.Msg.alert("Error", "Usuario o clave incorrecta!")
 			failure: ->
