@@ -114,9 +114,8 @@
                         items:[
                         {
                               xtype:'label',
-                              text:'Encabezado de Noticia 1',
                               style: {color:'#00C24E',size:'14px'},
-                              id:'tituloencabezado',
+                              id:'titulo',
                               x:5,
                               y:5,
                               /*autoEl: {
@@ -126,59 +125,27 @@
                               }*/
                            },{
                               xtype:'label',
-                              text:'Aquí se encontrara la descripción de la primera noticia a ser mostrada',
-                              id:'titulodescripcionnoticia',
+                              id:'descripcion',
                               x:5,
                               y:25,
                               height:30,
-                           }
-                        ]  
-                      },{
-                        xtype: 'container',
-                        height:75,
-                        width:323,
-                        layout:'absolute',
-                        x:10,
-                        y:208,
-                        border: 1,
-                        style: {borderColor:'#0099FF', borderStyle:'solid', borderWidth:'2px'},
-                        items:[
-                        {
-                              xtype:'label',
-                              text:'Encabezado de Noticia 2',
-                              style: {color:'#00C24E',size:'14px'},
-                              id:'tituloencabezado2',
-                              x:5,
-                              y:5,
-                              /*autoEl: {
-                                  tag: 'a',
-                                  href: 'http://www.example.com/',
-                                  html: 'Example.com'
-                              }*/
                            },{
                               xtype:'label',
-                              text:'Aquí se encontrara la descripción de la segunda noticia a ser mostrada',
-                              id:'titulodescripcionnoticia2',
-                              x:5,
-                              y:25,
-                              height:30,
+                              style: {color:'#000000',size:'01px'},
+                              id:'fecha',
+                              x:75,
+                              y:48,
+                              height:2,
                            }
                         ]  
                       },{
-                        text: 'Sig Noticias >',
-                        xtype: 'button',
-                        x:259,
-                        y:285,
-                        id: 'siguientenoticia'
-                     },{
                         text: 'Ver Noticias',
                         xtype: 'button',
                         x:182,
                         y:285,
                         id: 'vernoticias',
                         handler: function() {
-                           ventana = Ext.create('miVentanaInformeNoticia');
-                           ventana.show();
+                           vernoticias();
                        }
                      }
       ];
@@ -217,4 +184,46 @@ function buscarcondominio()
   Ext.Msg.alert("Error", "Servidor no conectado");
  }
 });  
+}
+
+function buscarnoticias()
+{
+     Ext.Ajax.request({
+ url: 'sesiones/buscarpublicacionesencartelera',
+ method: 'GET',
+ //Enviando los parametros a la pagina servidora
+ params: {
+  ajax: 'true',
+  funcion: 'buscarpublicacionesencartelera',
+  //id: Ext.getCmp('id').getValue()
+ },
+ //Retorno exitoso de la pagina servidora a traves del formato JSON
+ success: function( resultado, request ) {
+  datos=Ext.JSON.decode(resultado.responseText);
+  if (datos.exito=='true') {
+   Ext.getCmp('titulo').setText(datos.titulo);
+   Ext.getCmp('descripcion').setText(datos.descripcion);
+   Ext.getCmp('fecha').setText(datos.fecha);
+
+  }
+ },
+ //No hay retorno de la pagina servidora
+ failure: function() {
+   Ext.getCmp('titulo').setText('Vacio');
+   Ext.getCmp('descripcion').setText('No ha recibido ningun noticia');
+   Ext.getCmp('fecha').setText('aun.');
+ }
+});  
+}
+function vernoticias(){
+   //Instanciamos la ventana
+    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'timelimeView'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
 }

@@ -82,21 +82,6 @@ Ext.define('Siaco.view.VistaCuriosa', {
                     width: 260,
                     id:'propaganda',
                     text: 'Disponible tambien para Android y IOS '
-                }, {
-                    xtype: 'image',
-                    x:190,
-                    y: 30,
-                    src: 'images/linea1.png',
-                    height: 470,
-                    width: 10
-                }, 
-                {
-                    xtype: 'image',
-                    x: 830,
-                    y: 30,
-                    src: 'images/linea1.png',
-                    height: 470,
-                    width: 10
                 },
                 {
                     xtype: 'image',

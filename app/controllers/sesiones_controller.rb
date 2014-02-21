@@ -39,8 +39,7 @@ class SesionesController < ApplicationController
 	end
 
 	def buscarpublicacionesencartelera
-		@cartelera = Cartelera.find_by(usuario_receptor_id: $usuario.id)
-
+		@cartelera = Cartelera.find(:last, :conditions => {:usuario_receptor_id => $usuario.id})
 		if @cartelera != nil 
 			$tirajson = '{"success": "true", 
       		"exito": "true"  ,"titulo": "'        	+@cartelera.titulo.to_s+
