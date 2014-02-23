@@ -1,13 +1,8 @@
 class PropietariosController < ApplicationController
-	before_action :set_propietario, only: [:update, :destroy]#:show, :edit]
-	respond_to :json
 
-	def index
-		
-	end
 
 	
-  def grabar
+  def grabarpropietario
 
 
     @datos = []
@@ -19,8 +14,7 @@ class PropietariosController < ApplicationController
     @datos[5] = params[:telefono]
     @datos[6] = params[:celular]
     @datos[7] = params[:imagen1]
-    @datos[8] = params[:sexo]
-    @datos[9] = params[:estadocivil]
+    @datos[8] = params[:estadocivil]
     @propietario = Propietario.new
     valor = @propietario.grabar(@datos,params[:ufile])
     render :text => $tirajson

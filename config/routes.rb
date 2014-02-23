@@ -1,4 +1,6 @@
 Condominio::Application.routes.draw do
+  get "recibospagos/index"
+  get "tipopagos/index"
   get "tipopublicaciones/index"
   get "carteleras/index"
   get "ingresos/index"
@@ -26,6 +28,8 @@ Condominio::Application.routes.draw do
     
     get ':controller(/:action(/:id))(.:format)'
     match "/areascomunes/grabar" => "areascomunes#grabar", via: [:get, :post]
+    match "/propietarios/grabarpropietario" => "propietarios#grabarpropietario", via: [:get, :post]
+    match "/recibospagos/grabar" => "recibospagos#grabar", via: [:get, :post]
     match "/administradores/grabaradmin" => "administradores#grabaradmin", via: [:get, :post]
     
     

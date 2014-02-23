@@ -70,19 +70,18 @@
                         style: {color:'#00C24E'},
                         x:68,
                         y:60,
-                     },/*{
-                        text: 'Ver Estadisticas',
-                        xtype: 'button',
-                        x:10,
-                        y:40,
-                        id: 'carteleraestadisticas'
                      },{
-                        text: 'Salir',
-                        xtype: 'button',
-                        x:10,
-                        y:70,
-                        id: 'salirasdfasd'
-                     },*/{
+                        xtype:'label',
+                        text:'Estatus: ',
+                        x:18,
+                        y:80,
+                     },{
+                        xtype:'label',
+                        id:'solvencia',
+                        style: {color:'#00C24E'},
+                        x:68,
+                        y:80,
+                     },{
                         fieldLabel: '...',
                         name: 'divisor1cartelera',
                         id:'divisor1cartelera',
@@ -172,6 +171,14 @@ function buscarcondominio()
   if (datos.exito=='true') {
    Ext.getCmp('condominio').setText(datos.nombre);
    Ext.getCmp('usuario').setText(datos.nomprepropietario);
+  if (datos.solvencia == 'true')
+  {
+    Ext.getCmp('solvencia').setText('Solvente');
+  }else
+  {
+    Ext.getCmp('solvencia').setText('Moroso');
+  }
+   
    Ext.getCmp('inmueble').setText(datos.inmueble);
 
   }

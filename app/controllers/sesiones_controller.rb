@@ -24,6 +24,7 @@ class SesionesController < ApplicationController
 			   $tirajson = '{"success": "true", 
                   		"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+
                    		'", "nomprepropietario": "'      +$propietario.nombre.to_s+
+                   		'", "solvencia": "'      +$inmueble.solvencia.to_s+
            				'", "inmueble": "'     +$inmueble.numero.to_s+'"  }'
 
 		elsif $usuario.rol_id == 3	

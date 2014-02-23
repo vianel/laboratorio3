@@ -1,0 +1,2 @@
+module RecibospagosHelper
+end

@@ -1,0 +1,2 @@
+module TipopagosHelper
+end

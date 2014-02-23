@@ -22,6 +22,23 @@ class Ingreso < ActiveRecord::Base
       @objingreso.save
       $tirajson = '{ "success": "true", "msg": "Datos guardados satisfactoriamente! ya puede reservar" }'
       valor = 1
+      if datos[1].to_i == 3
+        acumulador = datos[4].to_f + $inmueble.saldo_a_favor + datos[5].to_f
+        puts acumulador
+
+        acumulador =  acumulador - $inmueble.alicuota
+        puts acumulador
+        if acumulador >= 0 
+            
+              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => acumulador , :solvencia => 1, :alicuota => 0) 
+     
+        else
+              
+              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => 0, :solvencia => 0, :alicuota => acumulador*-1 )
+     
+        end
+
+      end
     #else
       #$tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
       #valor = 0

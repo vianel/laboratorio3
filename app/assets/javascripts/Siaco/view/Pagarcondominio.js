@@ -1,57 +1,5 @@
  var typeExtension="image";
 var archivopdf=null;
-    //Funcion para validar la extension
-   function checkFileExtension(elem) {
-        var filePath = elem;
-
-        if(filePath.indexOf('.') == -1)
-            return false;
-                  
-        var validExtensions = new Array();
-        var ext = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
-    
-        if (typeExtension=="image") {
-         validExtensions[0] = 'jpg';
-         validExtensions[1] = 'jpeg';
-         validExtensions[3] = 'png';
-         validExtensions[4] = 'gif'; 
-        }
-        else {
-         validExtensions[0] = 'pdf';
-        }   
-
-        for(var i = 0; i < validExtensions.length; i++) {
-            if(ext == validExtensions[i])
-                return true;
-        }
-
-        Ext.Msg.alert('Advertencia', 'La extension .'+ext+' del archivo ' + filePath + ' no es permitida!');
-        if (typeExtension=="image") {
-         document.getElementsByName('ufile[]')[0].value='';
-         Ext.getCmp('imagen0').setSrc('images/transporte.jpg'); 
-        }
-        else {
-         document.getElementsByName('ufile1[]')[0].value='';
-         Ext.getCmp('imagen0').setSrc('helloworld.pdf');	
-        } 
-        return false;
-    }
-   function previewPdf(input) {
-	typeExtension = "pdf";
-	if (!checkFileExtension(encodeURIComponent(document.getElementsByName("ufile1[]")[0].value))) {
-		return false;
-	}
-	if (input.files && input.files[0]) {
-		var reader = new FileReader();
-		reader.onload = function(e) {
-			document.getElementById('planilla0').src = e.target.result
-			archivopdf = input.files[0].name;
-		}
-		reader.readAsDataURL(input.files[0]);
-	}
-
-}
-
     
  Ext.onReady(function() {
   
@@ -85,6 +33,28 @@ bancosStore = Ext.create('Ext.data.Store', {
     }
   },
   autoLoad: true
+});
+
+//MODELO PARA ELCOMBOBOX DE CONCEPTO INGRESOS
+Ext.define('Tipopago', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'nombre', type: 'string'},
+            {name: 'codigo', type: 'string'},
+            {name: 'status', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'tipopagos/buscar'
+           }
+});
+
+
+//Definicion del Data Store
+var tipopagoStore = Ext.create('Ext.data.Store', {
+    model: 'Tipopago',
+    autoLoad: true,
 });
 
 Ext.define('Siaco.view.Bancosgrid', {
@@ -165,7 +135,7 @@ Ext.define('Siaco.view.Bancosgrid', {
         text: 'Grabar',
         iconCls:'grabar',
         handler:function() {
-          Ext.Msg.alert('Pronto','En construccion');
+          guardarpago();
         }
         },{
 				text: 'Eliminar',
@@ -193,25 +163,135 @@ Ext.define('Siaco.view.Bancosgrid', {
       
       this.items = [
      {
-        fieldLabel: 'Vocuher',
+        fieldLabel: 'Codigo',
+        xtype: 'textfield',
+        name: 'codigo',
+        id: 'codigo'
+      },{
+          xtype:'combobox',
+          id : 'tipodepago',
+          fieldLabel: 'Tipo de pago',
+          store: tipopagoStore,
+          valueField: 'id',
+          displayField: 'nombre',   
+          queryMode: 'remote',
+          typeAhead: true,
+          emptyText:'Seleccionar',
+          triggerAction: 'all',
+          selecOnFocus: true,
+      },{
+           text: '...',
+           xtype: 'button',
+           id: 'nuevotipodepago',
+           x: 260,
+           y: -27,
+        handler:function() {
+      nuevotipodepago();
+              }
+      },{
+        fieldLabel: 'Banco',
+        xtype: 'textfield',
+        name: 'banco',
+        id: 'banco'
+      },{
+        fieldLabel: 'Cuenta',
+        xtype: 'textfield',
+        name: 'cuenta',
+        id: 'cuenta'
+      },{
+        fieldLabel: 'Voucher',
         xtype: 'textfield',
         name: 'voucher',
         id: 'voucher'
       },{
-        fieldLabel: 'Fecha del deposito',
-        xtype: 'datefield',
-        name: 'fechadeldeposito',
-        id: 'fechadeldeposito'
+        fieldLabel: 'Monto',
+        xtype: 'textfield',
+        name: 'monto',
+        id: 'monto'
       },{
-
-        xtype: 'bancosgrid',
-        heigth: 100
-      }
+             fieldLabel: 'Imagen',
+             xtype: 'textfield',
+              x: 5,
+             y: 210,
+             width: 400 
+            },{
+             xtype: 'textfield',
+             id: 'imagen',
+             x: 110,
+             y: 210,
+             emptyText: fotoarbol,
+             disabled: true,
+           //  width: 295
+            },{
+              xtype: 'image',
+              id: 'imagen0',
+              x: 110,
+              y: 240,
+              border: '',
+              frame: true,
+              height: 110,
+            //  width: 130,
+              src: fotoarbol,
+            },{
+             id: 'imagen1',
+             border: '',
+            /* x: 110,
+             y: 360,*/
+             //atributo accept en algunos navegadores funciona 
+             //para firefox no, accept="image/gif, image/jpeg"
+             html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
+            }
       ];
       this.callParent();
-      Ext.getCmp('voucher').focus();
     }
   });
 
   
 }); //FIN DEL ONREADY
+
+ function nuevotipodepago(){
+   //Instanciamos la ventana
+    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'tipopagoView'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
+}
+function guardarpago()
+{
+  Ext.Ajax.request({
+   url: 'recibospagos/grabar',
+  //   method: 'GET',
+   //Enviando los parametros a la pagina servidora
+   params: {
+    ajax: 'true',
+    funcion: 'grabar',
+    tipodepago: Ext.getCmp('tipodepago').getValue(),
+    banco: Ext.getCmp('banco').getValue(),
+    cuenta: Ext.getCmp('cuenta').getValue(), //obtiene el valor a traves del id del campo
+    voucher: Ext.getCmp('voucher').getValue(),
+    monto: Ext.getCmp('monto').getValue(),
+    imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
+    ufile: document.getElementById('imagen0').src,
+
+         
+
+   },
+   //Retorno exitoso de la pagina servidora a traves del formato JSON
+   success: function( resultado, request ) {
+    datos=Ext.JSON.decode(resultado.responseText);
+    Ext.Msg.alert('Exito', datos.msg);
+    Ext.getCmp('mipanelpagocondominio').getForm().reset();
+     document.getElementsByName('ufile[]')[0].value='';
+  Ext.getCmp('imagen0').setSrc(fotoarbol);
+   },
+   //No hay retorno de la pagina servidora
+   failure: function() {
+    Ext.Msg.alert("Error", "Servidor no conectado!");
+   }
+      });
+}

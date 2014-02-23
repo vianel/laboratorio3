@@ -13,28 +13,28 @@ self.table_name = "areas_comunes"
       @objareacomun.descripcion = datos[2].to_s
 
     #GUARDANDO LA IMAGEN
-        tiraname1 = datos[3].to_s
-        if tiraname1.include? "C%3A%5Cfakepath%5C"
-         tiraname1 = tiraname1[18, tiraname1.length+1]
-         @objareacomun.foto = tiraname1
-        else
-         @objareacomun.foto = tiraname1
-        end
-        mivariable = upload[0,23].to_s
-        if mivariable.include? "jpeg"
-        @objareacomun.foto  = Base64.decode64(upload[23, upload.length+1])
-        else
-           @objareacomun.foto  = Base64.decode64(upload[22, upload.length+1])
-        end
-       
-    
+    tiraname1 = datos[3].to_s
+    if tiraname1.include? "C%3A%5Cfakepath%5C"
+     tiraname1 = tiraname1[18, tiraname1.length+1]
+     @objareacomun.foto = tiraname1
+    else
+     @objareacomun.foto = tiraname1
+    end
+    headerfile = upload[0,23].to_s
+    if headerfile.include? "jpeg"
+     @objareacomun.formato = upload[0,23]
+       @objareacomun.foto  = Base64.decode64(upload[23, upload.length+1])
+    else
+     @objareacomun.formato = Base64.decode64(upload[0,22])
+       @objareacomun.foto  = Base64.decode64(upload[22, upload.length+1])
+    end
+      
       @objareacomun.capacidad_maxima = datos[4].to_i
       @objareacomun.costo = datos[5].to_f
       @objareacomun.costo_invitado = datos[6].to_f
       @objareacomun.hora_inicio = datos[7]
       @objareacomun.hora_fin = datos[8]
       @objareacomun.status = datos[9].to_s
-
 
       @objareacomun.save
       $tirajson = '{ "success": "true", "msg": "Datos guardados satisfactoriamente!" }'
@@ -51,7 +51,7 @@ self.table_name = "areas_comunes"
        @objareacomun = Areacomun.all
    @son = Areacomun.count
    if @son > 0 
-    @i=1
+    @i=1            
     tirajson = '[  '
     @objareacomun.each do |areas_comunes|
      if @i<@son
@@ -79,13 +79,16 @@ self.table_name = "areas_comunes"
   end
 
   def buscarporcodigo(codigo)
+        #'", "imagen": "'        + transportistas.imagen +
+    #'", "imagen1": "'       + transportistas.formato1.to_s+Base64.strict_encode64(transportistas.imagen1)+
+  
    valor = 0
     @objareacomun = Areacomun.find(:first, :conditions => "codigo='#{codigo}'" ) 
     if @objareacomun!=nil
        $tirajson = '{"success": "true", 
                     "exito": "true"  ,"nombre": "'        +@objareacomun.nombre+
                                    '", "descripcion": "'  +@objareacomun.descripcion+
-                                  '", "imagen1": "'      +Base64.strict_encode64(@objareacomun.foto)+
+                                  '", "imagen1": "'      +@objareacomun.formato.to_s+Base64.strict_encode64(@objareacomun.foto)+
                                   '", "capacidad": "'       +@objareacomun.capacidad_maxima.to_s +
                                    '", "costo": "'       +@objareacomun.costo.to_s+
                                    '", "costoinvitado": "'       +@objareacomun.costo_invitado.to_s+

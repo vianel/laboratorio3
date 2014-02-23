@@ -198,12 +198,12 @@ function guardarpropietario()
 
 
 		Ext.Ajax.request({
-     url: 'propietarios/grabar',
-	 method: 'POST',
+     url: 'propietarios/grabarpropietario',
+	// method: 'POST',
      //Enviando los parametros a la pagina servidora
      params: {
       ajax: 'true',
-      funcion: 'grabar',
+      funcion: 'grabarpropietario',
 
 	 nombre: Ext.getCmp('nombre').getValue(),
 	 apellido: Ext.getCmp('apellido').getValue(),

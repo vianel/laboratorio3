@@ -36,14 +36,26 @@ var conceptoStore = Ext.create('Ext.data.Store', {
 					text: 'Limpiar',
 					iconCls:'limpiar',
 					handler: function() {
-						Ext.getCmp('mipanelIngresos').getForm().reset();
+			
+				     Ext.getCmp('mipanelIngresos').getForm().reset();
+					
 					}
 					
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					guardaringreso();
+				guardaringreso();
+				if (Ext.getCmp('conceptoingreso').getValue() === '3')
+					{
+						mostrarpanelpagocondominio();
+						Ext.getCmp('mipanelIngresos').close();
+					}else
+					{
+						mostrarpanelreservacion();
+						Ext.getCmp('mipanelIngresos').close();
+							
+					}
 				}
 				},{
 				text: 'Eliminar',
@@ -138,6 +150,32 @@ function nuevoconceptoingreso(){
             autoScroll: true,
             maxHeight: 600
           }).show()
+}
+function mostrarpanelpagocondominio()
+{
+	    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'pagarcondominioview'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
+
+}
+function mostrarpanelreservacion()
+{
+	    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'reservacionview'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
+
 }
 
 function guardaringreso()

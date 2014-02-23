@@ -1,8 +1,6 @@
 class Propietario <  ActiveRecord::Base
 	self.table_name = "propietarios"
 	validates :cedula, presence: true
-	validates :foto, presence: true
-	validates :usuarios_id, presence: true
 	#validates :STATUS, presence: true
 	has_many :inmuebles
 
@@ -20,20 +18,21 @@ class Propietario <  ActiveRecord::Base
 	@objpropietario.celular = datos[6].to_s
 
     #GUARDANDO LA IMAGEN
-        tiraname1 = datos[7].to_s
-        if tiraname1.include? "C%3A%5Cfakepath%5C"
-         tiraname1 = tiraname1[18, tiraname1.length+1]
-         @objpropietario.foto = tiraname1
-        else
-         @objpropietario.foto = tiraname1
-        end
-        mivariable = upload[0,23].to_s
-        if mivariable.include? "jpeg"
-        @objpropietario.foto  = Base64.decode64(upload[23, upload.length+1])
-        else
-           @objpropietario.foto  = Base64.decode64(upload[22, upload.length+1])
-        end
-
+    tiraname1 = datos[7].to_s
+    if tiraname1.include? "C%3A%5Cfakepath%5C"
+     tiraname1 = tiraname1[18, tiraname1.length+1]
+     @objpropietario.foto = tiraname1
+    else
+     @objpropietario.foto = tiraname1
+    end
+    headerfile = upload[0,23].to_s
+    if headerfile.include? "jpeg"
+     @objpropietario.formato = upload[0,23]
+       @objpropietario.foto  = Base64.decode64(upload[23, upload.length+1])
+    else
+     @objpropietario.formato = Base64.decode64(upload[0,22])
+       @objpropietario.foto  = Base64.decode64(upload[22, upload.length+1])
+    end
 
   @objpropietario.estado_civil = datos[8].to_s
   @objpropietario.status = 'A'

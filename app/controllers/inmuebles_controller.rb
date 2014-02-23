@@ -15,7 +15,7 @@ class InmueblesController < ApplicationController
     @datos[2] = params[:usuario]
     @datos[3] = params[:codigoinmueble]
     @datos[4] = params[:nroapartamento]
-    @datos[5] = params[:alicueota]
+    @datos[5] = params[:alicuota]
     @datos[6] = params[:saldoinmueble]
     @datos[7] = params[:edosolvencia]
     @inmueble = Inmueble.new
