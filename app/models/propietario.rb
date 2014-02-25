@@ -6,6 +6,7 @@ class Propietario <  ActiveRecord::Base
 
 
 	def grabar(datos,upload)
+
 	@objpropietario = Propietario.new
 
 

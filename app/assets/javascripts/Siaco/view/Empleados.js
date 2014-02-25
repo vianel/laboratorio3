@@ -3,6 +3,7 @@ var ventanatipoempleado=null;
 var foto_1 ="images/usuario.jpeg"
 var RadiosSexo = new Ext.form.RadioGroup({
 		fieldLabel: 'Sexo',
+		id: 'sexo',
 			
 		columns: 2,
 				items:
@@ -13,6 +14,7 @@ var RadiosSexo = new Ext.form.RadioGroup({
 });
 var EstadoCivil = new Ext.form.RadioGroup({
 		fieldLabel: 'Estado Civil',
+		id: 'edocivil',
 			
 		columns: 2,
 				items:
@@ -23,6 +25,28 @@ var EstadoCivil = new Ext.form.RadioGroup({
 				{boxLabel:'Viudo', name:'edocivil'}
 				
 				]
+});
+
+//MODELO PARA ELCOMBOBOX DE TIPOEMPLEADOS
+Ext.define('Tipoempleado', {
+ extend: 'Ext.data.Model',
+           fields: [
+            {name: 'id', type: 'string'},
+            {name: 'codigo_tipo_empleado', type: 'string'},
+            {name: 'condominio_id', type: 'string'},
+            {name: 'nombre', type: 'string'},
+           ],
+           proxy: {
+            type: 'ajax',
+            url : 'tipoempleados/buscar'
+           }
+});
+
+
+//Definicion del Data Store
+var tipoempleadoStore = Ext.create('Ext.data.Store', {
+    model: 'Tipoempleado',
+    autoLoad: true,
 });
 var arreglotipoempleados = ['Jardinero','Conserje'];
 Ext.onReady(function() {
@@ -81,6 +105,7 @@ Ext.onReady(function() {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
+					guardarempleado();
 			
 				}
 				},{
@@ -190,21 +215,21 @@ Ext.define('Siaco.view.Empleados', {
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
 		        },
 			EstadoCivil,{
-				fieldLabel: 'Usuario',
-				xtype: 'textfield',
-				name: 'usuario',
-				id: 'usuario'
-			},{
-				fieldLabel:'Tipo Empleado',
-				xtype: 'combobox',
-				name: 'tipoempleado',
-				id: 'tipoempleado',
-				store: arreglotipoempleados
-			},  {
+				        xtype:'combobox',
+				        id : 'tipoempleado',
+				        fieldLabel: 'Tipo Empleado',
+				        store: tipoempleadoStore,
+				        valueField: 'id',
+				        displayField: 'nombre',   
+				        queryMode: 'remote',
+				        typeAhead: true,
+				        emptyText:'Seleccionar',
+				        triggerAction: 'all',
+				        selecOnFocus: true
+				      },  {
 		         text: '...',
 		         xtype: 'button',
-		         id: 'catalogo',
-		         iconCls: 'buscar',
+		         id: 'nuevotipoempleado',
 		         x: 260,
 		         y: -27,
 		        handler:function() {
@@ -263,6 +288,53 @@ function vernuevotipoempleado(){
 		    		autoScroll: true,
 		    		maxHeight: 600
 		    	}).show();
+}
+function guardarempleado()
+{
+	   		Ext.Ajax.request({
+	     url: 'empleados/grabar',
+	//	 method: 'GET',
+	     //Enviando los parametros a la pagina servidora
+	     params: {
+	      ajax: 'true',
+	      funcion: 'grabar',
+
+	      cedula: Ext.getCmp('cedulaempleado').getValue(),
+	      nombre: Ext.getCmp('nombre').getValue(), //obtiene el valor a traves del id del campo
+	      apellido: Ext.getCmp('apellido').getValue(),
+		  direccion: Ext.getCmp('direccion').getValue(),
+		  telefono: Ext.getCmp('telefono').getValue(),
+		  celular: Ext.getCmp('celular').getValue(),
+		  correo: Ext.getCmp('correo').getValue(),
+		  sexo: Ext.getCmp('sexo').getValue(),
+		  fechanacimiento: Ext.getCmp('fechanacimiento').getValue(),      
+	      imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
+		  ufile: document.getElementById('imagen0').src,
+	      edocivil: Ext.getCmp('edocivil').getValue(),
+	      tipoempleado: Ext.getCmp('tipoempleado').getValue(),
+	      nrohijos: Ext.getCmp('nrohijos').getValue(),
+		  cargo: Ext.getCmp('cargo').getValue(),
+	      fechaingreso: Ext.getCmp('fechaingreso').getValue(),
+		  iniciojornada: Ext.getCmp('iniciojornada').getValue(),
+	      finjornada: Ext.getCmp('finjornada').getValue(),
+	     	     	     
+
+	     },
+	     //Retorno exitoso de la pagina servidora a traves del formato JSON
+	     success: function( resultado, request ) {
+	      datos=Ext.JSON.decode(resultado.responseText);
+	      Ext.Msg.alert('Exito', datos.msg);
+	      Ext.getCmp('mipanelareascomunes').getForm().reset();
+	       document.getElementsByName('ufile[]')[0].value='';
+			Ext.getCmp('imagen0').setSrc(fotoarbol);
+	     },
+	     //No hay retorno de la pagina servidora
+	     failure: function() {
+	      Ext.Msg.alert("Error", "Servidor no conectado!");
+	     }
+	    });
+
+
 }
 
  function enviar(id_cedrif) {

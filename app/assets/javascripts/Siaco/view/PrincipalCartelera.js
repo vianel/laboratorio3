@@ -55,7 +55,7 @@
                         y:40,
                      },{
                         xtype:'label',
-                        id:'usuario',
+                        id:'usuariologueado',
                         style: {color:'#00C24E'},
                         x:62,
                         y:40,
@@ -124,18 +124,18 @@
                               }*/
                            },{
                               xtype:'label',
-                              id:'descripcion',
+                              id:'descripcionnoticia',
                               x:5,
                               y:25,
                               height:30,
-                           },{
+                           }/*,{
                               xtype:'label',
                               style: {color:'#000000',size:'01px'},
                               id:'fecha',
                               x:75,
                               y:48,
                               height:2,
-                           }
+                           }*/
                         ]  
                       },{
                         text: 'Ver Noticias',
@@ -170,7 +170,7 @@ function buscarcondominio()
   datos=Ext.JSON.decode(resultado.responseText);
   if (datos.exito=='true') {
    Ext.getCmp('condominio').setText(datos.nombre);
-   Ext.getCmp('usuario').setText(datos.nomprepropietario);
+   Ext.getCmp('usuariologueado').setText(datos.nomprepropietario);
   if (datos.solvencia == 'true')
   {
     Ext.getCmp('solvencia').setText('Solvente');
@@ -209,16 +209,15 @@ function buscarnoticias()
   datos=Ext.JSON.decode(resultado.responseText);
   if (datos.exito=='true') {
    Ext.getCmp('titulo').setText(datos.titulo);
-   Ext.getCmp('descripcion').setText(datos.descripcion);
-   Ext.getCmp('fecha').setText(datos.fecha);
-
+   Ext.getCmp('descripcionnoticia').setText(datos.descripcion);
+ 
   }
  },
  //No hay retorno de la pagina servidora
  failure: function() {
    Ext.getCmp('titulo').setText('Vacio');
-   Ext.getCmp('descripcion').setText('No ha recibido ningun noticia');
-   Ext.getCmp('fecha').setText('aun.');
+   Ext.getCmp('descripcionnoticia').setText('No ha recibido ninguna noticia');
+
  }
 });  
 }

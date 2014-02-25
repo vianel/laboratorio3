@@ -1,3 +1,4 @@
+
 var tabs = null;
 var foto_1 ="images/usuario.jpeg"
 var RadiosSexo = new Ext.form.RadioGroup({
@@ -120,6 +121,15 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				name: 'cedula',
 				id: 'cedula'
 			},{
+	               text: '...',
+	               xtype: 'button',
+	               id: 'saime',
+	               x: 260,
+	               y: -27,
+		           handler:function() {
+		          saime();
+		        }
+          	},{
 				fieldLabel: 'Nombre',
 				xtype: 'textfield',
 				name: 'nombre',
@@ -228,5 +238,35 @@ function guardarpropietario()
       Ext.Msg.alert("Error", "Servidor no conectado!");
      }
     });
+}
+
+function saime()
+{
+       Ext.Ajax.request({
+     url: 'propietarios/obtenerPersona',
+	       method: 'GET',
+     //Enviando los parametros a la pagina servidora
+     params: {
+      ajax: 'true',
+      funcion: 'obtenerPersona',
+      cedula: Ext.getCmp('cedula').getValue()
+     },
+     //Retorno exitoso de la pagina servcedulaora a traves del formato JSON
+     success: function( resultado, request ) {
+      datos=Ext.JSON.decode(resultado.responseText);
+      if (datos.exito=='true') {
+       Ext.getCmp('cedula').setValue(datos.cedula);
+
+
+      }
+      else {
+       Ext.Msg.alert("Error", datos.msg);
+      }
+     },
+     //No hay retorno de la pagina servidora
+     failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado");
+     }
+    }); 
 }
 

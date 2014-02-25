@@ -250,8 +250,8 @@ function guardarreservacion()
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelreservaciones').getForm().reset();
-	      Ext.getForm('tabpanelingresoreservacion').setVisible(true);
-	      Ext.getForm('mipanelreservaciones').setVisible(true);
+	     // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
+	    //  Ext.getForm('mipanelreservaciones').setVisible(true);
 
 	      //Ext.getForm('mipanelreservaciones').enable();
 	     

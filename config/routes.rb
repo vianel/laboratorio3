@@ -1,4 +1,5 @@
 Condominio::Application.routes.draw do
+  get "tipoempleados/index"
   get "recibospagos/index"
   get "tipopagos/index"
   get "tipopublicaciones/index"
@@ -31,7 +32,8 @@ Condominio::Application.routes.draw do
     match "/propietarios/grabarpropietario" => "propietarios#grabarpropietario", via: [:get, :post]
     match "/recibospagos/grabar" => "recibospagos#grabar", via: [:get, :post]
     match "/administradores/grabaradmin" => "administradores#grabaradmin", via: [:get, :post]
-    
+    match "/empleados/grabar" => "empleados#grabar", via: [:get, :post]
+   
     
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

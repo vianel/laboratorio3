@@ -8,22 +8,26 @@ class Usuario < ActiveRecord::Base
 	end
 	
    def grabar(datos)
-     @objusuario = Usuario.new
-   
+
+     @objusuario = Usuario.find(:first, :conditions => "login='#{datos[1].to_s}'" )
+  
    valor = 0
   #  @objusuario = Areacomun.find(:first, :conditions => "usuario='#{usuario}' and clave='#{clave}'" )
-    if @objusuario!=nil
+    if @objusuario==nil
+      @objusuario = Usuario.new
    #   @objusuario.CONDOMINIO_ID = datos[0].to_i
       @objusuario.rol_id = datos[0].to_s
       @objusuario.login = datos[1].to_s
       @objusuario.password = datos[2].to_s
       
       @objusuario.save
-      $tirajson = '{ "success": "true", "msg": "Datos guardados satisfactoriamente!" }'
+      $tirajson = '{ "success": "true", "msg": "Usuario disponible proceda a llenar los datos" }'
       valor = 1
     #else
       #$tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
       #valor = 0
+    else
+      $tirajson = '{ "success": "false", "msg": "Ese usuario ya existe" }'
     end 
    return valor
   end

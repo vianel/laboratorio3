@@ -48,7 +48,7 @@ var conceptoStore = Ext.create('Ext.data.Store', {
 				guardaringreso();
 				if (Ext.getCmp('conceptoingreso').getValue() === '3')
 					{
-						mostrarpanelpagocondominio();
+						//mostrarpanelpagocondominio();
 						Ext.getCmp('mipanelIngresos').close();
 					}else
 					{
@@ -93,14 +93,14 @@ Ext.define('Siaco.view.Ingreso', {
 		        triggerAction: 'all',
 		        selecOnFocus: true
 		      },{
-		               text: '...',
-		               xtype: 'button',
-		               id: 'nuevoconceptoingreso',
-		               x: 260,
-		               y: -27,
-		            handler:function() {
-		          nuevoconceptoingreso();
-		        }
+	               text: '...',
+	               xtype: 'button',
+	               id: 'nuevoconceptoingreso',
+	               x: 260,
+	               y: -27,
+	            handler:function() {
+	          nuevoconceptoingreso();
+	        			}
           	},{
 				fieldLabel: 'Codigo Ingreso',
 				xtype: 'textfield',
@@ -200,7 +200,7 @@ function guardaringreso()
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelIngresos').getForm().reset();
-	     Ext.getForm('tabpanelingresoreservacion').setVisible(true);
+	    // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
 	      Ext.getForm('mipanelreservaciones').setVisible(true);
 
 	      //Ext.getForm('mipanelreservaciones').enable();

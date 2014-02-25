@@ -51,6 +51,7 @@ Ext.define 'Siaco.view.Login',
 			inputType: 'password'
 			allowBlank: false
 
+            		
 			
 		}
 

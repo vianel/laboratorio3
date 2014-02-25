@@ -6,6 +6,10 @@ def grabar(datos,upload1)
 
    imagenpivot = nil
    @objingreso = Ingreso.find(:last)
+  # @objreservacion = Reservacion.find(:first, :conditions => {:fecha_uso => datos[2]})
+   @objreservacion = Reservacion.find(:first, :conditions => "fecha_uso='#{datos[2]}' and area_comun_id='#{datos[0].to_i}'" )
+
+ if @objreservacion == nil
    @objreservacion = Reservacion.new
 
     @objreservacion.ingreso_id        = @objingreso.id
@@ -20,14 +24,17 @@ def grabar(datos,upload1)
   
 
     @objreservacion.lista_invitados = Base64.decode64(upload1[28, upload1.length+1])
-        @objreservacion.observaciones        = datos[7].to_s
+    @objreservacion.observaciones        = datos[7].to_s
     @objreservacion.status        = datos[8].to_s
 
     @objreservacion.save 
 
     $tirajson = '{ "success": "true", "exito": "true", "message": "Datos guardados satisfactoriamente!" }'
     valor = 1
-  
+  else
+    $tirajson = '{ "success": "true", "exito": "true", "message": "Esa fecha ya esta apartada" }'
+    valor = 1
+  end
    return valor
   end
   

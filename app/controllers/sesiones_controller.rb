@@ -15,7 +15,7 @@ class SesionesController < ApplicationController
 			   $tirajson = '{"success": "true", 
       		"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+
        		'", "nomprepropietario": "'      +@administrador.nombre.to_s+
-				'", "inmueble": "Admin"  }'
+       		'", "solvencia": "true", "inmueble": "Admin"  }'
 		elsif $usuario.rol_id == 2
 		$inmueble = Inmueble.find_by(usuario_id: $usuario.id)
 		$condominio = Modelocondominio.find_by(id: $inmueble.condominio_id)
@@ -29,7 +29,7 @@ class SesionesController < ApplicationController
 
 		elsif $usuario.rol_id == 3	
 			$tirajson = '{"success": "true", 
-	        "exito": "true"  ,"nombre": "usuario", "inmueble": "root"  }'
+	        "exito": "true"  ,"nombre": "usuario", "solvencia": "true","inmueble": "root"  }'
 		end
 	
 
