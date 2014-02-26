@@ -34,9 +34,7 @@ Ext.define "Siaco.controller.Login",
 						minWidth: 100
 						region:'west'
 					arbolView.getStore().load
-						params:
-							tipo: 1
-							padre_id: 1
+
 					panelderechoView = Ext.create 'widget.panelderechoView',
 						region: 'east'
 						widt: 100

@@ -22,10 +22,11 @@ class PropietariosController < ApplicationController
 
   end
   	def obtenerPersona
+
 	  curl = CURL.new
 	  contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona='#{params[:cedula]}'")
     if contenido != nil
-             $tirajson = '{"exito": "1"  , 
+=begin           $tirajson = '{"exito": "1"  , 
                                    "ci_rif": "'          +contenido.ci_rif.to_s+
                                    '", "nombre": "'      +contenido.nombre.to_s+
                                    '", "apellido": "'      +contenido.apellido.to_s+
@@ -35,12 +36,15 @@ class PropietariosController < ApplicationController
                                    '", "direccion": "'      +contenido.direccion.to_s+
                                    '", "telefono": "'      +contenido.telefono.to_s+
                            '", "correo": "'     +contenido.correo.to_s+'"  }'
-    else
+
+=end
+
+else
     
     $tirajson = '{ "success": "1", "msg": "Codigo no existe!" }'
     end
 
-=begin  j=ActiveSupport::JSON
+    j=ActiveSupport::JSON
 	    #convertir como arreglo
 	  @cedula = j.decode(contenido).to_a[1][1].to_s
 	  @nombre = j.decode(contenido).to_a[2][1].to_s
@@ -52,8 +56,8 @@ class PropietariosController < ApplicationController
 	  @telefono = j.decode(contenido).to_a[8][1].to_s
 	  @correo = j.decode(contenido).to_a[9][1].to_s
 	    #imprimimos por consola para probar
-=end
-    render :text => $tirajson
+
+    render json: contenido
       end
    def catalogo
    @propietarios = Propietario.new

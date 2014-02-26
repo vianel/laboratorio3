@@ -19,7 +19,8 @@ Ext.define('Siaco.view.Usuario', {
             text: 'Limpiar',
             iconCls: 'limpiar',
             handler: function() {
-              return this.up('form').getForm().reset();
+
+            return this.up('form').getForm().reset();
             }
           }, {
             text: 'Grabar',
@@ -84,10 +85,13 @@ guardarnuevousuario = function() {
       var datos;
       datos = Ext.JSON.decode(resultado.responseText);
       Ext.Msg.alert("Exito", datos.msg);
-      if (Ext.getCmp("rol").getValue() === "Empleado") {
-        mostrarpanelempleados;
-      } else {
-        mostrarpanelpropietarios;
+      if (datos.msg != "Ese usuario ya existe")
+      {
+        if (Ext.getCmp("rol").getValue() === "Empleado") {
+            mostrarpanelempleados();
+          } else {
+            mostrarpanelpropietarios();
+          }
       }
       return Ext.getCmp("usuarioView").getForm().reset();
     },

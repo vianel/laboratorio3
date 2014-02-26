@@ -33,10 +33,10 @@ class Usuario < ActiveRecord::Base
   end
   def buscar
   
-     #@objusuario = Usuario.all
+  @objusuario = Usuario.all
 
 
-   @objusuario = Usuario.where(:rol_id => '2')
+   #@objusuario = Usuario.where(:rol_id => '2')
    @son = Usuario.count
    if @son > 0 
     @i=1

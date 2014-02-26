@@ -114,7 +114,7 @@
                         {
                               xtype:'label',
                               style: {color:'#00C24E',size:'14px'},
-                              id:'titulo',
+                              id:'titlodelaultimanoticia',
                               x:5,
                               y:5,
                               /*autoEl: {
@@ -208,14 +208,14 @@ function buscarnoticias()
  success: function( resultado, request ) {
   datos=Ext.JSON.decode(resultado.responseText);
   if (datos.exito=='true') {
-   Ext.getCmp('titulo').setText(datos.titulo);
+   Ext.getCmp('titlodelaultimanoticia').setText(datos.titulo);
    Ext.getCmp('descripcionnoticia').setText(datos.descripcion);
  
   }
  },
  //No hay retorno de la pagina servidora
  failure: function() {
-   Ext.getCmp('titulo').setText('Vacio');
+   Ext.getCmp('titlodelaultimanoticia').setText('Vacio');
    Ext.getCmp('descripcionnoticia').setText('No ha recibido ninguna noticia');
 
  }

@@ -3,14 +3,28 @@ class ArbolesController < ApplicationController
 		#puts $usuario.id
 		resultado = []
 
-		Arbol.where(rol_id: $usuario.rol_id).each do |arbol|
-	#		if arbol.interfaz.STATUS == "M"
-	#		resultado << {text: arbol.interfaz.DESCRIPCION,childNode: true}
-	#		end
+=begin		Arbol.where(rol_id: $usuario.rol_id, status: 'M').each do |arbol|
+
+			resultado << {rol_id: arbol.rol_id, text: arbol.texto}
+			#render json: resultado
+
+
+		end
+			resultado << "  children: [ "
+					Arbol.where(rol_id: $usuario.rol_id, status: 'A').each do |arbol|
+			resultado << {rol_id: arbol.rol_id, text: arbol.texto, vinculo: arbol.vinculo,leaf: true}
+
+		end
+		resultado << "]"
+=end
+	    	Arbol.where(rol_id: $usuario.rol_id, status: 'A').each do |arbol|
 
 			resultado << {rol_id: arbol.rol_id, text: arbol.texto, vinculo: arbol.vinculo,leaf: true}
 		
-		end
+		end	
+
+	
+
 		render json: resultado
 	end
 end

@@ -333,6 +333,19 @@ Ext.define('Siaco.view.VistaCuriosa', {
 					                                }
 					                            ]
 					                        },{
+					                     		xtype: 'panel',
+					                            height: 444,
+					                            width: 910,
+					                            layout: 'absolute',
+					                            title: 'Vision',
+					                            items: [
+					                                {
+					                                	x:120,
+					                                	y:150,
+					                                    xtype: 'visionView'
+					                                }
+					                                	]
+					                          },{
 		//AQUI ESTA LA PESATAÑA DONDE ESTA EL FORMULARIO DE LOGIN
 					                     		xtype: 'panel',
 					                            height: 444,
