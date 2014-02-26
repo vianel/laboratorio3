@@ -25,6 +25,7 @@ Ext.application
         'Tabpanelingresoreservacion'
         'Ingreso'
         'Cartelera'
+        'Catalogonovedad'
     ]
     controllers: ['Login']
     stores: ['Arboles','Facturas','Areascomunes','Propietarios','Sanciones']

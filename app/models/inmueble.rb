@@ -61,4 +61,36 @@ class Inmueble < ActiveRecord::Base
 
 
   end
+
+
+        def catalogo
+   @objinmueble = Inmueble.all
+   @son = Inmueble.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objinmueble.each do |inmuebles|
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + inmuebles.id.to_s +
+                              '", "condominio_id": "'   + inmuebles.condominio_id.to_s +
+                              '", "propietario_id": "'   + inmuebles.propietario_id.to_s +
+                               '", "usuario_id": "'   + inmuebles.usuario_id.to_s +
+                                '", "codigo_inmueble": "'   + inmuebles.codigo_inmueble.to_s +
+                               '", "numero": "'      + inmuebles.numero + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + inmuebles.id.to_s +
+                              '", "condominio_id": "'   + inmuebles.condominio_id.to_s+
+                              '", "propietario_id": "'   + inmuebles.propietario_id.to_s+
+                               '", "usuario_id": "'   + inmuebles.usuario_id.to_s +
+                             '", "codigo_inmueble": "'   + inmuebles.codigo_inmueble.to_s +
+                               '", "numero": "'      + inmuebles.numero + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 end

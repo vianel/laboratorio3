@@ -66,7 +66,7 @@
                         y:60,
                      },{
                         xtype:'label',
-                        id:'inmueble',
+                        id:'inmueblelogueado',
                         style: {color:'#00C24E'},
                         x:68,
                         y:60,
@@ -179,7 +179,7 @@ function buscarcondominio()
     Ext.getCmp('solvencia').setText('Moroso');
   }
    
-   Ext.getCmp('inmueble').setText(datos.inmueble);
+   Ext.getCmp('inmueblelogueado').setText(datos.inmueble);
 
   }
   else {

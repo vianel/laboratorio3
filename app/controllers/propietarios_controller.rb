@@ -21,44 +21,34 @@ class PropietariosController < ApplicationController
   
 
   end
-  	def obtenerPersona
+  def obtenerPersona
 
 	  curl = CURL.new
 	  contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona='#{params[:cedula]}'")
-    if contenido != nil
-=begin           $tirajson = '{"exito": "1"  , 
-                                   "ci_rif": "'          +contenido.ci_rif.to_s+
-                                   '", "nombre": "'      +contenido.nombre.to_s+
-                                   '", "apellido": "'      +contenido.apellido.to_s+
-                                   '", "fechanacimiento": "'      +contenido.fecha_nacimiento.to_s+
-                                   '", "sexo": "'      +contenido.sexo.to_s+
-                                   '", "estadocivil": "'      +contenido.estado_civil.to_s+
-                                   '", "direccion": "'      +contenido.direccion.to_s+
-                                   '", "telefono": "'      +contenido.telefono.to_s+
-                           '", "correo": "'     +contenido.correo.to_s+'"  }'
-
-=end
-
-else
+    # contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona=19591778")
+     j=ActiveSupport::JSON
+     
+     exito = j.decode(contenido).to_a[0]
+    if exito.to_a[1].to_s== "1"
+      #convertir como arreglo
+    @cedula = j.decode(contenido).to_a[1][1].to_s
+    @nombre = j.decode(contenido).to_a[2][1].to_s
+    @apellido = j.decode(contenido).to_a[3][1].to_s
+    @fechaNacimiento = j.decode(contenido).to_a[4][1].to_s
+    @sexo = j.decode(contenido).to_a[5][1].to_s
+    @estadoCivil = j.decode(contenido).to_a[6][1].to_s
+    @direccion = j.decode(contenido).to_a[7][1].to_s
+    @telefono = j.decode(contenido).to_a[8][1].to_s
+    @correo = j.decode(contenido).to_a[9][1].to_s
     
-    $tirajson = '{ "success": "1", "msg": "Codigo no existe!" }'
-    end
 
-    j=ActiveSupport::JSON
-	    #convertir como arreglo
-	  @cedula = j.decode(contenido).to_a[1][1].to_s
-	  @nombre = j.decode(contenido).to_a[2][1].to_s
-	  @apellido = j.decode(contenido).to_a[3][1].to_s
-	  @fechaNacimiento = j.decode(contenido).to_a[4][1].to_s
-	  @sexo = j.decode(contenido).to_a[5][1].to_s
-	  @estadoCivil = j.decode(contenido).to_a[6][1].to_s
-	  @direccion = j.decode(contenido).to_a[7][1].to_s
-	  @telefono = j.decode(contenido).to_a[8][1].to_s
-	  @correo = j.decode(contenido).to_a[9][1].to_s
-	    #imprimimos por consola para probar
+    puts("cedula: " + @cedula.to_s)
+    puts("nombre: " + @nombre.to_s)
+    puts("estadoCivil: " + @estadoCivil.to_s)
+    end  
 
-    render json: contenido
-      end
+
+  end
    def catalogo
    @propietarios = Propietario.new
    $tirajson=@propietarios.catalogo()

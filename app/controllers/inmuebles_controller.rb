@@ -31,4 +31,10 @@ class InmueblesController < ApplicationController
    render :text => $tirajson  
 
   end
+
+     def catalogo
+   @inmuebles = Inmueble.new
+   $tirajson=@inmuebles.catalogo()
+   render :text => $tirajson  
+  end
 end
