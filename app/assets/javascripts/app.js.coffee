@@ -26,6 +26,7 @@ Ext.application
         'Ingreso'
         'Cartelera'
         'Catalogonovedad'
+        'Proveedor'
     ]
     controllers: ['Login']
     stores: ['Arboles','Facturas','Areascomunes','Propietarios','Sanciones']
