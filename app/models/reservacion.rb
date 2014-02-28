@@ -21,9 +21,18 @@ def grabar(datos,upload1)
     @objreservacion.hora_inicio        = datos[3]
     @objreservacion.hora_fin        = datos[4]
     @objreservacion.numero_invitados        = datos[5].to_i
-  
 
-    @objreservacion.lista_invitados = Base64.decode64(upload1[28, upload1.length+1])
+     tiraname2 = datos[6].to_s
+        if tiraname2.include? "C%3A%5Cfakepath%5C"
+         tiraname2 = tiraname2[18, tiraname2.length+1]
+         @objreservacion.lista_invitados = tiraname2
+        else
+         @objreservacion.lista_invitados = tiraname2
+        end
+      #data:application/pdf;base64, 28
+      @objreservacion.formato1 = upload1[0,28]
+        @objreservacion.lista_invitados1 = Base64.decode64(upload1[28, upload1.length+1])  
+
     @objreservacion.observaciones        = datos[7].to_s
     @objreservacion.status        = datos[8].to_s
 

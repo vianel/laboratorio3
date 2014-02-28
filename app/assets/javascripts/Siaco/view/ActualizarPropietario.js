@@ -26,6 +26,7 @@ var EstadoCivil = new Ext.form.RadioGroup({
 				
 				]
 });
+var arregloestadocivil = ['Soltero','Casado','Divociado','Viudo'];
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
@@ -155,7 +156,13 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				format: 'd-m-y',
 				name: 'fechanacimiento',
 				id: 'fechanacimiento',
-			},EstadoCivil,{
+			},{
+				        xtype:'combobox',
+				        id : 'edocivil',
+				        fieldLabel: 'Estado civil',
+				        store: arregloestadocivil,
+				        valueField: 'id'
+				      },{
 				fieldLabel: 'Direccion Alternativa',
 				xtype: 'textarea',
 				name: 'direccion',
@@ -224,7 +231,7 @@ function guardarpropietario()
 	 celular: Ext.getCmp('celular').getValue(),				
      imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
 	 ufile: document.getElementById('imagen0').src,
-	 estadocivil: Ext.getCmp('estadocivil').getValue(),
+	 estadocivil: Ext.getCmp('edocivil').getValue(),
 
      },
      //Retorno exitoso de la pagina servidora a traves del formato JSON

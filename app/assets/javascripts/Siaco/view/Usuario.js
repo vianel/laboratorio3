@@ -128,13 +128,13 @@ buscarnuevousuario = function() {
     params: {
       ajax: "true",
       funcion: "buscar",
-      id: Ext.getCmp("idtiposancion").getValue()
+      id: Ext.getCmp("login").getValue()
     },
     success: function(resultado, request) {
       var datos;
       datos = Ext.JSON.decode(resultado.responseText);
       if (datos.exito === "true") {
-
+          Ext.msg.alert("Encontrado","Usuario ya existe");
       } else {
         Ext.Msg.alert("Error", datos.msg);
       }

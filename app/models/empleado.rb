@@ -61,10 +61,10 @@ def catalogo()
     end
     headerfile = upload[0,23].to_s
     if headerfile.include? "jpeg"
-     @objempleado.formato = upload[0,23]
+     @objempleado.formato1 = upload[0,23]
        @objempleado.foto  = Base64.decode64(upload[23, upload.length+1])
     else
-     @objempleado.formato = Base64.decode64(upload[0,22])
+     @objempleado.formato1 = Base64.decode64(upload[0,22])
        @objempleado.foto  = Base64.decode64(upload[22, upload.length+1])
     end
       

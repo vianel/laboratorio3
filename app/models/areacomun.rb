@@ -8,7 +8,7 @@ self.table_name = "areas_comunes"
    # if @objareacomun!=nil
    #   @objareacomun.CONDOMINIO_ID = datos[0].to_i
       @objareacomun.condominio_id = $condominio.id
-      @objareacomun.codigo = datos[0].to_s
+      @objareacomun.codigo_area_comun = datos[0].to_s
       @objareacomun.nombre = datos[1].to_s
       @objareacomun.descripcion = datos[2].to_s
 
@@ -22,11 +22,11 @@ self.table_name = "areas_comunes"
     end
     headerfile = upload[0,23].to_s
     if headerfile.include? "jpeg"
-     @objareacomun.formato = upload[0,23]
-       @objareacomun.foto  = Base64.decode64(upload[23, upload.length+1])
+     @objareacomun.formato1 = upload[0,23]
+       @objareacomun.foto1  = Base64.decode64(upload[23, upload.length+1])
     else
-     @objareacomun.formato = Base64.decode64(upload[0,22])
-       @objareacomun.foto  = Base64.decode64(upload[22, upload.length+1])
+     @objareacomun.formato1 = Base64.decode64(upload[0,22])
+       @objareacomun.foto1  = Base64.decode64(upload[22, upload.length+1])
     end
       
       @objareacomun.capacidad_maxima = datos[4].to_i
@@ -57,12 +57,12 @@ self.table_name = "areas_comunes"
      if @i<@son
       tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
                               '", "condominio_id": "'        + areas_comunes.condominio_id.to_s+ 
-                              '", "codigo": "'   + areas_comunes.codigo.to_s +
+                              '", "codigo": "'   + areas_comunes.codigo_area_comun.to_s +
                             '", "nombre": "'      + areas_comunes.nombre.to_s + '"}, '                              
      else
       tirajson = tirajson +   ' { "id": "'        + areas_comunes.id.to_s +
                               '", "condominio_id": "'        + areas_comunes.condominio_id.to_s + 
-                              '", "codigo": "'   + areas_comunes.codigo.to_s+
+                              '", "codigo": "'   + areas_comunes.codigo_area_comun.to_s+
                               '", "nombre": "'      + areas_comunes.nombre.to_s + '"} '     
      end
      @i=@i+1
@@ -80,7 +80,7 @@ self.table_name = "areas_comunes"
 
   def buscarporcodigo(codigo)
         #'", "imagen": "'        + transportistas.imagen +
-    #'", "imagen1": "'       + transportistas.formato1.to_s+Base64.strict_encode64(transportistas.imagen1)+
+    #'", "imagen1": "'       + transportistas.formato11.to_s+Base64.strict_encode64(transportistas.imagen1)+
   
    valor = 0
     @objareacomun = Areacomun.find(:first, :conditions => "codigo='#{codigo}'" ) 
@@ -88,7 +88,7 @@ self.table_name = "areas_comunes"
        $tirajson = '{"success": "true", 
                     "exito": "true"  ,"nombre": "'        +@objareacomun.nombre+
                                    '", "descripcion": "'  +@objareacomun.descripcion+
-                                  '", "imagen1": "'      +@objareacomun.formato.to_s+Base64.strict_encode64(@objareacomun.foto)+
+                                  '", "imagen1": "'      +@objareacomun.formato1.to_s+Base64.strict_encode64(@objareacomun.foto1)+
                                   '", "capacidad": "'       +@objareacomun.capacidad_maxima.to_s +
                                    '", "costo": "'       +@objareacomun.costo.to_s+
                                    '", "costoinvitado": "'       +@objareacomun.costo_invitado.to_s+

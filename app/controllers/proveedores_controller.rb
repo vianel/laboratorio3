@@ -18,4 +18,16 @@ class ProveedoresController < ApplicationController
     render :text => $tirajson
 
   end
+     def catalogo
+   @proveedores = Proveedor.new
+   $tirajson=@proveedores.catalogo()
+   render :text => $tirajson  
+  end
+
+     def eliminar
+   @proveedores = Proveedor.new
+   rif = params[:rif]
+   valor = @proveedores.eliminar(rif)
+   render :text => $tirajson
+  end
 end

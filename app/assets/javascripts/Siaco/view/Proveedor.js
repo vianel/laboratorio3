@@ -5,7 +5,153 @@ Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
 
-//Definicion del grid
+//MODELO PARA EL CATALOGO DE PROPIETARIOS
+Ext.define("Proveedor", {
+  extend: 'Ext.data.Model',
+  fields: [
+    {
+      name: 'id',
+      type: 'string'
+    }, {
+      name: 'rif',
+      type: 'string'
+    }, {
+      name: 'nombre',
+      type: 'string'
+    }, {
+      name: 'direccion',
+      type: 'string'
+    },{
+      name: 'telefono',
+      type: 'string'
+    },{
+      name: 'email',
+      type: 'string'
+    },{
+      name: 'celular',
+      type: 'string'
+    }
+  ]
+});
+
+//STORE DE ProveedorS PARA EL CATALOGO
+proveedoresStore = Ext.create('Ext.data.Store', {
+  model: 'Proveedor',
+  proxy: {
+    type: 'ajax',
+    url: 'proveedores/catalogo',
+    reader: {
+      type: 'json',
+      root: 'datos'
+    }
+  },
+  autoLoad: true
+});
+
+Ext.define('Siaco.view.proveedoresGrid', {
+    extend: 'Ext.grid.Panel',
+  //  store: Ext.create('Siaco.store.Proveedors'),
+    //Definicion del alias que puede usado en un xtype
+    alias: 'widget.proveedoresgrid',
+    
+
+    //Sobre escribimos este metodo de Ext.grid.Panel
+    initComponent : function() {
+        //Definicion de las columnas  del grid
+        this.columns = [
+            {xtype: 'rownumberer', width: 40, sortable: false},
+            {text: "rif", width:100 ,flex: 1, dataIndex: 'rif', sortable: true},
+            {text: "nombre", width: 100, dataIndex: 'nombre', sortable: true},
+            {text: "direccion", flex: 1, dataIndex: 'direccion', sortable: true},
+            {text: "telefono", flex: 1, dataIndex: 'telefono', sortable: true},
+            {text: "email", flex: 1, dataIndex: 'email', sortable: true},
+            {text: "celular", flex: 1, dataIndex: 'celular', sortable: true},
+              
+        ];
+        this.dockedItems = [ {
+    xtype: 'toolbar',
+    dock: 'bottom',
+    items: [
+    
+     { xtype: 'button',
+                    text: 'Aceptar',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       if (data!=null) {
+                        Seleccionarproveedor();
+                     
+                       }
+                       else {
+                        alert("No ha seleccionado un item."); 
+                       }
+                      }
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: 'Salir',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       ventanacatalogoproveedores.close();
+                      }
+                    }
+                }     
+    ]
+  } ];
+
+  
+  //this.verticalScroller = {xtype: 'paginggridscroller'};
+                 this.store = proveedoresStore;
+        this.forceFit = true;
+            this.listeners = {
+                          itemclick : function() {
+                           data = this.getSelectionModel().selected.items[0].data;
+                          },
+                          specialkey: function(field, e){
+                            if (e.getKey() == e.ENTER) {
+                              data = this.getSelectionModel().selected.items[0].data;
+                              if (data!=null) {
+                                 Seleccionarproveedor();
+                                }
+                            }
+                          }
+                         };;
+        //Llamamos a la super clase a iniciacion del componente
+        this.callParent();
+    }
+});
+
+//Definicion de la ventana contendora del grid
+Ext.define('miventanacatalogoproveedores', {
+    extend: 'Ext.window.Window',
+
+                layout: 'fit',
+                x: 100,
+                y: 70,
+                width       : 385,
+                height      : 200,
+                closeAction :'hide',
+                plain       : true,
+                closable    : true,
+                colapsable  : true,
+                resizable   : true,
+                maximizable : true,
+                minimizable : true,
+                modal       : true,
+                title       : 'Catalogo de Proveedores',
+                buttonAlign : 'center',
+                constrain   : true,
+                items:[
+                 { xtype:'proveedoresgrid' }
+                
+                ]
+
+
+            });
 
 
 		Ext.define('Siaco.view.MiPanel', {
@@ -139,14 +285,14 @@ Ext.define('Siaco.view.Proveedor', {
 	         params: {
 	              ajax: 'true',
 	              funcion: 'eliminar',
-	              id: Ext.getCmp('id').getValue()
+	              rif: Ext.getCmp('rif').getValue()
 	         },
              //Retorno exitoso de la pagina servidora a traves del formato JSON
              success: function( resultado, request ) {
 			 loadingMask.hide();
               datos=Ext.JSON.decode(resultado.responseText);
               Ext.Msg.alert('Mensaje', datos.msg);
-			  Ext.getCmp('mipanelProveedors').getForm().reset();
+			  Ext.getCmp('mipanelproveedores').getForm().reset();
              },
              //No hay retorno de la pagina servidora
                      failure: function(f,a){
@@ -193,4 +339,35 @@ Ext.define('Siaco.view.Proveedor', {
 	     }
 	    });
    }
+
+
+
+function Seleccionarproveedor() {
+   Ext.getCmp('rif').setValue(data.rif);
+   Ext.getCmp('nombre').setValue(data.nombre);
+   Ext.getCmp('direccion').setValue(data.direccion);
+   Ext.getCmp('telefono').setValue(data.telefono);
+   Ext.getCmp('email').setValue(data.email);
+   Ext.getCmp('celular').setValue(data.celular);
+
+     ventanacatalogoproveedores.close(); 
+}
+
+function catalogoproveedores() {
+/*  transportistasStore.load(); 
+  if (transportistasStore.getTotalCount() <= 0 ) {
+    Ext.Msg.alert("Error", "Tabla de Datos de Transportistas esta vacia!");
+  }
+  else {
+  */ 
+   //Instanciamos la ventana
+   if (ventanacatalogoproveedores==null) {
+    ventanacatalogoproveedores = Ext.create('miventanacatalogoproveedores');
+   }
+   //ventanacatalogopropietarios.setPosition(posx,posy);
+   ventanacatalogoproveedores.show();
+   
+  //}
+
+}
 

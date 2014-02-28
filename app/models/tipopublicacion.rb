@@ -30,12 +30,12 @@ class Tipopublicacion < ActiveRecord::Base
     @objtipopublicacion.each do |tipopublicaciones|
      if @i<@son
       tirajson = tirajson +   ' { "id": "'        + tipopublicaciones.id.to_s +
-                              '", "codigo": "'   + tipopublicaciones.codigo.to_s +
+                              '", "codigo": "'   + tipopublicaciones.codigo_tipo_publicacion.to_s +
                               '", "inmueble_id": "'        + tipopublicaciones.inmueble_id.to_s+ 
                             '", "nombre": "'      + tipopublicaciones.nombre.to_s + '"}, '                              
      else
       tirajson = tirajson +   ' { "id": "'        + tipopublicaciones.id.to_s +
-                                 '", "codigo": "'   + tipopublicaciones.codigo.to_s +
+                                 '", "codigo": "'   + tipopublicaciones.codigo_tipo_publicacion.to_s +
                               '", "inmueble_id": "'        + tipopublicaciones.inmueble_id.to_s+ 
                            '", "nombre": "'      + tipopublicaciones.nombre.to_s + '"} '     
      end

@@ -1,23 +1,5 @@
 Condominio::Application.routes.draw do
-  get "proveedores/index"
-  get "novedades/index"
-  get "tipoempleados/index"
-  get "recibospagos/index"
-  get "tipopagos/index"
-  get "tipopublicaciones/index"
-  get "carteleras/index"
-  get "ingresos/index"
-  get "conceptosingresos/index"
-  get "administradores/index"
-  get "usuarios/index"
-  get "tiposanciones/index"
-  get "sanciones/index"
-  get "inmuebles/index"
-  get "clienterestful/index"
-  get "facturas/index"
-  get "empleados/index"
-  get "areascomunes/index"
-  get "propietarios/index"
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
