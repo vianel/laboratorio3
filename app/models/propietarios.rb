@@ -29,12 +29,12 @@ class Propietarios <  ActiveRecord::Base
     headerfile = upload[0,23].to_s
     if headerfile.include? "jpeg"
      @objpropietario.formato1 = upload[0,23]
-       @objpropietario.foto  = Base64.decode64(upload[23, upload.length+1])
+       @objpropietario.foto1  = Base64.decode64(upload[23, upload.length+1])
     else
      @objpropietario.formato1 = Base64.decode64(upload[0,22])
-       @objpropietario.foto  = Base64.decode64(upload[22, upload.length+1])
+       @objpropietario.foto1  = Base64.decode64(upload[22, upload.length+1])
     end
-
+  @objpropietario.correo_electronico =datos[9].to_s
   @objpropietario.estado_civil = datos[8].to_s
   @objpropietario.status = 'A'
 	@objpropietario.save()

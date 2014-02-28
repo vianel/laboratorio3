@@ -228,7 +228,7 @@ function guardarreservacion()
    {
    		Ext.Ajax.request({
 	     url: 'reservaciones/grabar',
-		 method: 'GET',
+		 //method: 'GET',
 	     //Enviando los parametros a la pagina servidora
 	     params: {
 	      ajax: 'true',

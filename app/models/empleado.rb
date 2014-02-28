@@ -50,6 +50,7 @@ def catalogo()
       @objempleado.telefono = datos[4].to_s
       @objempleado.celular = datos[5].to_s
       @objempleado.fecha_nacimiento = datos[8].to_s
+      @objempleado.correo_electronico= datos[6].to_s
 
     #GUARDANDO LA IMAGEN
     tiraname1 = datos[9].to_s
@@ -62,17 +63,15 @@ def catalogo()
     headerfile = upload[0,23].to_s
     if headerfile.include? "jpeg"
      @objempleado.formato1 = upload[0,23]
-       @objempleado.foto  = Base64.decode64(upload[23, upload.length+1])
+       @objempleado.foto1  = Base64.decode64(upload[23, upload.length+1])
     else
      @objempleado.formato1 = Base64.decode64(upload[0,22])
-       @objempleado.foto  = Base64.decode64(upload[22, upload.length+1])
+       @objempleado.foto1  = Base64.decode64(upload[22, upload.length+1])
     end
       
       @objempleado.estado_civil = datos[10].to_i
       @objempleado.tipo_empleado_id = datos[11].to_i
       @objempleado.numero_hijos = datos[12].to_i
-      @objempleado.cargo = datos[13].to_s
-      @objempleado.fecha_ingreso = datos[14]
       @objempleado.inicio_jornada = datos[15]
       @objempleado.fin_jornada = datos[16]
       @objempleado.status = datos[17].to_s

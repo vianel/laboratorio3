@@ -157,16 +157,20 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				name: 'fechanacimiento',
 				id: 'fechanacimiento',
 			},{
-				        xtype:'combobox',
-				        id : 'edocivil',
-				        fieldLabel: 'Estado civil',
-				        store: arregloestadocivil,
-				        valueField: 'id'
-				      },{
+		        xtype:'combobox',
+		        id : 'edocivil',
+		        fieldLabel: 'Estado civil',
+		        store: arregloestadocivil
+		    },{
 				fieldLabel: 'Direccion Alternativa',
 				xtype: 'textarea',
 				name: 'direccion',
 				id: 'direccion'
+			},{
+				fieldLabel: 'Correo electronico',
+				xtype: 'textfield',
+				name: 'correo',
+				id: 'correo'
 			},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',
@@ -178,7 +182,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		         id: 'imagen',
 		         x: 110,
 		         y: 210,
-		         emptyText: fotoarbol,
+		         emptyText: foto_1,
 		         disabled: true,
 		       //  width: 295
 		        },{
@@ -190,7 +194,7 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 		          frame: true,
 		          height: 110,
 		        //  width: 130,
-		          src: fotoarbol,
+		          src: foto_1,
 		        },{
 		         id: 'imagen1',
 		         border: '',
@@ -232,6 +236,7 @@ function guardarpropietario()
      imagen1: encodeURIComponent(document.getElementsByName('ufile[]')[0].value),
 	 ufile: document.getElementById('imagen0').src,
 	 estadocivil: Ext.getCmp('edocivil').getValue(),
+	 correo: Ext.getCmp('correo').getValue(),
 
      },
      //Retorno exitoso de la pagina servidora a traves del formato JSON

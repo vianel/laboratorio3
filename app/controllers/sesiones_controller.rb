@@ -19,7 +19,7 @@ class SesionesController < ApplicationController
 		elsif $usuario.rol_id == 2
 		$inmueble = Inmueble.find_by(usuario_id: $usuario.id)
 		$condominio = Modelocondominio.find_by(id: $inmueble.condominio_id)
-		$propietario = Propietario.find_by(id: $inmueble.propietario_id)
+		$propietario = Propietarios.find_by(id: $inmueble.propietario_id)
 		puts $inmueble.numero
 			   $tirajson = '{"success": "true", 
                   		"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+

@@ -22,7 +22,7 @@ def grabaradmin(datos,upload)
       @objadministrador.direccion_alternativa = datos[5].to_s
       @objadministrador.telefono = datos[6]
 	  @objadministrador.celular = datos[7]
-=begin
+
     #GUARDANDO LA IMAGEN
         tiraname1 = datos[12].to_s
         if tiraname1.include? "C%3A%5Cfakepath%5C"
@@ -37,9 +37,9 @@ def grabaradmin(datos,upload)
         else
            @objadministrador.foto  = Base64.decode64(upload[22, upload.length+1])
         end
-=end
-    
-      @objadministrador.estado_civil = datos[8]
+
+      @objadministrador.correo_electronico = datos[12].to_s
+      @objadministrador.estado_civil = datos[8].to_s
       @objadministrador.sueldo = datos[9].to_f
       @objadministrador.fecha_contrato = datos[10]
       @objadministrador.status='A'

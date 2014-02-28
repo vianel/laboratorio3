@@ -1,32 +1,8 @@
 var tabs = null;
 var ventanatipoempleado=null;
 var foto_1 ="images/usuario.jpeg"
-var RadiosSexo = new Ext.form.RadioGroup({
-		fieldLabel: 'Sexo',
-		id: 'sexo',
-			
-		columns: 2,
-				items:
-				[
-				{boxLabel:'Masculino', name:'sexo'},
-				{boxLabel:'Femenino', name:'sexo'}
-				]
-});
-var EstadoCivil = new Ext.form.RadioGroup({
-		fieldLabel: 'Estado Civil',
-		id: 'edocivil',
-			
-		columns: 2,
-				items:
-				[
-				{boxLabel:'Soltero', name:'edocivil'},
-				{boxLabel:'Casado', name:'edocivil'},
-				{boxLabel:'Divociado', name:'edocivil'},
-				{boxLabel:'Viudo', name:'edocivil'}
-				
-				]
-});
 
+var arregloestadocivil = ['Soltero','Casado','Divociado','Viudo'];
 //MODELO PARA ELCOMBOBOX DE TIPOEMPLEADOS
 Ext.define('Tipoempleado', {
  extend: 'Ext.data.Model',
@@ -174,7 +150,7 @@ Ext.define('Siaco.view.Empleados', {
 				xtype: 'textfield',
 				name: 'correo',
 				id: 'correo'
-			},RadiosSexo,{
+			},{
 				fieldLabel: 'Fecha de Nacimiento',
 				//xtype: 'datepicker',
 				xtype: 'datefield',
@@ -213,8 +189,12 @@ Ext.define('Siaco.view.Empleados', {
 		         //atributo accept en algunos navegadores funciona 
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
-		        },
-			EstadoCivil,{
+		        },{
+		        xtype:'combobox',
+		        id : 'edocivil',
+		        fieldLabel: 'Estado civil',
+		        store: arregloestadocivil
+		    },{
 				        xtype:'combobox',
 				        id : 'tipoempleado',
 				        fieldLabel: 'Tipo Empleado',
@@ -241,31 +221,19 @@ Ext.define('Siaco.view.Empleados', {
 				name: 'nrohijos',
 				id: 'nrohijos'
 			},{
-				fieldLabel: 'Cargo',
-				xtype: 'textfield',
-				name: 'cargo',
-				id: 'cargo'
-			},{
-				fieldLabel: 'Fecha de ingreso',
-				//xtype: 'datepicker',
-				xtype: 'datefield',
-				format: 'd-m-y',
-				name: 'fechaingreso',
-				id: 'fechaingreso',
-			},{
 				fieldLabel: 'Inicio jornada',
 				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'iniciojornada',
-				id: 'iniciojornada',
+				id: 'iniciojornada'
 			},{
 				fieldLabel: 'Fin jornada',
 				//xtype: 'datepicker',
 				xtype: 'datefield',
 				format: 'd-m-y',
 				name: 'finjornada',
-				id: 'finjornada',
+				id: 'finjornada'
 			}
 			
 			];
@@ -313,8 +281,6 @@ function guardarempleado()
 	      edocivil: Ext.getCmp('edocivil').getValue(),
 	      tipoempleado: Ext.getCmp('tipoempleado').getValue(),
 	      nrohijos: Ext.getCmp('nrohijos').getValue(),
-		  cargo: Ext.getCmp('cargo').getValue(),
-	      fechaingreso: Ext.getCmp('fechaingreso').getValue(),
 		  iniciojornada: Ext.getCmp('iniciojornada').getValue(),
 	      finjornada: Ext.getCmp('finjornada').getValue(),
 	     	     	     
@@ -324,7 +290,7 @@ function guardarempleado()
 	     success: function( resultado, request ) {
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
-	      Ext.getCmp('mipanelareascomunes').getForm().reset();
+	      Ext.getCmp('mipanelempleados').getForm().reset();
 	       document.getElementsByName('ufile[]')[0].value='';
 			Ext.getCmp('imagen0').setSrc(fotoarbol);
 	     },

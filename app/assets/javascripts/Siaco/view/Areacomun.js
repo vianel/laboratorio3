@@ -77,6 +77,33 @@ Ext.define('Siaco.view.Areacomun', {
 				name: 'descripcion',
 				id: 'descripcion'
 			},{
+				fieldLabel: 'Capacidad Maxima',
+				xtype: 'textfield',
+				name: 'capacidad',
+				id: 'capacidad'
+			},{
+				fieldLabel: 'Costo',
+				xtype: 'textfield',
+				name: 'costo',
+				id: 'costo'
+			},{
+				fieldLabel: 'Costo Invitado',
+				xtype: 'textfield',
+				name: 'costoinvitado',
+				id: 'costoinvitado'
+			},{
+				fieldLabel: 'hora de Inicio',
+				xtype: 'timefield',
+				name: 'horainicioareacomun',
+				minValue: '6:00 AM',
+        		maxValue: '8:00 PM',
+				id: 'horainicioareacomun'
+			},{
+				fieldLabel: 'hora de fin',
+				xtype: 'timefield',
+				name: 'horafinareacomun',
+				id: 'horafinareacomun'
+			},{
 		         fieldLabel: 'Imagen',
 		         xtype: 'textfield',
 		          x: 5,
@@ -108,34 +135,7 @@ Ext.define('Siaco.view.Areacomun', {
 		         //atributo accept en algunos navegadores funciona 
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
-		        },{
-				fieldLabel: 'Capacidad Maxima',
-				xtype: 'textfield',
-				name: 'capacidad',
-				id: 'capacidad'
-			},{
-				fieldLabel: 'Costo',
-				xtype: 'textfield',
-				name: 'costo',
-				id: 'costo'
-			},{
-				fieldLabel: 'Costo Invitado',
-				xtype: 'textfield',
-				name: 'costoinvitado',
-				id: 'costoinvitado'
-			},{
-				fieldLabel: 'hora de Inicio',
-				xtype: 'timefield',
-				name: 'horainicioareacomun',
-				minValue: '6:00 AM',
-        		maxValue: '8:00 PM',
-				id: 'horainicioareacomun'
-			},{
-				fieldLabel: 'hora de fin',
-				xtype: 'timefield',
-				name: 'horafinareacomun',
-				id: 'horafinareacomun'
-			}
+		        }
 			
 			];
 			this.callParent();

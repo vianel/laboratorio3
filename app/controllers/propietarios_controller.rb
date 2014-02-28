@@ -4,7 +4,9 @@ class PropietariosController < ApplicationController
 	
   def grabarpropietario
 
-
+    edosciviles = { "Soltero" => 1, "Casado" => 2,"Divociado" => 3,"Viudo" => 4}
+    edocivil = edosciviles[params[:estadocivil]]
+    puts edocivil
     @datos = []
     @datos[0] = params[:nombre]
     @datos[1] = params[:apellido]
@@ -14,7 +16,8 @@ class PropietariosController < ApplicationController
     @datos[5] = params[:telefono]
     @datos[6] = params[:celular]
     @datos[7] = params[:imagen1]
-    @datos[8] = params[:estadocivil]
+    @datos[8] = edocivil
+    @datos[9] = params[:correo]
     @propietario = Propietarios.new
     valor = @propietario.grabar(@datos,params[:ufile])
     render :text => $tirajson

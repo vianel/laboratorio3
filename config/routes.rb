@@ -17,6 +17,7 @@ Condominio::Application.routes.draw do
     match "/recibospagos/grabar" => "recibospagos#grabar", via: [:get, :post]
     match "/administradores/grabaradmin" => "administradores#grabaradmin", via: [:get, :post]
     match "/empleados/grabar" => "empleados#grabar", via: [:get, :post]
+    match "/reservaciones/grabar" => "reservaciones#grabar", via: [:get, :post]
    
     
   # Example of regular route:

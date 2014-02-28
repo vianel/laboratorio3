@@ -17,7 +17,7 @@ var EstadoCivil = new Ext.form.RadioGroup({
 				]
 });
 
-    
+var arregloestadocivil = ['Soltero','Casado','Divociado','Viudo'];
      //Usando html5
    function previewImage(input) {
    	typeExtension="image";
@@ -76,16 +76,11 @@ var condominioStore = Ext.create('Ext.data.Store', {
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
+				id: 'grabaradmin',
+				disabled: true,
 				handler:function() {
 
 					guardaradmin();
-				}
-				},{
-				text: 'Grabarusuario',
-				iconCls:'grabar',
-				handler:function() {
-					guardarusuario();
-
 				}
 				},{
 				text: 'Eliminar',
@@ -121,6 +116,15 @@ var condominioStore = Ext.create('Ext.data.Store', {
 				name: 'contrasenna',
 				id: 'contrasennaadmin'
 			},{
+	               text: 'Validarusuario',
+	               xtype: 'button',
+	               id: 'validar',
+	               x: 260,
+	               y: -27,
+		           handler:function() {
+		          guardarusuario();
+		        }
+          	},{
 				xtype:'combobox',
                 id : 'condominioadmin',
                 fieldLabel: 'Condominio',
@@ -200,7 +204,17 @@ var condominioStore = Ext.create('Ext.data.Store', {
 		         //atributo accept en algunos navegadores funciona 
 		         //para firefox no, accept="image/gif, image/jpeg"
 		         html: '<input type="file" size="100" name="ufile[]" id="afile" onchange="previewImage(this)" />',
-		        },EstadoCivil,{
+		        },{
+		        xtype:'combobox',
+		        id : 'edocivil',
+		        fieldLabel: 'Estado civil',
+		        store: arregloestadocivil
+		    },{
+				fieldLabel: 'Correo electronico',
+				xtype: 'textfield',
+				name: 'correoadmin',
+				id: 'correoadmin'
+			},{
 				fieldLabel: 'Sueldo',
 				xtype: 'textfield',
 				name: 'sueldo',
@@ -246,6 +260,7 @@ function guardaradmin() {
 	      edocivil: Ext.getCmp('edocivil').getValue(),
 	      sueldo: Ext.getCmp('sueldoadmin').getValue(),
 	      fechacontrato: Ext.getCmp('fechacontratoadmin').getValue(),
+	      correo: Ext.getCmp('correoadmin').getValue(),
 	     },
 	     //Retorno exitoso de la pagina servidora a traves del formato JSON
 	     success: function( resultado, request ) {
@@ -278,7 +293,10 @@ function guardarusuario() {
       var datos;
       datos = Ext.JSON.decode(resultado.responseText);
       Ext.Msg.alert("Exito", datos.msg);
-
+	      if (datos.msg != "Ese usuario ya existe")
+	      {
+	  	    Ext.getCmp('grabaradmin').enable();
+	  	  }
     },
     failure: function() {
       Ext.Msg.alert("Error", "Servidor no conectado!");
