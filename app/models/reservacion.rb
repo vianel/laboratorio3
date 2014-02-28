@@ -47,6 +47,47 @@ def grabar(datos,upload1)
    return valor
   end
   
-  
+def catalogo
+   @objreservacion = Reservacion.all
+   @son = Reservacion.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objreservacion.each do |reservaciones|
+    #empelado = Empleado.where(id: reservaciones.empleado_id)
+    inmueble = Inmueble.find_by(id: reservaciones.inmueble_id)
+    areacomun = Areacomun.find_by(id: reservaciones.area_comun_id)
+    #puts empleado.cedula
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + reservaciones.id.to_s +
+                              '", "codigo_reservaciones": "'   + reservaciones.codigo_reservaciones.to_s +
+                              '", "ingreso_id": "'   + reservaciones.ingreso_id.to_s +
+                              '", "area_comun_id": "'        + areacomun.nombre.to_s+ 
+                              '", "fecha_reservacion": "'   + reservaciones.fecha_reservacion.to_s +
+                              '", "inmueble_id": "'   + inmueble.numero.to_s +
+                              '", "fecha_uso": "'   + reservaciones.fecha_uso.to_s +
+                              '", "hora_inicio": "'   + reservaciones.hora_inicio.to_s +
+                              '", "hora_fin": "'   + reservaciones.hora_fin.to_s +
+                              '", "numero_invitados": "'      + reservaciones.numero_invitados.to_s + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + reservaciones.id.to_s +
+                              '", "codigo_reservaciones": "'   + reservaciones.codigo_reservaciones.to_s+
+                              '", "ingreso_id": "'   + reservaciones.ingreso_id.to_s+
+                             '", "area_comun_id": "'        + areacomun.nombre.to_s+ 
+                              '", "fecha_reservacion": "'   + reservaciones.fecha_reservacion.to_s +
+                              '", "inmueble_id": "'   + inmueble.numero.to_s +
+                              '", "fecha_uso": "'   + reservaciones.fecha_uso.to_s +
+                              '", "hora_inicio": "'   + reservaciones.hora_inicio.to_s +
+                              '", "hora_fin": "'   + reservaciones.hora_fin.to_s +
+                              '", "numero_invitados": "'      + reservaciones.numero_invitados.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 
 end

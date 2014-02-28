@@ -62,13 +62,12 @@ Ext.define('Siaco.view.Reservacionesgrid', {
         //Definicion de las columnas  del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
-            {text: "id", flex: 1, dataIndex: 'id', sortable: true},
-            {text: "codigo_reservaciones", flex: 1, dataIndex: 'codigo_reservaciones', sortable: true},
-            {text: "ingreso_id", flex: 1, dataIndex: 'ingreso_id', sortable: true},
-            {text: "area_comun_id", flex: 1, dataIndex: 'area_comun_id', sortable: true},
-            {text: "fecha_reservacion", flex: 1, dataIndex: 'fecha_reservacion', sortable: true},
-            {text: "inmueble_id", flex: 1, dataIndex: 'inmueble_id', sortable: true},
-            {text: "fecha_uso", flex: 1, dataIndex: 'fecha_uso', sortable: true},
+            {text: "ID", flex: 1, dataIndex: 'id', sortable: true},
+            {text: "Ingreso", flex: 1, dataIndex: 'ingreso_id', sortable: true},
+            {text: "Area Comun", flex: 1, dataIndex: 'area_comun_id', sortable: true},
+            {text: "Fecha Reservacion", flex: 1, dataIndex: 'fecha_reservacion', sortable: true},
+            {text: "Inmueble", flex: 1, dataIndex: 'inmueble_id', sortable: true},
+            {text: "Fecha Uso", flex: 1, dataIndex: 'fecha_uso', sortable: true},
             
         ];
         this.dockedItems = [ {

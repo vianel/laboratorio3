@@ -16,6 +16,11 @@ class ReservacionesController < ApplicationController
    
    render :text => $tirajson
   end
+  def catalogo
+   @reservaciones = Reservacion.new
+   $tirajson=@reservaciones.catalogo()
+   render :text => $tirajson  
+  end
 
 
 end
