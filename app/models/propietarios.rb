@@ -1,4 +1,4 @@
-class Propietario <  ActiveRecord::Base
+class Propietarios <  ActiveRecord::Base
 	self.table_name = "propietarios"
 	validates :cedula, presence: true
 	#validates :STATUS, presence: true
@@ -7,7 +7,7 @@ class Propietario <  ActiveRecord::Base
 
 	def grabar(datos,upload)
 
-	@objpropietario = Propietario.new
+	@objpropietario = Propietarios.new
 
 
 	@objpropietario.nombre = datos[0].to_s
@@ -57,8 +57,8 @@ class Propietario <  ActiveRecord::Base
 
 
       def catalogo
-   @objpropietario = Propietario.all
-   @son = Propietario.count
+   @objpropietario = Propietarios.all
+   @son = Propietarios.count
    if @son > 0 
     @i=1
     tirajson = '{ "datos": [ '

@@ -15,7 +15,7 @@ class PropietariosController < ApplicationController
     @datos[6] = params[:celular]
     @datos[7] = params[:imagen1]
     @datos[8] = params[:estadocivil]
-    @propietario = Propietario.new
+    @propietario = Propietarios.new
     valor = @propietario.grabar(@datos,params[:ufile])
     render :text => $tirajson
   
@@ -50,7 +50,7 @@ class PropietariosController < ApplicationController
 
   end
    def catalogo
-   @propietarios = Propietario.new
+   @propietarios = Propietarios.new
    $tirajson=@propietarios.catalogo()
    render :text => $tirajson  
   end
