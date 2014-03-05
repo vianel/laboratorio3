@@ -2,6 +2,8 @@ var tabs = null;
 var ventanacatalogopropietarios = null;
 var storeP = null;
 var arregloareacomun = ['Caney de fiestas','Piscina'];
+var arreglosolvencia = ['Solvente','Moroso'];
+
 Ext.onReady(function() {
   
   Ext.QuickTips.init();
@@ -42,7 +44,7 @@ Ext.define("Propietario", {
     }, {
       name: 'cedula',
       type: 'string'
-    }/*, {
+    }, {
       name: 'fecha_nacimiento',
       type: 'date'
     }, {
@@ -54,16 +56,22 @@ Ext.define("Propietario", {
     }, {
       name: 'celular',
       type: 'string'
-    }, {
+    },{
+      name: 'correo',
+      type: 'string'
+    },{
       name: 'foto',
+      type: 'string'
+    },{
+      name: 'foto1',
       type: 'string'
     }, {
       name: 'estado_civil',
       type: 'string'
-    }, {
-      name: 'status',
+    },{
+      name:'inmueble',
       type: 'string'
-    }*/
+    }
   ]
 });
 
@@ -97,7 +105,9 @@ Ext.define('Siaco.view.PropietariosGrid', {
             {text: "nombre", flex: 1, dataIndex: 'nombre', sortable: true},
             {text: "apellido", width: 100, dataIndex: 'apellido', sortable: true},
             {text: "cedula", flex: 1, dataIndex: 'cedula', sortable: true},
-            
+
+      
+
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
@@ -284,10 +294,10 @@ Ext.define('Siaco.view.Inmueble', {
         name: 'nroapartamento',
         id: 'nroapartamento'
       },{
-        fieldLabel: 'Estado de solvencia',
-        xtype: 'textfield',
-        name: 'edosolvencia',
-        id: 'edosolvencia'
+        xtype:'combobox',
+        id : 'edosolvencia',
+        fieldLabel: 'Estado de Solvencia',
+        store: arreglosolvencia
       },{
         fieldLabel: 'Saldo a favor',
         xtype: 'textfield',

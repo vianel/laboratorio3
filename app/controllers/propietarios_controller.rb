@@ -27,8 +27,8 @@ class PropietariosController < ApplicationController
   def obtenerPersona
     cedula = params[:cedula]
 	  curl = CURL.new
-	  contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona=19591778")
-    # contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona=19591778")
+	  #contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona=19591778")
+    contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona="+cedula)
      j=ActiveSupport::JSON
      
      exito = j.decode(contenido).to_a[0]

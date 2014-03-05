@@ -26,6 +26,18 @@ Ext.define("Inmueble", {
     }, {
       name: 'numero',
       type: 'string'
+    }, {
+      name: 'alicuota',
+      type: 'string'
+    },{
+      name: 'saldo_a_favor',
+      type: 'string'
+    },{
+      name: 'edosolvencia',
+      type: 'string'
+    },{
+      name: 'propietario',
+      type: 'string'
     }
   ]
 });
@@ -57,7 +69,6 @@ Ext.define('Siaco.view.Inmueblesgrid', {
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
             {text: "id", flex: 1, dataIndex: 'id', sortable: true},
-            {text: "condominio_id", flex: 1, dataIndex: 'condominio_id', sortable: true},
             {text: "numero", flex: 1, dataIndex: 'numero', sortable: true},
             
         ];

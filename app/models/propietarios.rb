@@ -47,46 +47,55 @@ class Propietarios <  ActiveRecord::Base
 	end
    def buscar(cedula)
 
-    @objpropietario = Propietario.find(:first, :conditions => "cedula='#{cedula}'" ) 
+    @objpropietario = Propietarios.find(:first, :conditions => "cedula='#{cedula}'" ) 
     if @objpropietario!=nil
 
      	valor = @objpropietario.id
     end 
     return valor
   end
+       
 
-
-      def catalogo
+  def catalogo
+   edosciviles = { "1" => "Soltero", "2" => "Casado","3" => "Divociado","4" => "Viudo"}
    @objpropietario = Propietarios.all
    @son = Propietarios.count
    if @son > 0 
     @i=1
     tirajson = '{ "datos": [ '
     @objpropietario.each do |propietarios|
+
+    #inmueble = Inmueble.where(propietario_id: = propietarios.id)
+    inmueble = Inmueble.find(:first, :conditions => {:propietario_id => propietarios.id})
+    puts inmueble.numero
      if @i<@son
       tirajson = tirajson +   ' { "id": "'        + propietarios.id.to_s +
                               '", "nombre": "'   + propietarios.nombre.to_s +
                               '", "apellido": "'   + propietarios.apellido.to_s +
-                        #      '", "cedula": "'        + propietarios.cedula.to_s+ 
-                        #      '", "fecha_nacimiento": "'   + propietarios.fecha_nacimiento.to_s +
-                        #      '", "direccion_alternativa": "'   + propietarios.direccion_alternativa.to_s +
-                        #      '", "telefono": "'   + propietarios.telefono.to_s +
-                        #      '", "celular": "'   + propietarios.celular.to_s +
-                        #      '", "foto": "'   + propietarios.foto.to_s +
-                        #      '", "estado_civil": "'   + propietarios.estado_civil.to_s +
-                            '", "cedula": "'      + propietarios.cedula + '"}, '                              
+                              '", "cedula": "'        + propietarios.cedula.to_s+ 
+                              '", "fecha_nacimiento": "'   + propietarios.fecha_nacimiento.to_s +
+                              '", "direccion_alternativa": "'   + propietarios.direccion_alternativa.to_s +
+                              '", "telefono": "'   + propietarios.telefono.to_s +
+                              '", "celular": "'   + propietarios.celular.to_s +
+                              '", "correo": "'   + propietarios.correo_electronico.to_s +
+                              '", "foto": "'   + propietarios.foto +
+                              '", "foto1": "'       + propietarios.formato1.to_s+Base64.strict_encode64(propietarios.foto1)+
+                              '", "estado_civil": "'   + edosciviles[propietarios.estado_civil] +
+                              '", "inmueble": "'      + inmueble.numero + '"}, '                              
      else
       tirajson = tirajson +   ' { "id": "'        + propietarios.id.to_s +
                               '", "nombre": "'   + propietarios.nombre.to_s+
                               '", "apellido": "'   + propietarios.apellido.to_s+
-                        #     '", "cedula": "'        + propietarios.cedula.to_s+ 
-                        #      '", "fecha_nacimiento": "'   + propietarios.fecha_nacimiento.to_s +
-                        #      '", "direccion_alternativa": "'   + propietarios.direccion_alternativa.to_s +
-                        #      '", "telefono": "'   + propietarios.telefono.to_s +
-                        #      '", "celular": "'   + propietarios.celular.to_s +
-                        #      '", "foto": "'   + propietarios.foto.to_s +
-                        #      '", "estado_civil": "'   + propietarios.estado_civil.to_s +
-                            '", "cedula": "'      + propietarios.cedula + '"} '    
+                             '", "cedula": "'        + propietarios.cedula.to_s+ 
+                              '", "fecha_nacimiento": "'   + propietarios.fecha_nacimiento.to_s +
+                              '", "direccion_alternativa": "'   + propietarios.direccion_alternativa.to_s +
+                              '", "telefono": "'   + propietarios.telefono.to_s +
+                              '", "celular": "'   + propietarios.celular.to_s +
+                              '", "correo": "'   + propietarios.correo_electronico.to_s +
+                              '", "foto": "'   + propietarios.foto +
+                              '", "foto1": "'       + propietarios.formato1.to_s+Base64.strict_encode64(propietarios.foto1)+
+                              '", "estado_civil": "'   + edosciviles[propietarios.estado_civil] +
+                              '", "inmueble": "'      + inmueble.numero + '"} '    
      end
      @i=@i+1
     end

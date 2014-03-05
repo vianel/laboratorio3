@@ -1,47 +1,47 @@
-//MODELO PARA EL CATALOGO DE PROPIETARIOS
-Ext.define("Reservacion", {
+//MODELO PARA EL CATALOGO DE inmuebles
+Ext.define("Inmueble", {
   extend: 'Ext.data.Model',
   fields: [
     {
       name: 'id',
       type: 'string'
     }, {
-      name: 'codigo_reservaciones',
+      name: 'condominio_id',
       type: 'string'
     }, {
-      name: 'ingreso_id',
+      name: 'propietario_id',
       type: 'string'
     }, {
-      name: 'area_comun_id',
+      name: 'usuario_id',
       type: 'string'
     }, {
-      name: 'fecha_reservacion',
-      type: 'date'
+      name: 'codigo_inmueble',
+      type: 'string'
     }, {
-      name: 'inmueble_id',
+      name: 'numero',
       type: 'string'
     },{
-      name: 'fecha_uso',
-      type: 'date'
+      name: 'alicuota',
+      type: 'string'
     },{
-      name: 'hora_inicio',
-      type: 'date'
+      name: 'saldo_a_favor',
+      type: 'string'
     },{
-      name: 'hora_fin',
-      type: 'date'
+      name: 'edosolvencia',
+      type: 'string'
     },{
-      name: 'numero_invitados',
+      name: 'propietario',
       type: 'string'
     }
   ]
 });
 
 //STORE DE Inmuebles PARA EL CATALOGO
-reservacionesStore = Ext.create('Ext.data.Store', {
-  model: 'Reservacion',
+inmuebleStore = Ext.create('Ext.data.Store', {
+  model: 'Inmueble',
   proxy: {
     type: 'ajax',
-    url: 'reservaciones/catalogo',
+    url: 'inmuebles/catalogo',
     reader: {
       type: 'json',
       root: 'datos'
@@ -50,11 +50,11 @@ reservacionesStore = Ext.create('Ext.data.Store', {
   autoLoad: true
 });
 
-Ext.define('Siaco.view.Reservacionesgrid', {
+Ext.define('Siaco.view.Inmueblesgridcompleto', {
     extend: 'Ext.grid.Panel',
   //  store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
-    alias: 'widget.reservacionesgrid',
+    alias: 'widget.inmueblesgridcompleto',
     
 
     //Sobre escribimos este metodo de Ext.grid.Panel
@@ -62,13 +62,12 @@ Ext.define('Siaco.view.Reservacionesgrid', {
         //Definicion de las columnas  del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
-            {text: "ID", flex: 1, width: 3, dataIndex: 'id', sortable: true},
-            {text: "Ingreso", flex: 1, dataIndex: 'ingreso_id', sortable: true},
-            {text: "Area Comun", flex: 1,dataIndex: 'area_comun_id', sortable: true},
-            {text: "Fecha Reservacion", flex: 1, dataIndex: 'fecha_reservacion', sortable: true},
-            {text: "Inmueble", flex: 1, dataIndex: 'inmueble_id', sortable: true},
-            {text: "Fecha Uso", flex: 1, dataIndex: 'fecha_uso', sortable: true},
-            
+            {text: "id", flex: 1, dataIndex: 'id', sortable: true},
+            {text: "numero", flex: 1, dataIndex: 'numero', sortable: true},
+            {text: "Alicuota", flex: 1, dataIndex: 'alicuota', sortable: true},
+            {text: "Saldo a favor", flex: 1, dataIndex: 'saldo_a_favor', sortable: true},
+            {text: "Estado", flex: 1, dataIndex: 'edosolvencia', sortable: true},
+            {text: "Propietario", flex: 1, dataIndex: 'propietario',sortable:true},
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
@@ -82,7 +81,7 @@ Ext.define('Siaco.view.Reservacionesgrid', {
                     listeners: {
                       click : function() {
                        if (data!=null) {
-                        seleccionarreservacion();
+                        seleccionarinmueble();
                      
                        }
                        else {
@@ -98,7 +97,7 @@ Ext.define('Siaco.view.Reservacionesgrid', {
                     heigth: 50,
                     listeners: {
                       click : function() {
-                       ventanacatalogoreservaciones.close();
+                       ventanacatalogoinmuebles.close();
                       }
                     }
                 }     
@@ -107,7 +106,7 @@ Ext.define('Siaco.view.Reservacionesgrid', {
 
   
   //this.verticalScroller = {xtype: 'paginggridscroller'};
-                 this.store = reservacionesStore;
+                 this.store = inmuebleStore;
         this.forceFit = true;
             this.listeners = {
                           itemclick : function() {
@@ -117,7 +116,7 @@ Ext.define('Siaco.view.Reservacionesgrid', {
                             if (e.getKey() == e.ENTER) {
                               data = this.getSelectionModel().selected.items[0].data;
                               if (data!=null) {
-                                 seleccionarReservacion();
+                                 seleccionarinmueble();
                                 }
                             }
                           }
@@ -126,13 +125,12 @@ Ext.define('Siaco.view.Reservacionesgrid', {
         this.callParent();
     }
 });
-
 //Definicion de la ventana contendora del grid
-Ext.define('Siaco.view.Catalogoreservacion', {
+Ext.define('Siaco.view.Catalogoinmueble', {
     extend: 'Ext.form.Panel',
-    xtype: 'catalogoreservacionview',
-    alias: 'widget.catalogoreservaciones',
-    id: 'catalogoreservaciones',
+    xtype: 'catalogoinmuebleview',
+    alias: 'widget.catalogoinmuebles',
+    id: 'catalogoinmuebless',
     bodyPadding: 5,
     width: 585,
 
@@ -148,11 +146,11 @@ Ext.define('Siaco.view.Catalogoreservacion', {
                 maximizable : true,
                 minimizable : true,
                 modal       : true,
-                title       : 'Catalogo de Reservaciones',
+                title       : 'Catalogo de Inmuebles',
                 buttonAlign : 'center',
                 constrain   : true,
                 items:[
-                 { xtype:'reservacionesgrid' }
+                 { xtype:'inmueblesgridcompleto' }
                 
                 ]
 

@@ -5,7 +5,7 @@ class InmueblesController < ApplicationController
 
     def grabarinmueble
 
-	@propietario = Propietario.new
+	@propietario = Propietarios.new
 	@idpropietario = @propietario.buscar(params[:cedula])   
 
     @datos = []
