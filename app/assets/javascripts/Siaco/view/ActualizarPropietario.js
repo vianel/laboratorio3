@@ -30,6 +30,171 @@ var arregloestadocivil = ['Soltero','Casado','Divociado','Viudo'];
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
+//MODELO PARA EL CATALOGO DE PROPIETARIOS
+Ext.define("Propietario", {
+  extend: 'Ext.data.Model',
+  fields: [
+    {
+      name: 'id',
+      type: 'string'
+    }, {
+      name: 'nombre',
+      type: 'string'
+    }, {
+      name: 'apellido',
+      type: 'string'
+    }, {
+      name: 'cedula',
+      type: 'string'
+    }, {
+      name: 'fecha_nacimiento',
+      type: 'date'
+    }, {
+      name: 'direccion_alternativa',
+      type: 'string'
+    }, {
+      name: 'telefono',
+      type: 'string'
+    }, {
+      name: 'celular',
+      type: 'string'
+    },{
+      name: 'correo',
+      type: 'string'
+    },{
+      name: 'foto',
+      type: 'string'
+    },{
+      name: 'foto1',
+      type: 'string'
+    }, {
+      name: 'estado_civil',
+      type: 'string'
+    },{
+      name:'inmueble',
+      type: 'string'
+    }
+  ]
+});
+
+//STORE DE PROPIETARIOS PARA EL CATALOGO
+propietariosStore = Ext.create('Ext.data.Store', {
+  model: 'Propietario',
+  proxy: {
+    type: 'ajax',
+    url: 'propietarios/catalogo',
+    reader: {
+      type: 'json',
+      root: 'datos'
+    }
+  },
+  autoLoad: true
+});
+
+Ext.define('Siaco.view.PropietariosGrid', {
+    extend: 'Ext.grid.Panel',
+  //  store: Ext.create('Siaco.store.Propietarios'),
+    //Definicion del alias que puede usado en un xtype
+    alias: 'widget.propietariosgrid',
+    
+
+    //Sobre escribimos este metodo de Ext.grid.Panel
+    initComponent : function() {
+        //Definicion de las columnas  del grid
+        this.columns = [
+            {xtype: 'rownumberer', width: 40, sortable: false},
+            {text: "id", flex: 1, dataIndex: 'id', sortable: true},
+            {text: "nombre", flex: 1, dataIndex: 'nombre', sortable: true},
+            {text: "apellido", width: 100, dataIndex: 'apellido', sortable: true},
+            {text: "cedula", flex: 1, dataIndex: 'cedula', sortable: true},
+
+      
+
+        ];
+        this.dockedItems = [ {
+    xtype: 'toolbar',
+    dock: 'bottom',
+    items: [
+    
+     { xtype: 'button',
+                    text: 'Aceptar',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       if (data!=null) {
+                        Seleccionarpropietario();
+                     
+                       }
+                       else {
+                        alert("No ha seleccionado un item."); 
+                       }
+                      }
+                    }
+                },
+                {
+                    xtype: 'button',
+                    text: 'Salir',
+                    width: 50,
+                    heigth: 50,
+                    listeners: {
+                      click : function() {
+                       ventanacatalogopropietarios.close();
+                      }
+                    }
+                }     
+    ]
+  } ];
+
+  
+  //this.verticalScroller = {xtype: 'paginggridscroller'};
+                 this.store = propietariosStore;
+        this.forceFit = true;
+            this.listeners = {
+                          itemclick : function() {
+                           data = this.getSelectionModel().selected.items[0].data;
+                          },
+                          specialkey: function(field, e){
+                            if (e.getKey() == e.ENTER) {
+                              data = this.getSelectionModel().selected.items[0].data;
+                              if (data!=null) {
+                                 Seleccionarpropietario();
+                                }
+                            }
+                          }
+                         };;
+        //Llamamos a la super clase a iniciacion del componente
+        this.callParent();
+    }
+});
+
+//Definicion de la ventana contendora del grid
+Ext.define('miventanacatalogopropietarios', {
+    extend: 'Ext.window.Window',
+
+                layout: 'fit',
+                x: 100,
+                y: 70,
+                width       : 385,
+                height      : 200,
+                closeAction :'hide',
+                plain       : true,
+                closable    : true,
+                colapsable  : true,
+                resizable   : true,
+                maximizable : true,
+                minimizable : true,
+                modal       : true,
+                title       : 'Catalogo de Propietarios',
+                buttonAlign : 'center',
+                constrain   : true,
+                items:[
+                 { xtype:'propietariosgrid' }
+                
+                ]
+
+
+            });
 		Ext.define('App.MiPanel', {
 		extend: 'Ext.form.Panel',
 		
@@ -39,6 +204,7 @@ Ext.onReady(function() {
 				buttons: [{
 					text: 'Limpiar',
 					iconCls:'limpiar',
+					id: 'btnlimpiar',
 					handler: function() {
 						Ext.getCmp('mipanelpropietarios').getForm().reset();
 					}
@@ -46,6 +212,8 @@ Ext.onReady(function() {
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
+				id: 'btngrabar',
+				disabled: true,
 				handler:function() {
 					guardarpropietario();
 
@@ -96,10 +264,20 @@ Ext.onReady(function() {
 				},{
 				text: 'Eliminar',
 				iconCls:'eliminar',
+				id: 'btneliminar',
+				disabled: true,
 				handler:function() {
-					Ext.Msg.alert('Pronto','En construccion');
+					eliminarprop();
 				}
-				}]
+				},{
+		             text: '...',
+		             xtype: 'button',
+		               iconCls: 'buscar',
+		             id: 'catalogopropietarios',
+			            handler:function() {
+			          catalogoperopietarios();
+			          			}
+		      			}]
 			}];
 			App.MiPanel.superclass.initComponent.call(this);
 		}
@@ -122,13 +300,13 @@ Ext.define('Siaco.view.ActualizarPropietario', {
 				name: 'cedula',
 				id: 'cedula'
 			},{
-	               text: '...',
+	               text: 'SAIME',
 	               xtype: 'button',
 	               id: 'saime',
 	               x: 260,
 	               y: -27,
 		           handler:function() {
-		          saime();
+		              saime();
 		        }
           	},{
 				fieldLabel: 'Nombre',
@@ -267,8 +445,16 @@ function saime()
      success: function( resultado, request ) {
       datos=Ext.JSON.decode(resultado.responseText);
       if (datos.exito=='true') {
+      Ext.Msg.alert("Exito", "La Persona esta registrada en el SAIME y sus datos son los siguientes:");
        Ext.getCmp('cedula').setValue(datos.cedula);
-
+       Ext.getCmp('nombre').setValue(datos.nombre);
+       Ext.getCmp('apellido').setValue(datos.apellido);
+       Ext.getCmp('telefono').setValue(datos.telefono);
+       Ext.getCmp('fechanacimiento').setValue(datos.fechanacimiento);
+       Ext.getCmp('direccion').setValue(datos.direccion);
+       Ext.getCmp('correo').setValue(datos.correo);
+       Ext.getCmp('edocivil').setValue(datos.estadocivil);
+       Ext.getCmp('btngrabar').enable(true);
 
       }
       else {
@@ -282,3 +468,56 @@ function saime()
     }); 
 }
 
+function Seleccionarpropietario() {
+   Ext.getCmp('cedula').setValue(data.cedula);
+   Ext.getCmp('nombre').setValue(data.nombre),
+   Ext.getCmp('apellido').setValue(data.apellido),
+   Ext.getCmp('fechanacimiento').setValue(data.fecha_nacimiento),
+   Ext.getCmp('direccion').setValue(data.direccion_alternativa),
+   Ext.getCmp('telefono').setValue(data.telefono),	
+   Ext.getCmp('celular').setValue(data.celular),
+   Ext.getCmp('correo').setValue(data.correo),
+   Ext.getCmp('edocivil').setValue(data.estado_civil)	
+   document.getElementById('afile').innerHtml = data.imagen;
+   Ext.getCmp('imagen0').setSrc(data.foto1);
+	 Ext.getCmp('btneliminar').enable(true);
+	 ventanacatalogopropietarios.close(); 
+}
+
+function eliminarprop() {
+   			var loadingMask = new Ext.LoadMask(Ext.getBody(), { msg: "eliminando..." });
+                 loadingMask.show();
+	       Ext.Ajax.request({
+	    	 url: '/propietarios/eliminar',
+			 method: 'GET',
+	         //Enviando los parametros a la pagina servidora
+	         params: {
+	              ajax: 'true',
+	              funcion: 'eliminar',
+	              cedula: Ext.getCmp('cedula').getValue()
+	         },
+             //Retorno exitoso de la pagina servidora a traves del formato JSON
+             success: function( resultado, request ) {
+			 loadingMask.hide();
+              datos=Ext.JSON.decode(resultado.responseText);
+              Ext.Msg.alert('Mensaje', datos.msg);
+			  Ext.getCmp('mipanelpropietarios').getForm().reset();
+			   Ext.getCmp('btngrabar').enable(false);
+			   Ext.getCmp('btneliminar').enable(false);
+
+             },
+             //No hay retorno de la pagina servidora
+                     failure: function(f,a){
+					     loadingMask.hide();
+                         if (a.failureType === Ext.form.Action.CONNECT_FAILURE){
+                             Ext.Msg.alert('Error', 'El servidor reporta:'+a.response.status+' '+a.response.statusText);
+                         }
+                         if (a.failureType === Ext.form.Action.SERVER_INVALID){
+                            Ext.Msg.alert('Advertencia', a.result.errormsg);
+                         }
+                     }
+            });
+
+
+
+   }

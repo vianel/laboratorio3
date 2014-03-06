@@ -106,4 +106,25 @@ class Propietarios <  ActiveRecord::Base
    return tirajson 
   end
 
+  def eliminar(cedula)
+   valor = 0
+
+    @objpropietario = Propietarios.find(:first, :conditions => "cedula='#{cedula}'" )
+    objinmueble = Inmueble.find(:first, :conditions => "propietario_id='#{@objpropietario.id}'")
+    if objinmueble != nil
+      $tirajson = '{ "success": "true", "exito": "false", "msg": "No puede eliminar el propietario hasta que elimine sus inmuebles" }'
+      valor = 0
+    else
+      if @objpropietario!=nil
+        $tirajson = '{ "success": "true", "exito": "true", "msg": "Propietario Eliminado" }'
+        @objpropietario.destroy
+        valor = 1
+      else
+        $tirajson = '{ "success": "true", "exito": "false", "msg": "Cedula no existe!" }'
+        valor = 0
+      end 
+    end
+   return valor
+  end
+
 end

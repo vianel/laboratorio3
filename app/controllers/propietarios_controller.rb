@@ -25,15 +25,12 @@ class PropietariosController < ApplicationController
 
   end
   def obtenerPersona
-    cedula = params[:cedula]
-	  curl = CURL.new
-	  #contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona=19591778")
-    contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona="+cedula)
-     j=ActiveSupport::JSON
-     
-     exito = j.decode(contenido).to_a[0]
-    if exito.to_a[1].to_s== "1"
+    curl = CURL.new
+    contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1&cedRifPersona="+ params[:cedula])
+    j=ActiveSupport::JSON
       #convertir como arreglo
+    exito = j.decode(contenido).to_a[0] 
+    if exito.to_a[1].to_s=="1"
     @cedula = j.decode(contenido).to_a[1][1].to_s
     @nombre = j.decode(contenido).to_a[2][1].to_s
     @apellido = j.decode(contenido).to_a[3][1].to_s
@@ -43,19 +40,42 @@ class PropietariosController < ApplicationController
     @direccion = j.decode(contenido).to_a[7][1].to_s
     @telefono = j.decode(contenido).to_a[8][1].to_s
     @correo = j.decode(contenido).to_a[9][1].to_s
-    
+      #imprimimos por consola para probar
+    puts("cedula: "+@cedula)
+    puts("nombre: "+@nombre)
+    puts("estadoCivil: "+@estadoCivil)
 
-    puts("cedula: " + @cedula.to_s)
-    puts("nombre: " + @nombre.to_s)
-    puts("estadoCivil: " + @estadoCivil.to_s)
-    end  
+     edosciviles = { 'S' => "Soltero", "C" => "Casado","D" => "Divociado","V" => "Viudo"}
 
-
+   
+    $tirajson = '{"success": "true", 
+                    "exito": "true"  ,"cedula": "'          +@cedula+
+                                   '", "nombre": "'      +@nombre+
+                                    '", "apellido": "'      +@apellido+
+                                    '", "telefono": "'      +@telefono+
+                                     '", "fechanacimiento": "'      +@fechaNacimiento+
+                                     '", "direccion": "'      +@direccion+
+                                     '", "estadocivil": "'      +edosciviles[@estadoCivil].to_s+
+                           '", "correo": "'     +@correo+'"  }'
+    else 
+    $tirajson = '{ "success": "true", "msg": "La persona no Existe en el SAIME" }'
+    end
+    render :text => $tirajson 
+   
   end
+
+
    def catalogo
    @propietarios = Propietarios.new
    $tirajson=@propietarios.catalogo()
    render :text => $tirajson  
+  end
+
+  def eliminar
+   @propietarios = Propietarios.new
+   cedula = params[:cedula]
+   valor = @propietarios.eliminar(cedula)
+   render :text => $tirajson
   end
 
 end

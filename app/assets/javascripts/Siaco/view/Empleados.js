@@ -80,6 +80,7 @@ Ext.onReady(function() {
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
+				id: 'btngrabar',
 				handler:function() {
 					guardarempleado();
 			
@@ -121,6 +122,15 @@ Ext.define('Siaco.view.Empleados', {
 				name: 'cedulaempleado',
 				id: 'cedulaempleado'
 			},{
+	               text: 'SAIME',
+	               xtype: 'button',
+	               id: 'saime',
+	               x: 260,
+	               y: -27,
+		           handler:function() {
+		              saimeempleado();
+		        }
+          	},{
 				fieldLabel: 'Nombre',
 				xtype: 'textfield',
 				name: 'nombre',
@@ -303,39 +313,40 @@ function guardarempleado()
 
 }
 
- function enviar(id_cedrif) {
-	Ext.Ajax.request({
-		//Llamar la direcion del servicio
-		url : 'http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=1',
-		//parametro de entrada
-		params : {
-		  cedRifPersona: id_cedrif
-		},
-		success : function(resultado, request) {
-			//La tira JSON donde retorna los valores
-			datos = Ext.JSON.decode(resultado.responseText);
-			
-			var mensaje;
-			if (datos.exito == true) {
-				mensaje = "La cedula pertenece a " + datos.nombre +" " + datos.apellido +", direccion " + datos.direccion +"";
-			} else {
-				mensaje = "La cedula no existe";
-			}
-			
-			Ext.MessageBox.show({
-				title : 'Respuesta',
-				msg : mensaje,
-				width : 400,
-				buttons : Ext.MessageBox.OK
-			});
-		},
-		failure : function(error) {
-			Ext.Msg.alert("Error", "Servidor no conectado");
-		}
-	});
+function saimeempleado()
+{
+       Ext.Ajax.request({
+     url: 'empleados/obtenerempleado',
+	       method: 'GET',
+     //Enviando los parametros a la pagina servidora
+     params: {
+      ajax: 'true',
+      funcion: 'obtenerempleado',
+      cedula: Ext.getCmp('cedulaempleado').getValue()
+     },
+     //Retorno exitoso de la pagina servcedulaora a traves del formato JSON
+     success: function( resultado, request ) {
+      datos=Ext.JSON.decode(resultado.responseText);
+      if (datos.exito=='true') {
+      Ext.Msg.alert("Exito", "La Persona esta registrada en el SAIME y sus datos son los siguientes:");
+       Ext.getCmp('cedulaempleado').setValue(datos.cedula);
+       Ext.getCmp('nombre').setValue(datos.nombre);
+       Ext.getCmp('apellido').setValue(datos.apellido);
+       Ext.getCmp('telefono').setValue(datos.telefono);
+       Ext.getCmp('fechanacimiento').setValue(datos.fechanacimiento);
+       Ext.getCmp('direccion').setValue(datos.direccion);
+       Ext.getCmp('correo').setValue(datos.correo);
+       Ext.getCmp('edocivil').setValue(datos.estadocivil);
+       Ext.getCmp('btngrabar').enable(true);
 
-      
-
-
-    
-   }
+      }
+      else {
+       Ext.Msg.alert("Error", datos.msg);
+      }
+     },
+     //No hay retorno de la pagina servidora
+     failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado");
+     }
+    }); 
+}
