@@ -30,6 +30,7 @@ Ext.application
         'Catalogoreservacion'
         'Catalogopropietario'
         'Catalogoinmueble'
+        'Catalogoingreso'
     ]
     controllers: ['Login']
     stores: ['Arboles','Facturas','Areascomunes','Propietarios','Sanciones']

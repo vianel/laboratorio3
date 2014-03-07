@@ -4,21 +4,7 @@ class Ingreso < ActiveRecord::Base
 	belongs_to :conceptoingreso, nil, foreign_key: :conceptos_ingresos_id
   has_many :reservacion
    def grabar(datos)
-=begin
-  if datos[1].to_i == 3
-    curl = CURL.new
-    contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=6&nroCuenta=0108049382&cod_inmueble='#{$inmueble.id}'&monto='#{datos[4].to_f}'&rifCondominio='#{$propietario.cedula}'")
-    j=ActiveSupport::JSON
-      #convertir como arreglo
-    @observacion = j.decode(contenido).to_a[1][1].to_s
-    @nroCuenta = j.decode(contenido). to_a[2][1].to_s
-      #imprimimos por consola para probar
-    puts("observacion: "+@observacion)
-    puts("nroCuenta: "+@nroCuenta)
-    puts("estadoCivil: "+@estadoCivil)
 
-  end
-=end
      @objingreso = Ingreso.new
    
    valor = 0
@@ -35,7 +21,7 @@ class Ingreso < ActiveRecord::Base
       @objingreso.status = datos[7].to_s
       
       @objingreso.save
-      $tirajson = '{ "success": "true", "msg": "Listo" }'
+     $tirajson =  $tirajson + ',"exito": "true", "msg": "Listo" }'
       valor = 1
       if datos[1].to_i == 3
         acumulador = datos[4].to_f + $inmueble.saldo_a_favor + datos[5].to_f
@@ -61,5 +47,43 @@ class Ingreso < ActiveRecord::Base
    return valor
   end
 
+
+    def catalogo
+   @objingreso = Ingreso.all
+   @son = Ingreso.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objingreso.each do |ingresos|
+
+    concepto = Conceptoingreso.find(:first, :conditions => {:id => ingresos.concepto_ingresos_id})
+    inmueble = Inmueble.find(:first, :conditions => {:id => ingresos.inmuebles_id})
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s +
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s +
+                              '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s+
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s+
+                             '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
 
 end

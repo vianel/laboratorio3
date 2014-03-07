@@ -1,4 +1,6 @@
 var ventanatiponovedades = null;
+var arregloformadepago = ['En linea','Deposito','Transferencia'];
+
 Ext.onReady(function() {
 	
 	Ext.QuickTips.init();
@@ -46,16 +48,7 @@ var conceptoStore = Ext.create('Ext.data.Store', {
 				iconCls:'grabar',
 				handler:function() {
 				guardaringreso();
-				if (Ext.getCmp('conceptoingreso').getValue() === '3')
-					{
-						//mostrarpanelpagocondominio();
-						Ext.getCmp('mipanelIngresos').close();
-					}else
-					{
-						mostrarpanelreservacion();
-						Ext.getCmp('mipanelIngresos').close();
-							
-					}
+
 				}
 				},{
 				text: 'Eliminar',
@@ -123,6 +116,16 @@ Ext.define('Siaco.view.Ingreso', {
 				name: 'abono',
 				id: 'abono'
 			},{
+		        xtype:'combobox',
+		        id : 'formadepago',
+		        fieldLabel: 'Forma de Pago',
+		        store: arregloformadepago
+		    },{
+				fieldLabel: 'Numero de cuenta/transferencia/deposito del depositante',
+				xtype: 'textfield',
+				name: 'nrocuenta',
+				id: 'nrocuenta'
+			}/*,{
 		         fieldLabel: 'Pagado',
 		         xtype: 'checkboxfield',
 		         name: 'pagado',
@@ -131,7 +134,7 @@ Ext.define('Siaco.view.Ingreso', {
 		         y: 180,
 		         inputValue: '1',
 		         uncheckedValue: '0'
-       		   }
+       		   }*/
 			];
 			this.callParent();
 			Ext.getCmp('codigo').focus();
@@ -193,18 +196,32 @@ function guardaringreso()
 	      fecha: Ext.getCmp('fecha').getValue(),
 	      monto: Ext.getCmp('monto').getValue(),
 	      abono: Ext.getCmp('abono').getValue(),
-	      pagado: Ext.getCmp('pagado').getValue(),
+	      nrocuenta: Ext.getCmp('nrocuenta').getValue(),
+	      formadepago: Ext.getCmp('formadepago').getValue,
 	     },
 	     //Retorno exitoso de la pagina servidora a traves del formato JSON
 	     success: function( resultado, request ) {
 	      datos=Ext.JSON.decode(resultado.responseText);
+	      if (datos.exito=='true') {
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelIngresos').getForm().reset();
 	    // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
-	      Ext.getForm('mipanelreservaciones').setVisible(true);
-
+	  
 	      //Ext.getForm('mipanelreservaciones').enable();
-	     
+			if (Ext.getCmp('conceptoingreso').getValue() === '3')
+				{
+					//mostrarpanelpagocondominio();
+					Ext.getCmp('mipanelIngresos').close();
+				}else
+				{
+					mostrarpanelreservacion();
+					Ext.getCmp('mipanelIngresos').close();
+						
+				}
+		     }
+	      else {
+	       Ext.Msg.alert("Error", datos.msg);
+	      }
 
 	     },
 	     //No hay retorno de la pagina servidora
