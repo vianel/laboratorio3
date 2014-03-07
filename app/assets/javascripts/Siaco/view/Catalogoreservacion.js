@@ -16,21 +16,27 @@ Ext.define("Reservacion", {
       type: 'string'
     }, {
       name: 'fecha_reservacion',
-      type: 'date'
+      type: 'string'
     }, {
       name: 'inmueble_id',
       type: 'string'
     },{
       name: 'fecha_uso',
-      type: 'date'
+      type: 'string'
     },{
       name: 'hora_inicio',
-      type: 'date'
+      type: 'string'
     },{
       name: 'hora_fin',
-      type: 'date'
+      type: 'string'
     },{
       name: 'numero_invitados',
+      type: 'string'
+    },{
+      name: 'lista_invitados1',
+      type: 'string'
+    },{
+      name: 'lista_invitados',
       type: 'string'
     }
   ]
@@ -68,6 +74,23 @@ Ext.define('Siaco.view.Reservacionesgrid', {
             {text: "Fecha Reservacion", flex: 1, dataIndex: 'fecha_reservacion', sortable: true},
             {text: "Inmueble", flex: 1, dataIndex: 'inmueble_id', sortable: true},
             {text: "Fecha Uso", flex: 1, dataIndex: 'fecha_uso', sortable: true},
+            {text: "Inicio", flex: 1, dataIndex: 'hora_inicio', sortable: true},
+                      {
+                  xtype:'actioncolumn',  
+                  width:150,
+                  text: 'Lista Invitados',
+                  align: 'center',
+                  items: [{
+                      icon: 'images/ver.png', 
+                      tooltip: 'Ver',
+                      handler: function(grid, rowIndex, colIndex) {
+                       grid.getSelectionModel().select(rowIndex, false, true);
+                       data = grid.getSelectionModel().selected.items[0].data;
+                       mostrarpdfampliado(data.lista_invitados,data.lista_invitados1); 
+                      }
+                                 
+                  }]
+              }
             
         ];
         this.dockedItems = [ {
@@ -138,7 +161,7 @@ Ext.define('Siaco.view.Catalogoreservacion', {
 
                 layout: 'fit',
 
-                width       : 585,
+                width       : 800,
                 height      : 400,
                 closeAction :'hide',
                 plain       : true,
@@ -158,3 +181,45 @@ Ext.define('Siaco.view.Catalogoreservacion', {
 
 
             });
+
+function mostrarpdfampliado(nombrepdf, elpdf)  {
+
+     //Definicion de la clase MiVentana
+     Ext.define('myWindow', {
+      extend: 'Ext.window.Window',
+
+                  layout      : 'absolute',
+                  width       : 620,
+                  height      : 520,
+                  x: parseInt((screen.width/2)-(600/2)),
+                  y: parseInt((screen.height/2)-(500/2)),
+                  closeAction :'hide',
+                  plain       : true,
+                  closable    : true,
+                  closeAction : 'hide',
+                  constrain   : true,
+                  resizable   : true,
+                  maxizable   : true,
+                  title       : "Mostrando "+nombrepdf,
+                  buttonAlign : 'center',
+                  items:[
+                   { xtype: 'component',
+                     x:10,
+                     y:10,
+                     width: 590,
+                     height: 470,
+                     src: elpdf,
+                     border: false,
+                     frame: false,
+                     autoEl: {
+                         tag: 'iframe',
+                         src: elpdf
+                     }
+                   }
+                  ]
+
+
+              });
+     var win = Ext.create('myWindow');
+     win.show();
+}

@@ -64,7 +64,9 @@ def catalogo
                               '", "fecha_uso": "'   + reservaciones.fecha_uso.to_s +
                               '", "hora_inicio": "'   + reservaciones.hora_inicio.to_s +
                               '", "hora_fin": "'   + reservaciones.hora_fin.to_s +
-                              '", "numero_invitados": "'      + reservaciones.numero_invitados.to_s + '"}, '                              
+                              '", "numero_invitados": "'   + reservaciones.numero_invitados.to_s +       
+                              '", "lista_invitados1": "'    +reservaciones.formato1.to_s+Base64.strict_encode64(reservaciones.lista_invitados1)+
+                              '", "lista_invitados": "'     +reservaciones.lista_invitados+'"  },'                             
      else
       tirajson = tirajson +   ' { "id": "'        + reservaciones.id.to_s +
                               '", "codigo_reservaciones": "'   + reservaciones.codigo_reservaciones.to_s+
@@ -75,7 +77,9 @@ def catalogo
                               '", "fecha_uso": "'   + reservaciones.fecha_uso.to_s +
                               '", "hora_inicio": "'   + reservaciones.hora_inicio.to_s +
                               '", "hora_fin": "'   + reservaciones.hora_fin.to_s +
-                              '", "numero_invitados": "'      + reservaciones.numero_invitados.to_s + '"} '    
+                              '", "numero_invitados": "'   + reservaciones.numero_invitados.to_s +    
+                              '", "lista_invitados1": "'  +reservaciones.formato1.to_s+Base64.strict_encode64(reservaciones.lista_invitados1)+          
+                              '", "lista_invitados": "'      + reservaciones.lista_invitados.to_s + '"} '    
      end
      @i=@i+1
     end
