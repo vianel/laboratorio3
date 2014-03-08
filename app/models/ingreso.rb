@@ -23,7 +23,7 @@ class Ingreso < ActiveRecord::Base
       @objingreso.save
      $tirajson =  $tirajson + ',"exito": "true", "msg": "Listo" }'
       valor = 1
-      if datos[1].to_i == 3
+      if datos[1].to_i == 3 #Metodo donde se descuenta o se acumula el pago hecho en el inmueble 
         acumulador = datos[4].to_f + $inmueble.saldo_a_favor + datos[5].to_f
         puts acumulador
 
@@ -40,6 +40,15 @@ class Ingreso < ActiveRecord::Base
         end
 
       end
+
+      if datos[1].to_i != 3 #Metodo donde se actualiza el campo ingreso_id de la tabla reservaciones
+             ingreso = Ingreso.find(:last)
+             objreservacion = Reservacion.find(:last)
+             Reservacion.where("id" == objreservacion.id).update_all(:ingreso_id => ingreso.id) 
+     
+
+      end
+
     #else
       #$tirajson = '{ "success": "true", "msg": "Datos NO guardados!" }'
       #valor = 0

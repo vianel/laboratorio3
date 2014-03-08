@@ -248,13 +248,16 @@ function guardarreservacion()
 	     //Retorno exitoso de la pagina servidora a traves del formato JSON
 	     success: function( resultado, request ) {
 	      datos=Ext.JSON.decode(resultado.responseText);
+	    
+	     if (datos.exito=='true') {
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelreservaciones').getForm().reset();
-	     // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
-	    //  Ext.getForm('mipanelreservaciones').setVisible(true);
+	      mostrarpanelingreso();
 
-	      //Ext.getForm('mipanelreservaciones').enable();
-	     
+		     }
+	      else {
+	       Ext.Msg.alert("Error", datos.msg);
+	      }
 
 	     },
 	     //No hay retorno de la pagina servidora
@@ -263,3 +266,17 @@ function guardarreservacion()
 	     }
 	    });
    }
+
+ function mostrarpanelingreso()
+{
+	    Ext.create('Ext.window.Window',{
+            items: [
+              {
+                xtype: 'ingresoview'
+              }
+            ],
+            autoScroll: true,
+            maxHeight: 600
+          }).show()
+
+}

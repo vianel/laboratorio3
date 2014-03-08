@@ -1,5 +1,5 @@
 var ventanatiponovedades = null;
-var arregloformadepago = ['En linea','Deposito','Transferencia'];
+var arrfompago = ['En linea','Deposito','Transferencia'];
 
 Ext.onReady(function() {
 	
@@ -117,9 +117,9 @@ Ext.define('Siaco.view.Ingreso', {
 				id: 'abono'
 			},{
 		        xtype:'combobox',
-		        id : 'formadepago',
+		        id: 'formadepago',
 		        fieldLabel: 'Forma de Pago',
-		        store: arregloformadepago
+		        store: arrfompago
 		    },{
 				fieldLabel: 'Numero de cuenta/transferencia/deposito del depositante',
 				xtype: 'textfield',
@@ -197,7 +197,7 @@ function guardaringreso()
 	      monto: Ext.getCmp('monto').getValue(),
 	      abono: Ext.getCmp('abono').getValue(),
 	      nrocuenta: Ext.getCmp('nrocuenta').getValue(),
-	      formadepago: Ext.getCmp('formadepago').getValue,
+	      formadepago: Ext.getCmp('formadepago').getValue(),
 	     },
 	     //Retorno exitoso de la pagina servidora a traves del formato JSON
 	     success: function( resultado, request ) {
@@ -207,17 +207,7 @@ function guardaringreso()
 	      Ext.getCmp('mipanelIngresos').getForm().reset();
 	    // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
 	  
-	      //Ext.getForm('mipanelreservaciones').enable();
-			if (Ext.getCmp('conceptoingreso').getValue() === '3')
-				{
-					//mostrarpanelpagocondominio();
-					Ext.getCmp('mipanelIngresos').close();
-				}else
-				{
-					mostrarpanelreservacion();
-					Ext.getCmp('mipanelIngresos').close();
-						
-				}
+
 		     }
 	      else {
 	       Ext.Msg.alert("Error", datos.msg);

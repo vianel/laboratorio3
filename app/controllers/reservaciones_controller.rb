@@ -1,6 +1,11 @@
 class ReservacionesController < ApplicationController
 
   def grabar
+ # capacidadmaxima = Areacomun.find_by_sql "SELECT capacidad_maxima from areas_comunes where id='#{params[:areacomun]}'"
+ # puts ("capacidad: " + capacidadmaxima.to_s)
+  @objareacomun = Areacomun.find_by(id:  params[:areacomun])
+    
+  if params[:nroinvitados].to_i <= @objareacomun.capacidad_maxima.to_i 
    @datos = []
    @datos[0] = params[:areacomun]
    @datos[1] = params[:codigo]
@@ -13,7 +18,9 @@ class ReservacionesController < ApplicationController
    @datos[8] = 'A'
    @reservaciones = Reservacion.new
    valor = @reservaciones.grabar(@datos,params[:ufile1])
-   
+  else
+      $tirajson = '{ "success": "true", "exito": "false","msg": "Capacidad de invitados Excedida" }'
+  end
    render :text => $tirajson
   end
   def catalogo

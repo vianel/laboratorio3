@@ -5,6 +5,8 @@ class IngresosController < ApplicationController
   def grabar
     @valor = 1
     @datos = []
+    formadepago = params[:formadepago]
+    puts ("AQUI: " + formadepago )
     if params[:formadepago] == "En linea"
       pagoenlinea(params[:nrocuenta],params[:monto])
     else

@@ -5,13 +5,12 @@ def grabar(datos,upload1)
    valor = 0
 
    imagenpivot = nil
-   #@objreservacion = Reservacion.find(:first, :conditions => "fecha_uso='#{datos[2]}' and area_comun_id='#{datos[0].to_i}'" )
-#   @objreservacion = Reservacion.where(fecha_uso: datos[2], area_comun_id: datos[0].to_i)
+   @objreservacion = Reservacion.find(:first, :conditions => "fecha_uso='#{datos[2]}' and area_comun_id='#{datos[0].to_i}'" )
+  
 
+  if @objreservacion == nil
    @objreservacion = Reservacion.new
-   @objingreso = Ingreso.find(:last)
-    @objreservacion.ingreso_id        = @objingreso.id
-    @objreservacion.area_comun_id        = datos[0].to_i
+   @objreservacion.area_comun_id        = datos[0].to_i
     @objreservacion.fecha_reservacion = Time.now.strftime("%Y/%m/%d %H:%M")
     @objreservacion.codigo_reservaciones   = datos[1].to_s
     @objreservacion.inmueble_id = $inmueble.id
@@ -35,11 +34,12 @@ def grabar(datos,upload1)
     @objreservacion.status        = datos[8].to_s
 
     @objreservacion.save 
-
-    $tirajson = '{ "success": "true", "exito": "true", "message": "Datos guardados satisfactoriamente!" }'
+    $tirajson = '{ "success": "true", "exito": "true", "msg": "Fecha reservada proceda a pagar" }'
     valor = 1
-
-
+  else
+      $tirajson = '{ "success": "true", "exito": "false","msg": "Fecha ocupada" }'
+      valor = 0
+  end
    return valor
   end
   
