@@ -31,6 +31,7 @@ Ext.application
         'Catalogopropietario'
         'Catalogoinmueble'
         'Catalogoingreso'
+        'Hidrolara'
     ]
     controllers: ['Login']
     stores: ['Arboles','Facturas','Areascomunes','Propietarios','Sanciones']

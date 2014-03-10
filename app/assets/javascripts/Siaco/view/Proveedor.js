@@ -170,6 +170,8 @@ Ext.define('miventanacatalogoproveedores', {
 				},{
 				text: 'Grabar',
 				iconCls:'grabar',
+        id: 'btnguardar',
+        disabled: true,
 				handler:function() {
 
 						guardar();
@@ -178,10 +180,18 @@ Ext.define('miventanacatalogoproveedores', {
 				},{
 				text: 'Eliminar',
 				iconCls:'eliminar',
+        id: 'btneliminar',
+        disabled: true,
 				handler:function() {
 					eliminar();
 				}
-				}]
+				},{
+        text: 'SENIAT',
+        id: 'btnseniat',
+        handler:function() {
+          validarseniat();
+        }
+        }]
 			}];
 			this.callParent();
 		}
@@ -199,7 +209,7 @@ Ext.define('Siaco.view.Proveedor', {
 			
 			this.items = [
 			{
-				fieldLabel:'rif',
+				fieldLabel:'Rif',
 				xtype: 'textfield',
 				name: 'rif',
 				id: 'rif',
@@ -332,6 +342,7 @@ Ext.define('Siaco.view.Proveedor', {
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelproveedores').getForm().reset();
+
 	     },
 	     //No hay retorno de la pagina servidora
 	     failure: function() {
@@ -351,6 +362,8 @@ function Seleccionarproveedor() {
    Ext.getCmp('celular').setValue(data.celular);
 
      ventanacatalogoproveedores.close(); 
+     Ext.getCmp('btneliminar').enable(true);
+     Ext.getCmp('btnguardar').enable(true);
 }
 
 function catalogoproveedores() {
@@ -371,3 +384,37 @@ function catalogoproveedores() {
 
 }
 
+function validarseniat()
+{
+       Ext.Ajax.request({
+     url: 'proveedores/obtenerEmpresa',
+         method: 'GET',
+     //Enviando los parametros a la pagina servidora
+     params: {
+      ajax: 'true',
+      funcion: 'obtenerEmpresa',
+      rif: Ext.getCmp('rif').getValue()
+     },
+     //Retorno exitoso de la pagina servcedulaora a traves del formato JSON
+     success: function( resultado, request ) {
+      datos=Ext.JSON.decode(resultado.responseText);
+      if (datos.exito=='true') {
+      Ext.Msg.alert("Exito", "La Empresa esta registrada en el SENIAT y sus datos son los siguientes:");
+       Ext.getCmp('rif').setValue(datos.rif);
+       Ext.getCmp('nombre').setValue(datos.nombre);
+       Ext.getCmp('direccion').setValue(datos.direccion);
+       Ext.getCmp('telefono').setValue(datos.telefono);
+       Ext.getCmp('email').setValue(datos.correo);
+       Ext.getCmp('btnguardar').enable(true);
+
+      }
+      else {
+       Ext.Msg.alert("Error", datos.msg);
+      }
+     },
+     //No hay retorno de la pagina servidora
+     failure: function() {
+      Ext.Msg.alert("Error", "Servidor no conectado");
+     }
+    }); 
+}
