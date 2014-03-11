@@ -62,4 +62,16 @@ class IngresosController < ApplicationController
    $tirajson=@ingresos.catalogo()
    render :text => $tirajson  
   end
+
+    def catalogopagados
+   @ingresos = Ingreso.new
+   $tirajson=@ingresos.catalogopagados()
+   render :text => $tirajson  
+  end
+
+  def catalogonopagados
+   @ingresos = Ingreso.new
+   $tirajson=@ingresos.catalogonopagados()
+   render :text => $tirajson  
+  end
 end

@@ -20,6 +20,7 @@ class ProveedoresController < ApplicationController
   end
 
   def obtenerEmpresa
+   
     curl = CURL.new
     contenido = curl.get("http://192.168.2.21:81/ServiciosEAI/RESTful-RUBY/servicio/Broker.php?servicioSolicitado=10&rif="+ params[:rif])
     j=ActiveSupport::JSON
@@ -36,16 +37,18 @@ class ProveedoresController < ApplicationController
     puts("nombre: "+@nombre)
     puts("correo: "+@correo)
 
-   
+      
     $tirajson = '{"success": "true", 
                     "exito": "true"  ,"rif": "'          +@rif+
                                    '", "nombre": "'      +@nombre+
                                     '", "direccion": "'      +@direccion+
                                     '", "telefono": "'      +@telefono+
                                     '", "correo": "'     +@correo+'"  }'
+    
     else 
     $tirajson = '{ "success": "true", "msg": "La empresa no Existe en el SENIAT" }'
     end
+
     render :text => $tirajson 
    
   end

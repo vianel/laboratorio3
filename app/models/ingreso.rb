@@ -95,4 +95,81 @@ class Ingreso < ActiveRecord::Base
    return tirajson 
   end
 
+
+  def catalogopagados
+   @objingreso = Ingreso.where(:pagado => true)
+     @son = Ingreso.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objingreso.each do |ingresos|
+
+    concepto = Conceptoingreso.find(:first, :conditions => {:id => ingresos.concepto_ingresos_id})
+    inmueble = Inmueble.find(:first, :conditions => {:id => ingresos.inmuebles_id})
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s +
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s +
+                              '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s+
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s+
+                             '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
+
+    def catalogonopagados
+   @objingreso = Ingreso.where(:pagado => false)
+     @son = Ingreso.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objingreso.each do |ingresos|
+
+    concepto = Conceptoingreso.find(:first, :conditions => {:id => ingresos.concepto_ingresos_id})
+    inmueble = Inmueble.find(:first, :conditions => {:id => ingresos.inmuebles_id})
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s +
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s +
+                              '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"}, '                              
+     else
+      tirajson = tirajson +   ' { "id": "'        + ingresos.id.to_s +
+                              '", "codigo_ingresos": "'   + ingresos.codigo_ingresos.to_s+
+                              '", "inmuebles_id": "'   + inmueble.numero.to_s+
+                             '", "concepto_ingresos_id": "'        + concepto.nombre.to_s+ 
+                              '", "fecha": "'   + ingresos.fecha.to_s +
+                              '", "monto": "'   + ingresos.monto.to_s +
+                              '", "abono": "'   + ingresos.abono.to_s +
+                              '", "pagado": "'      + ingresos.pagado.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
+
 end

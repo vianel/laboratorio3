@@ -1,5 +1,10 @@
+
+
 var arreglover = ['Pagados','No pagados','Todos'];
 
+Ext.onReady(function(){
+
+    Ext.QuickTips.init();
 //MODELO PARA EL CATALOGO DE PROPIETARIOS
 Ext.define("Ingreso", {
   extend: 'Ext.data.Model',
@@ -32,17 +37,31 @@ Ext.define("Ingreso", {
   ]
 });
 
-filtrar('Todos');
+  ingresosStore = Ext.create('Ext.data.Store', {
+  model: 'Ingreso',
+  proxy: {
+    type: 'ajax',
+    url: 'ingresos/catalogo',
+    reader: {
+      type: 'json',
+      root: 'datos'
+    }
+  },
+  autoLoad: true
+});
+
 
 Ext.define('Siaco.view.Ingresosgrid', {
     extend: 'Ext.grid.Panel',
   //  store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.ingresosgrid',
-    
+    id: 'ingresosgridid',
 
     //Sobre escribimos este metodo de Ext.grid.Panel
     initComponent : function() {
+
+
         //Definicion de las columnas  del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
@@ -51,12 +70,28 @@ Ext.define('Siaco.view.Ingresosgrid', {
             {text: "Fecha", flex: 1, dataIndex: 'fecha', sortable: true},
             {text: "Monto", flex: 1, dataIndex: 'monto', sortable: true},
             {text: "Abono", flex: 1, dataIndex: 'abono', sortable: true},
-            {text: "Pagado", flex: 1, dataIndex: 'pagado', sortable: true},
+            {text: "Pagado",flex: 1, dataIndex: 'pagado', sortable: true},
+            {
+              text: "Pagado",
+              xtype: "checkcolumn",
+              columnHeaderCheckbox: true,//this setting is necessary for what you want
+             // store: ingresosStore,
+              sortable: false,
+              hideable: false,
+              menuDisabled: true,
+              dataIndex: 'pagado',
+              listeners: {
+                  checkchange: function(column, rowIndex, checked){
+                       //code for whatever on checkchange here
+                  }
+              }
+            },
             
         ];
         this.dockedItems = [ {
     xtype: 'toolbar',
     dock: 'bottom',
+    filterable: true,
     items: [
     
      { xtype: 'button',
@@ -85,8 +120,7 @@ Ext.define('Siaco.view.Ingresosgrid', {
                        ventanacatalogoingresos.close();
                       }
                     }
-                }     
-    ]
+                }]
   } ];
 
   
@@ -135,6 +169,7 @@ Ext.define('Siaco.view.Catalogoingreso', {
                   listeners: {
                     click: function () {
                       filtrar(Ext.getCmp('formadepago').value);
+                   
                     }
                   }
               },{ 
@@ -147,18 +182,25 @@ Ext.define('Siaco.view.Catalogoingreso', {
             });
 
 
+}); //FIN ONREADY
+
 function filtrar (valor)
 {
-  ingresosStore = Ext.create('Ext.data.Store', {
-  model: 'Ingreso',
-  proxy: {
-    type: 'ajax',
-    url: 'ingresos/catalogo',
-    reader: {
-      type: 'json',
-      root: 'datos'
-    }
-  },
-  autoLoad: true
-});
+  if (valor === 'Pagados')
+  {
+     Ext.getCmp('ingresosgridid').getStore().removeAll();
+     Ext.getCmp('ingresosgridid').getStore().sync();
+     Ext.getCmp('ingresosgridid').getStore().load({url: 'ingresos/catalogopagados'});
+  }else if (valor === 'No pagados')
+  {
+     Ext.getCmp('ingresosgridid').getStore().removeAll();
+     Ext.getCmp('ingresosgridid').getStore().sync();
+     Ext.getCmp('ingresosgridid').getStore().load({url: 'ingresos/catalogonopagados'});
+  }else if (valor === 'Todos')
+  {
+     Ext.getCmp('ingresosgridid').getStore().removeAll();
+     Ext.getCmp('ingresosgridid').getStore().sync();
+     Ext.getCmp('ingresosgridid').getStore().load();
+  }
+
 }

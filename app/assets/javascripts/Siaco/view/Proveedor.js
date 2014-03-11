@@ -53,6 +53,7 @@ Ext.define('Siaco.view.proveedoresGrid', {
   //  store: Ext.create('Siaco.store.Proveedors'),
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.proveedoresgrid',
+    id: 'proveedoresgridid',
     
 
     //Sobre escribimos este metodo de Ext.grid.Panel
@@ -276,6 +277,7 @@ Ext.define('Siaco.view.Proveedor', {
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelProveedors').getForm().reset();
+        Ext.getCmp('proveedoresgridid').getStore().load();
 	     },
 	     //No hay retorno de la pagina servidora
 	     failure: function() {
@@ -303,6 +305,8 @@ Ext.define('Siaco.view.Proveedor', {
               datos=Ext.JSON.decode(resultado.responseText);
               Ext.Msg.alert('Mensaje', datos.msg);
 			  Ext.getCmp('mipanelproveedores').getForm().reset();
+         Ext.getCmp('proveedoresgridid').getStore().load();
+                      
              },
              //No hay retorno de la pagina servidora
                      failure: function(f,a){
@@ -342,6 +346,7 @@ Ext.define('Siaco.view.Proveedor', {
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      Ext.Msg.alert('Exito', datos.msg);
 	      Ext.getCmp('mipanelproveedores').getForm().reset();
+        Ext.getCmp('proveedoresgridid').getStore().load();
 
 	     },
 	     //No hay retorno de la pagina servidora
@@ -399,6 +404,8 @@ function validarseniat()
      success: function( resultado, request ) {
       datos=Ext.JSON.decode(resultado.responseText);
       if (datos.exito=='true') {
+       if (Ext.getCmp('rif').getValue() != "")
+       {
       Ext.Msg.alert("Exito", "La Empresa esta registrada en el SENIAT y sus datos son los siguientes:");
        Ext.getCmp('rif').setValue(datos.rif);
        Ext.getCmp('nombre').setValue(datos.nombre);
@@ -406,7 +413,10 @@ function validarseniat()
        Ext.getCmp('telefono').setValue(datos.telefono);
        Ext.getCmp('email').setValue(datos.correo);
        Ext.getCmp('btnguardar').enable(true);
-
+        }else
+        {
+          Ext.Msg.alert("Error" ,"Debe escribir un RIF valido");
+        }
       }
       else {
        Ext.Msg.alert("Error", datos.msg);

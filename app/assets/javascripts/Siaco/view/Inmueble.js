@@ -8,6 +8,7 @@ Ext.onReady(function() {
   
   Ext.QuickTips.init();
 
+
 //MODELO PARA ELCOMBOBOX DE USUARIOS
 Ext.define('Usuario', {
  extend: 'Ext.data.Model',
@@ -89,11 +90,11 @@ propietariosStore = Ext.create('Ext.data.Store', {
   autoLoad: true
 });
 
-Ext.define('Siaco.view.PropietariosGrid', {
+Ext.define('Siaco.view.PropietariosGridparainmueble', {
     extend: 'Ext.grid.Panel',
   //  store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
-    alias: 'widget.propietariosgrid',
+    alias: 'widget.propietariosgridparainmueble',
     
 
     //Sobre escribimos este metodo de Ext.grid.Panel
@@ -118,10 +119,11 @@ Ext.define('Siaco.view.PropietariosGrid', {
                     text: 'Aceptar',
                     width: 50,
                     heigth: 50,
+                    id: 'btnaceptarinmueble',
                     listeners: {
                       click : function() {
                        if (data!=null) {
-                        Seleccionarpropietario();
+                        Seleccionarpropietarioparainmueble();
                      
                        }
                        else {
@@ -156,7 +158,7 @@ Ext.define('Siaco.view.PropietariosGrid', {
                             if (e.getKey() == e.ENTER) {
                               data = this.getSelectionModel().selected.items[0].data;
                               if (data!=null) {
-                                 Seleccionarpropietario();
+                                 Seleccionarpropietarioparainmueble();
                                 }
                             }
                           }
@@ -167,7 +169,7 @@ Ext.define('Siaco.view.PropietariosGrid', {
 });
 
 //Definicion de la ventana contendora del grid
-Ext.define('miventanacatalogopropietarios', {
+Ext.define('miventanacatalogopropietariosparainmueble', {
     extend: 'Ext.window.Window',
 
                 layout: 'fit',
@@ -187,13 +189,13 @@ Ext.define('miventanacatalogopropietarios', {
                 buttonAlign : 'center',
                 constrain   : true,
                 items:[
-                 { xtype:'propietariosgrid' }
+                 { xtype:'propietariosgridparainmueble' }
                 
                 ]
 
 
             });
-    Ext.define('Siaco.view.botonerainmueble', {
+Ext.define('Siaco.view.botonerainmueble', {
     extend: 'Ext.form.Panel',
     
     initComponent : function() {
@@ -204,6 +206,9 @@ Ext.define('miventanacatalogopropietarios', {
           iconCls:'limpiar',
           handler: function() {
             Ext.getCmp('mipanelinmuebles').getForm().reset();
+
+                 
+          
           }
           
         },{
@@ -213,11 +218,6 @@ Ext.define('miventanacatalogopropietarios', {
       
             guardarinmueble();
     
-        }
-        },{
-        text: 'Validar',
-        handler:function() {
-          dialogo.show();
         }
         },{
         text: 'Eliminar',
@@ -307,6 +307,9 @@ Ext.define('Siaco.view.Inmueble', {
       ];
       this.callParent();
       Ext.getCmp('cedulapropietario').focus();
+      //FILTRO DEL COMBOBOX DE USUARIO PARA QUE SOLO MUESTRE USUARIOS CON ROLES DE PROPIETARIOS
+      var rol_obj = Ext.getCmp('usuariousuar');
+          rol_obj.store.filter('rol_id', 2);
     }
   });
 
@@ -340,6 +343,7 @@ var dialogo = Ext.create('Ext.window.Window', {
         }  
           }]  
      });
+  
   
 }); //FIN DEL ONREADY
 
@@ -401,6 +405,7 @@ function guardarinmueble()
         datos=Ext.JSON.decode(resultado.responseText);
         Ext.Msg.alert('Exito', datos.msg);
         Ext.getCmp('mipanelinmuebles').getForm().reset();
+        Ext.getCmp('Siaco.view.Catalogoinmueble').getView().refresh();
        },
        //No hay retorno de la pagina servidora
        failure: function() {
@@ -409,7 +414,7 @@ function guardarinmueble()
       });
    }
 
-function Seleccionarpropietario() {
+function Seleccionarpropietarioparainmueble() {
    Ext.getCmp('cedulapropietario').setValue(data.cedula);
 
      ventanacatalogopropietarios.close(); 
@@ -424,7 +429,7 @@ function catalogoperopietarios() {
   */ 
    //Instanciamos la ventana
    if (ventanacatalogopropietarios==null) {
-    ventanacatalogopropietarios = Ext.create('miventanacatalogopropietarios');
+    ventanacatalogopropietarios = Ext.create('miventanacatalogopropietariosparainmueble');
    }
    //ventanacatalogopropietarios.setPosition(posx,posy);
    ventanacatalogopropietarios.show();
