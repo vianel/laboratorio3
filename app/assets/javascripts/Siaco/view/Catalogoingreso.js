@@ -32,7 +32,7 @@ Ext.define("Ingreso", {
       type: 'string'
     },{
       name: 'pagado',
-      type: 'string'
+      type: 'bool'
     }
   ]
 });
@@ -65,25 +65,34 @@ Ext.define('Siaco.view.Ingresosgrid', {
         //Definicion de las columnas  del grid
         this.columns = [
             {xtype: 'rownumberer', width: 40, sortable: false},
+            {text: "ID", flex: 1, dataIndex: 'id', sortable: true},
             {text: "Inmueble", flex: 1, dataIndex: 'inmuebles_id', sortable: true},
             {text: "Concepto", flex: 1, dataIndex: 'concepto_ingresos_id', sortable: true},
             {text: "Fecha", flex: 1, dataIndex: 'fecha', sortable: true},
             {text: "Monto", flex: 1, dataIndex: 'monto', sortable: true},
             {text: "Abono", flex: 1, dataIndex: 'abono', sortable: true},
-            {text: "Pagado",flex: 1, dataIndex: 'pagado', sortable: true},
+          //  {text: "Pagado",flex: 1, dataIndex: 'pagado', sortable: true, draggable: true },
             {
               text: "Pagado",
               xtype: "checkcolumn",
-              columnHeaderCheckbox: true,//this setting is necessary for what you want
-             // store: ingresosStore,
-              sortable: false,
-              hideable: false,
-              menuDisabled: true,
               dataIndex: 'pagado',
-              listeners: {
+              id: 'columnapagado',
+             // renderer : makeCheckBox,
+               listeners: {
                   checkchange: function(column, rowIndex, checked){
-                       //code for whatever on checkchange here
-                  }
+                       
+
+                  },
+
+
+    /**
+     * Disables this CheckColumn.
+     */
+    onDisable: function() {
+        this._setDisabled(true);
+    }
+
+
               }
             },
             
@@ -100,13 +109,22 @@ Ext.define('Siaco.view.Ingresosgrid', {
                     heigth: 50,
                     listeners: {
                       click : function() {
-                       if (data!=null) {
-                        seleccionarinmueble();
-                     
-                       }
-                       else {
-                        alert("No ha seleccionado un item."); 
-                       }
+                        //EL metodo  getModifiedRecords() me devuelve un arreglo de objetos con las filas modificadas 
+                          var filasmodificadas =[];
+                          var i = 0;
+                          filasmodificadas = Ext.getCmp('ingresosgridid').getStore().getModifiedRecords().slice();
+                         // alert (filasmodificadas.length)
+                         if (filasmodificadas.length != 0)
+                         {
+                            modificarpagados(filasmodificadas);
+                            for ( i = 0; i < filasmodificadas.length; i++) { 
+
+                               // alert(filasmodificadas[i]['id'])
+                             }
+                          }else
+                          {
+                            alert('No se modifico ningun dato')
+                          }
                       }
                     }
                 },
@@ -204,3 +222,47 @@ function filtrar (valor)
   }
 
 }
+
+function makeCheckBox(val){
+      //name is an array
+      return '<input checked="checked" name="check[]" value="val" type="checkbox"/>';
+ }
+
+ function modificarpagados(arreglo)
+ {
+  var tira = "{";
+    for (var j = 0; j < arreglo.length; j++) { 
+
+        tira += arreglo[j]['id']
+        tira += [',']
+        }
+        tira += "}";
+          Ext.Ajax.request({
+       url: 'ingresos/actualizarpagos',
+     method: 'GET',
+       //Enviando los parametros a la pagina servidora
+       params: {
+        ajax: 'true',
+        funcion: 'actualizarpagos',
+
+        //datos: arreglo[0]['id'],
+        
+
+              datos: tira,
+           
+       },
+       //Retorno exitoso de la pagina servidora a traves del formato JSON
+       success: function( resultado, request ) {
+        datos=Ext.JSON.decode(resultado.responseText);
+        Ext.Msg.alert('Exito', datos.msg + tira + "Han sido Modificados exitosamente!");
+         Ext.getCmp('ingresosgridid').getStore().removeAll();
+         Ext.getCmp('ingresosgridid').getStore().sync();
+         Ext.getCmp('ingresosgridid').getStore().load();
+
+       },
+       //No hay retorno de la pagina servidora
+       failure: function() {
+        Ext.Msg.alert("Error", "Servidor no conectado!");
+       }
+      });
+ }

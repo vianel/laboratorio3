@@ -172,4 +172,32 @@ class Ingreso < ActiveRecord::Base
    return tirajson 
   end
 
+  def actualizarpago(datos)
+    arreglo  = datos.split(/\W/)
+    arreglo.delete("Ingreso")
+    arreglo.delete("")
+    puts ("tamanno " + arreglo.length.to_s)
+    puts ("valores" + arreglo.to_s)
+
+   for i in(arreglo)
+    puts i
+
+    @objingreso = Ingreso.find(:first, :conditions => "id='#{i}'" ) 
+    if @objingreso.pagado == true
+
+     puts "Es verdadero"
+     @objingreso.pagado = false
+    else
+
+      puts "Es falso"
+      @objingreso.pagado = true
+    end
+    @objingreso.save
+   end
+
+    $tirajson = '{ "success": "true", "msg": "Los Ingresos " }'
+    valor = 1
+    return valor 
+
+  end
 end

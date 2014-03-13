@@ -74,4 +74,12 @@ class IngresosController < ApplicationController
    $tirajson=@ingresos.catalogonopagados()
    render :text => $tirajson  
   end
+
+  def actualizarpagos
+
+    puts params[:datos]
+    @ingresos = Ingreso.new
+    valor = @ingresos.actualizarpago(params[:datos])
+    render :text => $tirajson
+  end
 end
