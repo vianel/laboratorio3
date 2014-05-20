@@ -92,11 +92,6 @@ Ext.onReady(function() {
 					
 					Ext.Msg.alert('Pronto','En construccion');
 				}
-				},{
-					text: 'Validar',
-					handler: function() {
-						dialogo.show();
-					}
 				}
 
 				]

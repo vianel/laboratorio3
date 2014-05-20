@@ -61,6 +61,7 @@ Ext.define('Siaco.view.Reservacionesgrid', {
   //  store: Ext.create('Siaco.store.Propietarios'),
     //Definicion del alias que puede usado en un xtype
     alias: 'widget.reservacionesgrid',
+    id: 'reservacionesgrid',
     
 
     //Sobre escribimos este metodo de Ext.grid.Panel
@@ -121,7 +122,9 @@ Ext.define('Siaco.view.Reservacionesgrid', {
                     heigth: 50,
                     listeners: {
                       click : function() {
-                       ventanacatalogoreservaciones.close();
+                       refrescar();
+                       catalogoreservaciones.close();
+                        
                       }
                     }
                 }     
@@ -149,6 +152,8 @@ Ext.define('Siaco.view.Reservacionesgrid', {
         this.callParent();
     }
 });
+
+
 
 //Definicion de la ventana contendora del grid
 Ext.define('Siaco.view.Catalogoreservacion', {
@@ -179,8 +184,9 @@ Ext.define('Siaco.view.Catalogoreservacion', {
                 
                 ]
 
-
             });
+
+
 
 function mostrarpdfampliado(nombrepdf, elpdf)  {
 
@@ -222,4 +228,11 @@ function mostrarpdfampliado(nombrepdf, elpdf)  {
               });
      var win = Ext.create('myWindow');
      win.show();
+}
+
+function refrescar ()
+{
+ Ext.getCmp('reservacionesgrid').getStore().removeAll();
+ Ext.getCmp('reservacionesgrid').getStore().sync();
+ Ext.getCmp('reservacionesgrid').getStore().load();
 }

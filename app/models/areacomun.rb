@@ -83,7 +83,7 @@ self.table_name = "areas_comunes"
     #'", "imagen1": "'       + transportistas.formato11.to_s+Base64.strict_encode64(transportistas.imagen1)+
   
    valor = 0
-    @objareacomun = Areacomun.find(:first, :conditions => "codigo='#{codigo}'" ) 
+    @objareacomun = Areacomun.find(:first, :conditions => "id='#{codigo}'" ) 
     if @objareacomun!=nil
        $tirajson = '{"success": "true", 
                     "exito": "true"  ,"nombre": "'        +@objareacomun.nombre+

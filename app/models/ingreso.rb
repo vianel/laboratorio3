@@ -21,7 +21,11 @@ class Ingreso < ActiveRecord::Base
       @objingreso.status = datos[7].to_s
       
       @objingreso.save
-     $tirajson =  $tirajson + ',"exito": "true", "msg": "Listo" }'
+      
+      
+
+
+      
       valor = 1
       if datos[1].to_i == 3 #Metodo donde se descuenta o se acumula el pago hecho en el inmueble 
         acumulador = datos[4].to_f + $inmueble.saldo_a_favor + datos[5].to_f
@@ -31,13 +35,18 @@ class Ingreso < ActiveRecord::Base
         puts acumulador
         if acumulador >= 0 
             
-              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => acumulador , :solvencia => 1, :alicuota => 0) 
-     
+              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => acumulador , :solvencia => 1) 
+              $tirajson =  $tirajson + ',"exito": "true", "msg": "Listo su estado es Solvente con un saldo a favor de ", "cantidad": "' + acumulador.to_s + '" }'
+        
         else
               
-              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => 0, :solvencia => 0, :alicuota => acumulador*-1 )
-     
+              Inmueble.where("id" == $inmueble.id).update_all(:saldo_a_favor => acumulador*-1, :solvencia => 0)
+              $tirajson =  $tirajson + ',"exito": "true", "msg": "Listo su estado es Moroso con un saldo a deudor de ", "cantidad": "' + acumulador.to_s + '" }'
+        
+
         end
+
+        
 
       end
 
@@ -45,7 +54,11 @@ class Ingreso < ActiveRecord::Base
              ingreso = Ingreso.find(:last)
              objreservacion = Reservacion.find(:last)
              Reservacion.where("id" == objreservacion.id).update_all(:ingreso_id => ingreso.id) 
-     
+            
+            
+            objareacomun = Areacomun.find(:first, :conditions => {:id => objreservacion.area_comun_id})
+ #           costo = Areacomun.find_by_sql "SELECT costo FROM areas_comunes ac WHERE ac.id = #{objreservacion.area_comun_id} "
+            $tirajson =  $tirajson + ',"exito": "true", "msg": "Reservacion Exitosa se cobrara la cantidad de ", "cantidad": "' + objareacomun.costo.to_s + '"}'
 
       end
 

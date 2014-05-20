@@ -203,7 +203,7 @@ function guardaringreso()
 	     success: function( resultado, request ) {
 	      datos=Ext.JSON.decode(resultado.responseText);
 	      if (datos.exito=='true') {
-	      Ext.Msg.alert('Exito', datos.msg);
+	      Ext.Msg.alert('Exito', datos.msg + " " + datos.cantidad + " Bsf");
 	      Ext.getCmp('mipanelIngresos').getForm().reset();
 	    // Ext.getForm('tabpanelingresoreservacion').setVisible(true);
 	  

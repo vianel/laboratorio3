@@ -20,11 +20,12 @@ class SesionesController < ApplicationController
 		$inmueble = Inmueble.find_by(usuario_id: $usuario.id)
 		$condominio = Modelocondominio.find_by(id: $inmueble.condominio_id)
 		$propietario = Propietarios.find_by(id: $inmueble.propietario_id)
+		saldo = $propietario.nombre.to_s + " ,Saldo: " + $inmueble.saldo_a_favor.to_s + " BsF"
 		puts $inmueble.numero
 			   $tirajson = '{"success": "true", 
                   		"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+
-                   		'", "nomprepropietario": "'      +$propietario.nombre.to_s+
-                   		'", "solvencia": "'      +$inmueble.solvencia.to_s+
+                   		'", "nomprepropietario": "'      +saldo+
+                   		'", "solvencia": "'      + $inmueble.solvencia.to_s +
            				'", "inmueble": "'     +$inmueble.numero.to_s+'"  }'
 
 		elsif $usuario.rol_id == 3	
@@ -49,10 +50,14 @@ class SesionesController < ApplicationController
 	def buscarpublicacionesencartelera
 		@cartelera = Cartelera.find(:last, :conditions => {:usuario_receptor_id => $usuario.id})
 		if @cartelera != nil 
+
+		objusuario = Usuario.find(:first, :conditions => {:id => @cartelera.usuario_emisor_id})
+
 			$tirajson = '{"success": "true", 
       		"exito": "true"  ,"titulo": "'        	+@cartelera.titulo.to_s+
        		'", "descripcion": "'      +@cartelera.descripcion.to_s+
-				'", "fecha": "'     +@cartelera.fecha.to_s+'"   }'
+				'", "fecha": "'     +@cartelera.fecha.to_s+
+				'", "emisor": "' + objusuario.login.to_s + '"   }'
 		render :text => $tirajson
 		end
 

@@ -136,6 +136,14 @@
                               y:48,
                               height:2,
                            }*/
+                           ,{
+                              xtype:'label',
+                              style: {color:'#00C29E',size:'14px'},
+                              id:'emisornoticia',
+                              x:180,
+                              y:45,
+                              height:10,
+                           }
                         ]  
                       },{
                         text: 'Ver Noticias',
@@ -210,6 +218,7 @@ function buscarnoticias()
   if (datos.exito=='true') {
    Ext.getCmp('titlodelaultimanoticia').setText(datos.titulo);
    Ext.getCmp('descripcionnoticia').setText(datos.descripcion);
+   Ext.getCmp('emisornoticia').setText(datos.emisor);
  
   }
  },
