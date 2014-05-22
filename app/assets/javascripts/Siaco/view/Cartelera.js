@@ -64,7 +64,7 @@ var TipopublicacionStore = Ext.create('Ext.data.Store', {
 				text: 'Grabar',
 				iconCls:'grabar',
 				handler:function() {
-					guardar();
+					guardarpublicacion();
 				}
 				},{
 				text: 'Eliminar',
@@ -254,7 +254,7 @@ function nuevotipopublicacion(){
             maxHeight: 600
           }).show()
 }
-function guardar()
+function guardarpublicacion()
    {
 
    		Ext.Ajax.request({
@@ -272,9 +272,9 @@ function guardar()
 	      descripcion: Ext.getCmp('descripcion').getValue(),
 	      fecha: Ext.getCmp('fecha').getValue(),
 	   	
-	     imagen1: encodeURIComponent(document.getElementsByName('ufile1[]')[0].value),
+	    /* imagen1: encodeURIComponent(document.getElementsByName('ufile1[]')[0].value),
          ufile1: document.getElementById('planilla0').src,
-                      
+          */            
 
 	      
 	     },

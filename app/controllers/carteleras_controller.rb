@@ -13,7 +13,7 @@ class CartelerasController < ApplicationController
    @datos[6] = params[:imagen1]
    @datos[7] = 'A'
    @carteleras = Cartelera.new
-   valor = @carteleras.grabar(@datos,params[:ufile])
+   valor = @carteleras.grabar(@datos)
    render :text => $tirajson
 
    

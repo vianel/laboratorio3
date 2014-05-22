@@ -1,6 +1,6 @@
 class Cartelera < ActiveRecord::Base
 	self.table_name = "carteleras"
-   def grabar(datos,upload)
+   def grabar(datos)
      @objcartelera = Cartelera.new
    
    valor = 0
@@ -14,7 +14,7 @@ class Cartelera < ActiveRecord::Base
       @objcartelera.titulo = datos[3].to_s
       @objcartelera.descripcion = datos[4].to_s
       @objcartelera.fecha = datos[5]
-
+=begin
     #GUARDANDO LA IMAGEN
         tiraname1 = datos[6].to_s
         if tiraname1.include? "C%3A%5Cfakepath%5C"
@@ -29,7 +29,7 @@ class Cartelera < ActiveRecord::Base
         else
            @objcartelera.archivo  = Base64.decode64(upload[22, upload.length+1])
         end
-       
+=end    
       @objcartelera.status = datos[7].to_s
 
 

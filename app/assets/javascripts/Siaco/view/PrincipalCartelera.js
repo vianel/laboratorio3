@@ -82,10 +82,20 @@
                         x:68,
                         y:80,
                      },{
+                        xtype: 'image',
+                        id: 'imagenlogueda',
+                        x: 20,
+                        y: 100,
+                        border: '',
+                        frame: true,
+                        height: 90,
+                      //  width: 130,
+                        src: "images/arbol.png",
+                     },{
                         fieldLabel: '...',
                         name: 'divisor1cartelera',
                         id:'divisor1cartelera',
-                        y:100,
+                        y:200,
                         allowBlank: false
 
                      },{
@@ -93,21 +103,21 @@
                         text:'Últimas Noticias',
                         id:'tituloultimanoticia',
                         x:40,
-                        y:110,
+                        y:210,
                      },{
                         xtype:'label',
                         text:'______________',
                         style: {color:'#00C24E'},
                         id:'lbl1',
                         x:37,
-                        y:110,
+                        y:210,
                      },{
                         xtype: 'container',
                         height:75,
                         width:323,
                         layout:'absolute',
                         x:10,
-                        y:130,
+                        y:230,
                         border: 1,
                         style: {borderColor:'#0099FF', borderStyle:'solid', borderWidth:'2px'},
                         items:[
@@ -149,7 +159,7 @@
                         text: 'Ver Noticias',
                         xtype: 'button',
                         x:182,
-                        y:285,
+                        y:385,
                         id: 'vernoticias',
                         handler: function() {
                            vernoticias();
@@ -179,6 +189,7 @@ function buscarcondominio()
   if (datos.exito=='true') {
    Ext.getCmp('condominio').setText(datos.nombre);
    Ext.getCmp('usuariologueado').setText(datos.nomprepropietario);
+   Ext.getCmp('imagenlogueda').setSrc(datos.imagen1);
   if (datos.solvencia == 'true')
   {
     Ext.getCmp('solvencia').setText('Solvente');

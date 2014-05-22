@@ -26,6 +26,7 @@ class SesionesController < ApplicationController
                   		"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+
                    		'", "nomprepropietario": "'      +saldo+
                    		'", "solvencia": "'      + $inmueble.solvencia.to_s +
+                   		 '", "imagen1": "'      +$propietario.formato1.to_s+Base64.strict_encode64($propietario.foto1)+
            				'", "inmueble": "'     +$inmueble.numero.to_s+'"  }'
 
 		elsif $usuario.rol_id == 3	
@@ -37,6 +38,7 @@ class SesionesController < ApplicationController
 	    	$tirajson = '{"success": "true", 
 	    	"exito": "true"  ,"nombre": "'        	+$condominio.nombre.to_s+
 	    	'", "nomprepropietario": "'      +$empleado.nombre.to_s+
+	    	 '", "imagen1": "'      +$empleado.formato1.to_s+Base64.strict_encode64($empleado.foto1)+
 	    	'", "solvencia": "true", "inmueble": "Empleado"  }'
 		end
 	
