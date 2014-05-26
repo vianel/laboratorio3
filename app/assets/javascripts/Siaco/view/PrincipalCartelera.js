@@ -243,7 +243,23 @@ function buscarnoticias()
 }
 function vernoticias(){
    //Instanciamos la ventana
+
     Ext.create('Ext.window.Window',{
+                layout: 'fit',
+               // x: 100,
+              //  y: 70,
+                width       : 600,
+                height      : 500,
+                //closeAction :'hide',
+                //plain       : true,
+                //closable    : true,
+                //colapsable  : true,
+                //resizable   : true,
+                //maximizable : true,
+                //minimizable : true,
+                //modal       : true,
+                title       : 'Publicaciones',
+                buttonAlign : 'center',
             items: [
               {
                 xtype: 'timelimeView'

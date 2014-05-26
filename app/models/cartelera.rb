@@ -42,4 +42,46 @@ class Cartelera < ActiveRecord::Base
     #end 
    return valor
   end
+
+
+def catalogo
+   #@objcartelera = Cartelera.all
+   @objcartelera = Cartelera.where(:usuario_receptor_id => $usuario.id)
+   #@objcartelera = Cartelera.find(:all, :conditions => { :usuario_receptor_id => $usuario.id})
+   @son = Cartelera.count
+   if @son > 0 
+    @i=1
+    tirajson = '{ "datos": [ '
+    @objcartelera.each do |carteleras|
+    #empelado = Empleado.where(id: carteleras.empleado_id)
+    objusuario = Usuario.find(:first, :conditions => {:id => carteleras.usuario_emisor_id})
+    #puts empleado.cedula
+     if @i<@son
+      tirajson = tirajson +   ' { "id": "'        + carteleras.id.to_s +
+                              '", "codigo_cartelera": "'   + carteleras.codigo_cartelera.to_s +
+                              '", "tipo_publicaciones_id": "'   + carteleras.tipo_publicaciones_id.to_s +
+                              '", "usuario_emisor_id": "'        + objusuario.login.to_s+ 
+                              '", "usuario_receptor_id": "'   + carteleras.usuario_receptor_id.to_s +
+                              '", "titulo": "'   + carteleras.titulo.to_s +
+                              '", "descripcion": "'   + carteleras.descripcion.to_s +
+                               '", "fecha": "'     +carteleras.fecha.to_s+'"  },'                             
+     else
+      tirajson = tirajson +   ' { "id": "'        + carteleras.id.to_s +
+                              '", "codigo_cartelera": "'   + carteleras.codigo_cartelera.to_s+
+                              '", "tipo_publicaciones_id": "'   + carteleras.tipo_publicaciones_id.to_s+
+                             '", "usuario_emisor_id": "'        + objusuario.login.to_s+ 
+                              '", "usuario_receptor_id": "'   + carteleras.usuario_receptor_id.to_s +
+                              '", "titulo": "'   + carteleras.titulo.to_s +
+                              '", "descripcion": "'   + carteleras.descripcion.to_s +
+                              '", "fecha": "'      + carteleras.fecha.to_s + '"} '    
+     end
+     @i=@i+1
+    end
+    tirajson = tirajson + ' ] }'
+   else
+    tirajson = '{ "success": "true", "exito": "false", "msg": "No hay datos!" }'; 
+   end
+   return tirajson 
+  end
+
 end

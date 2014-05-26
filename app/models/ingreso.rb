@@ -72,6 +72,9 @@ class Ingreso < ActiveRecord::Base
 
     def catalogo
    @objingreso = Ingreso.all
+   #$condominio.rif.to_s
+   #inmueble = Inmueble.where(:condominio_id => $condominio.rif.to_s)
+   #@objingreso = Ingreso.where(:inmuebles_id => inmueble.id)
    @son = Ingreso.count
    if @son > 0 
     @i=1

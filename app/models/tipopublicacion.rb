@@ -7,7 +7,7 @@ class Tipopublicacion < ActiveRecord::Base
    valor = 0
     if @objtipopublicacion!=nil
 
-      @objtipopublicacion.codigo= datos[0].to_s
+      @objtipopublicacion.codigo_tipo_publicacion = datos[0].to_s
       @objtipopublicacion.inmueble_id = $inmueble.id
       @objtipopublicacion.nombre = datos[1].to_s
       @objtipopublicacion.descripcion = datos[2].to_s

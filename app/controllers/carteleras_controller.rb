@@ -18,4 +18,10 @@ class CartelerasController < ApplicationController
 
    
   end
+
+  def catalogopublicaciones
+   @carteleras = Cartelera.new
+   $tirajson=@carteleras.catalogo()
+   render :text => $tirajson  
+  end
 end
